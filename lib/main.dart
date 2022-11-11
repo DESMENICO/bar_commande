@@ -1,3 +1,4 @@
+import 'package:bar_commande/pages/reception.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,7 +7,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -85,18 +85,12 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
-              onPressed: () {
-                /*// Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
-                }*/
-
-
-              },
+              onPressed: () async {
+                var response = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Reception(),
+                  ),);
+                  },
               child: const Text('Connexion'),
             ),
           ),
