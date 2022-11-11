@@ -12,5 +12,4 @@ class Item{
   double get price => _price;
   bool get isFood => _isFood;
   String get description => _description;
-  //ggdghgdfsgtdgd
 }
