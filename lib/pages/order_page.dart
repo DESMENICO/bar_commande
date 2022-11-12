@@ -16,7 +16,8 @@ class OrderPage extends StatelessWidget{
       appBar: AppBar(title: const Text("Commande")),
       body: Column(
         children: [clientNameForms(),
-        itemListWidget()        
+        Expanded(child: itemListWidget()),
+        orderBottomBar()     
         ]),
     );
   }
@@ -63,13 +64,12 @@ class itemListWidget extends StatefulWidget{
 class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (_, int index){
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: commande.itemList.length,
+        itemBuilder: (context , int index){
           return ItemWidget(commande.itemList[index]);
-        }),
-    );
+        });
   }
 }
 
@@ -91,24 +91,107 @@ _itemWidgetState(this.item);
 
   @override
   Widget build(BuildContext context) {
-   return Row(
-    children: [
-      Column(
-        children: [
-          Text(item.name),
-          Text(item.description)
-        ],
-      ),
-      ElevatedButton(
-        onPressed: () {},
-        child: const Text("-")
+   return Padding(
+     padding: const EdgeInsets.symmetric(horizontal:8.0),
+     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: Text("${item.name} ${item.price}€",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+              ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(item.description,
+              style: const TextStyle(
+                fontSize: 12,
+               fontWeight: FontWeight.bold,
+              ),
+              ),
+            ),
+          ],
         ),
-      const Text("0"),
-      ElevatedButton(
-        onPressed: () {},
-        child: const Text("+")
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0)
+              ),
+              ),
+              child: const Text("-",
+              style: TextStyle(
+                fontSize: 25),
+              ),
+              ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text("0",   
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0)
+              ),
+              ),
+              child: const Text("+",
+              style: TextStyle(
+                fontSize: 25),
+              ),
+              ),
+          ],
         ),
-    ]);
+      ]),
+   );
+  }
+} 
+
+
+class orderBottomBar extends StatefulWidget{
+  @override
+  State<orderBottomBar> createState() => _orderBottomBar();
+}
+
+class _orderBottomBar extends State<orderBottomBar>{
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [ElevatedButton(
+          onPressed: () {  },
+          child: const Text("Total",
+          style: TextStyle(
+            fontSize:20,
+            fontWeight: FontWeight.w400
+          ),
+          ),
+          ), 
+          Text("0.0 €",
+          style: TextStyle(
+            fontSize:20,
+            fontWeight: FontWeight.w400
+          ),
+          )
+        ],),
+    );
   }
 
-} 
+}

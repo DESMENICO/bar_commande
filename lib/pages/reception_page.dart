@@ -10,6 +10,7 @@ class Reception extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         title: const Text("Acceuil"),
+        automaticallyImplyLeading: false
       ),
       body: Center(
         child: Column(
@@ -27,7 +28,7 @@ class Reception extends StatelessWidget{
                       onPressed: () async {
                 var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => OrderPage(),
+                    builder: (context) => const OrderPage(),
                   ),);
                   }, 
                       child:  Row(

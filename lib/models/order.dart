@@ -16,11 +16,41 @@ class Order{
 
   Order(this._customer,this._sellerId){
     _id = uuid.v4();
-    _itemList.add(Item("Coca",2, true, "Zero", true));
-  _itemList.add(Item("Fanta",2, true, "Zero", true));
-  _itemList.add(Item("Jupiler",2, true, "Zero", true));
-  _itemList.add(Item("Tequila",2, true, "Zero", true));
-_itemList.add(Item("Heineken",2, true, "Zero", true));
+    _itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",1.8, true,"Orange", true));
+  _itemList.add(Item("Jupiler",1.5, true,"Binouze", true));
+  _itemList.add(Item("Tequila",1.2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2.5, true,"Poltemp", true));
+_itemList.add(Item("Coca",1.7, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
+_itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
+_itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
+_itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
+_itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
+_itemList.add(Item("Coca",2, true,"Cola", true));
+  _itemList.add(Item("Fanta",2, true,"Orange", true));
+  _itemList.add(Item("Jupiler",2, true,"Binouze", true));
+  _itemList.add(Item("Tequila",2, true,"Sunrize", true));
+_itemList.add(Item("Heineken",2, true,"Poltemp", true));
     }
   
   void checkFoodAndDrink(){
