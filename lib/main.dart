@@ -1,4 +1,5 @@
-import 'package:bar_commande/pages/reception.dart';
+import 'package:bar_commande/pages/order_page.dart';
+import 'package:bar_commande/pages/reception_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:const [ LoginForm() ]
+          children:const [ OrderPage() ]
         ),
       )
     )

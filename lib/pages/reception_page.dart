@@ -1,3 +1,4 @@
+import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
 
 class Reception extends StatelessWidget{
@@ -23,7 +24,12 @@ class Reception extends StatelessWidget{
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.2,
                     child: ElevatedButton(
-                      onPressed: () {}, 
+                      onPressed: () async {
+                var response = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => OrderPage(),
+                  ),);
+                  }, 
                       child:  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

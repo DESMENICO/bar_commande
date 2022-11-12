@@ -1,8 +1,4 @@
-
-import 'dart:html';
-
 import 'package:uuid/uuid.dart';
-
 import 'item.dart';
 
 class Order{
@@ -20,7 +16,12 @@ class Order{
 
   Order(this._customer,this._sellerId){
     _id = uuid.v4();
-  }
+    _itemList.add(Item("Coca",2, true, "Zero", true));
+  _itemList.add(Item("Fanta",2, true, "Zero", true));
+  _itemList.add(Item("Jupiler",2, true, "Zero", true));
+  _itemList.add(Item("Tequila",2, true, "Zero", true));
+_itemList.add(Item("Heineken",2, true, "Zero", true));
+    }
   
   void checkFoodAndDrink(){
     for (var item in _itemList) {
@@ -31,6 +32,12 @@ class Order{
       }
     }
   }
+
+  void addItem(Item item){
+    _itemList.add(item);
+  }
+
+  List<Item> get itemList => _itemList;
 
   
 
