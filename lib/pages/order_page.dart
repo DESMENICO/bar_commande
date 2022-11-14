@@ -5,7 +5,7 @@ import '../models/order.dart';
 
 
 
- Order commande = Order("Hello", "Mathis");
+ Order commande = Order("Mathis");
 
 class OrderPage extends StatelessWidget{
   const OrderPage({super.key});
@@ -47,7 +47,9 @@ class _clientNameFormsState extends State<clientNameForms>{
                   }
                   return null;
                 },
+          onSaved: (value) {if(value != null){commande.customer = value;}},
           ),
+          
       )
     );
   }
@@ -86,8 +88,23 @@ class ItemWidget extends StatefulWidget{
 
 class _itemWidgetState extends State<ItemWidget>{
 Item item;
-
 _itemWidgetState(this.item);
+
+  void _incrementItemNumber() {
+    setState(() {
+      item.number++;
+      commande.totalPrice += item.price;
+    });
+  }
+  void _decrementItemNumber() {
+    if(item.number == 0){
+      return;
+    }
+    setState(() {
+      item.number--;
+      commande.totalPrice -= item.price;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +139,7 @@ _itemWidgetState(this.item);
         Row(
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _decrementItemNumber,
               style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0)
@@ -133,10 +150,10 @@ _itemWidgetState(this.item);
                 fontSize: 25),
               ),
               ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text("0",   
-              style: TextStyle(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(item.number.toString(),   
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
@@ -144,7 +161,7 @@ _itemWidgetState(this.item);
             ),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _incrementItemNumber,
               style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0)
@@ -184,7 +201,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          Text("0.0 €",
+          Text(commande.totalPrice.toString() + "€",
           style: TextStyle(
             fontSize:20,
             fontWeight: FontWeight.w400
