@@ -4,7 +4,7 @@ import 'item.dart';
 class Order{
   var uuid = const Uuid();
   String  _id = '';
-  String _customer ="";
+  String _customer ="hgdfgukjgkjgjkqf";
   String _sellerId;
   String? _waiterDrinkId;
   String? _waiterFoodId;
