@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math';
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _clientNameFormsState extends State<clientNameForms>{
                   }
                   return null;
                 },
-          onSaved: (value) {if(value != null){commande.customer = value;}},
+          onChanged: (value) {if(value != null){commande.customer = value;}},
           ),
           
       )
@@ -67,12 +68,14 @@ class itemListWidget extends StatefulWidget{
 class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: commande.itemList.length,
-        itemBuilder: (context , int index){
-          return ItemWidget(commande.itemList[index]);
-        });
+    return Container(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: commande.itemList.length,
+          itemBuilder: (context , int index){
+            return ItemWidget(commande.itemList[index]);
+          }),
+    );
   }
 }
 
@@ -197,7 +200,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           onPressed: () async { 
           var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => OrderSummary(),
+                    builder: (context) => OrderSummary(commande),
                   ),);
 
            },
