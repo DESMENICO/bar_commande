@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'dart:math';
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import '../models/item.dart';
