@@ -5,49 +5,94 @@ import 'package:flutter/rendering.dart';
 import '../models/item.dart';
 import '../models/order.dart';
 
-Order commande = Order("onzoeczc");
-
-
-class OrderSummary extends StatelessWidget{
+class OrderSummary extends StatelessWidget {
+  Order commande;
+  OrderSummary(this.commande, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Recapitulatif des commandes"),),
+      appBar: AppBar(
+        title: Text("Commande de ${commande.customer}"),
+      ),
       body: Column(children: [
-        Text(commande.customer),
-        Expanded(child:SummaryItem())
+        Expanded(child: SummaryItem(commande)),
+        SummaryOrderBottombar(commande)
       ]),
     );
-
   }
 }
 
+class SummaryItem extends StatelessWidget {
+  Order commande;
+  SummaryItem(this.commande);
 
-class SummaryItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-    itemCount: commande.itemList.length,
-    itemBuilder: (context , int index){
-          return ItemWidget(commande.itemList[index]);
-      }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(),
+        ),
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: commande.itemList.length,
+            itemBuilder: (context, int index) {
+              if (commande.itemList[index].number != 0) {
+                return ItemWidget(commande.itemList[index]);
+              } else {
+                return Row();
+              }
+            }),
+      ),
     );
   }
-    
-  }
+}
 
-  class ItemWidget extends StatelessWidget{
-    Item item;
-    ItemWidget(this.item, {super.key});
+class ItemWidget extends StatelessWidget {
+  Item item;
+  ItemWidget(this.item, {super.key});
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(item.name),
-        Text("nombre de commande")      
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(item.name,
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          Text(item.number.toString(), style: const TextStyle(fontSize: 25))
+        ],
+      ),
     );
   }
+}
 
+class SummaryOrderBottombar extends StatelessWidget {
+  Order order;
+  SummaryOrderBottombar(this.order);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+        ElevatedButton(
+          onPressed: () async {},
+          child: Text(
+            "Payer : ${order.totalPrice}",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () async {},
+          child: const Text(
+            "Envoyer en cuisine",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+          ),
+        )
+      ]),
+    );
   }
+}
