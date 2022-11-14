@@ -15,7 +15,7 @@ class Order{
   List<Item> _itemList = <Item>[];//liste littérale = liste dont la taille n'est pas renseigné (d'apres la documentation officiel de dart )
   //https://dart.dev/tools/diagnostic-messages?utm_source=dartdev&utm_medium=redir&utm_id=diagcode&utm_content=default_list_constructor#default_list_constructor
 
-  Order(this._customer,this._sellerId){
+  Order(this._sellerId){
     _id = uuid.v4();
     _itemList.add(Item("Coca",2, true,"Cola", true));
   _itemList.add(Item("Fanta",1.8, true,"Orange", true));
@@ -71,6 +71,9 @@ _itemList.add(Item("Heineken",2, true,"Poltemp", true));
   List<Item> get itemList => _itemList;
   double get totalPrice => _totalPrice;
 
+  String get customer => _customer;
+  set customer(String value) => _customer = value;   
+  set totalPrice(double value) => _totalPrice = value;
   
 
 

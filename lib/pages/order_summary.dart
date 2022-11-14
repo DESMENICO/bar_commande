@@ -5,7 +5,7 @@ import 'package:flutter/rendering.dart';
 import '../models/item.dart';
 import '../models/order.dart';
 
-Order commande = Order("czecze","onzoeczc");
+Order commande = Order("onzoeczc");
 
 
 class OrderSummary extends StatelessWidget{
@@ -15,7 +15,7 @@ class OrderSummary extends StatelessWidget{
       appBar: AppBar(title: const Text("Recapitulatif des commandes"),),
       body: Column(children: [
         Text(commande.customer),
-        SummaryItem()
+        Expanded(child:SummaryItem())
       ]),
     );
 
@@ -27,6 +27,7 @@ class SummaryItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
     itemCount: commande.itemList.length,
     itemBuilder: (context , int index){
           return ItemWidget(commande.itemList[index]);

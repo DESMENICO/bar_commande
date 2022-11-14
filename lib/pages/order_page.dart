@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import '../models/item.dart';
 import '../models/order.dart';
@@ -193,7 +194,13 @@ class _orderBottomBar extends State<orderBottomBar>{
       child: Row(
          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [ElevatedButton(
-          onPressed: () {  },
+          onPressed: () async { 
+          var response = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => OrderSummary(),
+                  ),);
+
+           },
           child: const Text("Total",
           style: TextStyle(
             fontSize:20,
