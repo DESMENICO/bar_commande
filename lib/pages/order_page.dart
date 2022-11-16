@@ -1,14 +1,18 @@
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
+import '../bloc/item_bloc.dart';
+import '../bloc/order_bloc.dart';
 import '../models/item.dart';
 import '../models/order.dart';
 
 
 
- Order commande = Order("Mathis");
+ //Order commande = Order("Mathis");
 
 class OrderPage extends StatelessWidget{
-  const OrderPage({super.key});
+  ItemBloc itemBloc;
+  OrderBloc orderBloc;
+  OrderPage(this.itemBloc,this.orderBloc,{super.key});
   
   @override
   Widget build(BuildContext context) {

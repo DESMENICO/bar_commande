@@ -2,8 +2,13 @@ import 'package:bar_commande/pages/order_page.dart';
 import 'package:bar_commande/pages/kitchen_page.dart';
 import 'package:flutter/material.dart';
 
+import '../bloc/item_bloc.dart';
+import '../bloc/order_bloc.dart';
+
 class Reception extends StatelessWidget{
-  const Reception({super.key});
+  ItemBloc itemBloc;
+  OrderBloc orderBloc;
+  Reception(this.itemBloc,this.orderBloc,{super.key});
   
  
  @override
@@ -29,7 +34,7 @@ class Reception extends StatelessWidget{
                       onPressed: () async {
                 var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const OrderPage(),
+                    builder: (context) => OrderPage(itemBloc,orderBloc),
                   ),);
                   }, 
                       child:  Row(
@@ -57,7 +62,7 @@ class Reception extends StatelessWidget{
                       onPressed: () async {
                 var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const KitchenPage(),
+                    builder: (context) => KitchenPage(itemBloc,orderBloc),
                   ),);
                   }, 
                       child:  Row(

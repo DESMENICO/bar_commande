@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../bloc/item_bloc.dart';
+import '../bloc/order_bloc.dart';
 import '../models/item.dart';
 import '../models/order.dart';
 import '../models/order_list.dart';
@@ -6,7 +8,9 @@ import '../models/order_list.dart';
 OrderList commandes = OrderList();
 
 class KitchenPage extends StatelessWidget {
-  const KitchenPage({super.key});
+  ItemBloc itemBloc;
+  OrderBloc orderBloc;
+  KitchenPage(this.itemBloc,this.orderBloc, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

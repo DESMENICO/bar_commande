@@ -1,12 +1,33 @@
+import 'package:bar_commande/bloc/item_bloc.dart';
+import 'package:bar_commande/bloc/order_bloc.dart';
+import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/pages/reception_page.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'models/order.dart';
 
 void main() {
-  runApp(const MyApp());
+ List<Item> items = List.generate(
+        10,
+        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+  ItemBloc itemBloc = ItemBloc(items);
+
+List<Order> orders = List.generate(
+        10,
+        (index) => Order("Vendeur$index",items));
+OrderBloc orderBloc = OrderBloc(orders);
+
+  runApp(MyApp(itemBloc,orderBloc));
 }
 
+
+
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  ItemBloc itemBloc;
+  OrderBloc orderBloc;
+  MyApp(this.itemBloc, this.orderBloc, {super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,13 +43,17 @@ class MyApp extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [LoginForm()]),
+                  children: [LoginForm(itemBloc,orderBloc)]),
             )));
   }
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+
+   ItemBloc itemBloc;
+  OrderBloc orderBloc;
+
+  LoginForm(this.itemBloc,this.orderBloc,{super.key});
 
   @override
   LoginFormState createState() {
@@ -84,7 +109,7 @@ class LoginFormState extends State<LoginForm> {
               onPressed: () async {
                 var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Reception(),
+                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc),
                   ),
                 );
               },
