@@ -1,4 +1,3 @@
-import 'package:bar_commande/pages/order_page.dart';
 import 'package:bar_commande/pages/reception_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,23 +10,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(secondary: Colors.grey)
-      ),
-      home: Scaffold(
-      appBar: AppBar(
-        title: const Text('Page de connexion'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:const [ LoginForm() ]
-        ),
-      )
-    )
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+                .copyWith(secondary: Colors.grey)),
+        home: Scaffold(
+            appBar: AppBar(
+              title: const Text('Page de connexion'),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [LoginForm()]),
+            )));
   }
 }
 
@@ -46,7 +42,6 @@ class LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      
       key: _formKey,
       child: Column(
         children: <Widget>[
@@ -90,8 +85,9 @@ class LoginFormState extends State<LoginForm> {
                 var response = await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Reception(),
-                  ),);
-                  },
+                  ),
+                );
+              },
               child: const Text('Connexion'),
             ),
           ),
