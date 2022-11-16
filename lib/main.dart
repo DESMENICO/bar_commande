@@ -3,6 +3,7 @@ import 'package:bar_commande/bloc/order_bloc.dart';
 import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/pages/reception_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
 import 'models/order.dart';
@@ -30,7 +31,13 @@ class MyApp extends StatelessWidget {
   MyApp(this.itemBloc, this.orderBloc, {super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<OrderBloc>.value(value: orderBloc),
+  BlocProvider<ItemBloc>.value(value: itemBloc),
+
+      ],
+      child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
@@ -44,7 +51,7 @@ class MyApp extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [LoginForm(itemBloc,orderBloc)]),
-            )));
+            ))));
   }
 }
 
