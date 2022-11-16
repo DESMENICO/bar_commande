@@ -15,7 +15,7 @@ void main() {
 
 List<Order> orders = List.generate(
         10,
-        (index) => Order("Vendeur$index",items));
+        (index) => Order("Commende $index",items));
 OrderBloc orderBloc = OrderBloc(orders);
 
   runApp(MyApp(itemBloc,orderBloc));

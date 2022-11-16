@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import '../bloc/item_bloc.dart';
@@ -6,8 +8,10 @@ import '../models/item.dart';
 import '../models/order.dart';
 
 
-
- //Order commande = Order("Mathis");
+List<Item> items = List.generate(
+        10,
+        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+ Order commande = Order("Mathis",items);
 
 class OrderPage extends StatelessWidget{
   ItemBloc itemBloc;
