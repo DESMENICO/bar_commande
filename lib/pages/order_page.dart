@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:bar_commande/bloc/item_events.dart';
+import 'package:bar_commande/bloc/order_events.dart';
+import 'package:bar_commande/bloc/order_states.dart';
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +14,10 @@ import '../models/order.dart';
 
 
  late Order order;
+List<Item> items = List.generate(
+        10,
+        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+ Order commande = Order("Mathis",items);
 
 class OrderPage extends StatefulWidget{
   ItemBloc itemBloc;
@@ -23,19 +32,17 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     order = Order("Nouveau client",widget.itemBloc.state.items);
+    context.read<OrderBloc>().add(AddOrderEvent(order));
   }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderBloc>.value(
-      value: widget.itemBloc,
-      child: Scaffold(
-        appBar: AppBar(title: const Text("Commande")),
-        body: Column(
-          children: [clientNameForms(),
-          Expanded(child: itemListWidget(widget.orderBloc)),
-          orderBottomBar()     
-          ]),
-      ),
+    return Scaffold(
+      appBar: AppBar(title: const Text("Commande")),
+      body: Column(
+        children: [clientNameForms(),
+        Expanded(child: itemListWidget(widget.orderBloc)),
+        orderBottomBar()     
+        ]),
     );
   }
 }
@@ -66,7 +73,8 @@ class _clientNameFormsState extends State<clientNameForms>{
                   }
                   return null;
                 },
-          onChanged: (value) {if(value != null){order.customer = value;}},
+          onChanged: (value) {if(value != null){order.customer = value;
+          context.read<OrderBloc>().add(UpdateOrderEvent(order));}},
           ),
           
       )
@@ -88,12 +96,16 @@ class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: order.itemList.length,
-          itemBuilder: (context , int index){
-            return ItemWidget(order.itemList[index]);
-          }),
+      child: BlocBuilder<OrderBloc, OrderState>(
+        builder: (context, state) {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: order.itemList.length,
+              itemBuilder: (context , int index){
+                return ItemWidget(order.itemList[index]);
+              });
+        }
+      ),
     );
   }
 }
@@ -117,6 +129,8 @@ _itemWidgetState(this.item);
     setState(() {
       item.number++;
       order.totalPrice += item.price;
+      context.read<ItemBloc>().add(UpdateItemEvent(item));
+      context.read<OrderBloc>().add(UpdateOrderEvent(order));
     });
   }
   void _decrementItemNumber() {
@@ -126,6 +140,8 @@ _itemWidgetState(this.item);
     setState(() {
       item.number--;
       order.totalPrice -= item.price;
+      context.read<ItemBloc>().add(UpdateItemEvent(item));
+      context.read<OrderBloc>().add(UpdateOrderEvent(order));
     });
   }
 
@@ -230,12 +246,8 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          Text(order.totalPrice.toString() + "€",
-          style: TextStyle(
-            fontSize:20,
-            fontWeight: FontWeight.w400
-          ),
-          )
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text(order.totalPrice.toString() + "€",style: TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+            ),)
         ],),
     );
   }

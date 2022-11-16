@@ -18,36 +18,28 @@ class KitchenPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Cuisine")),
       body: Column(children: [
-        const OrderListWidget()
+        OrderListWidget(itemBloc, orderBloc),
       ]),
     );
   }
 }
 
 class OrderListWidget extends StatefulWidget {
-  const OrderListWidget({super.key});
+  ItemBloc itemBloc;
+  OrderBloc orderBloc;
+  OrderListWidget(this.itemBloc,this.orderBloc, {super.key});
   @override
   State<OrderListWidget> createState() => _OrderListWidgetState();
 }
 
 class _OrderListWidgetState extends State<OrderListWidget> {
-  late OrderBloc _bloc;
-  @override
-    void initState() {
-      super.initState();
-      List<Order> orders = List.generate(
-          10,
-          (index) => Order('Client $index'));
-      _bloc = OrderBloc(orders);
-
-  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: commandes.commandesList.length,
+        itemCount: widget.orderBloc.state.orders.length,
         itemBuilder: (context, int index) {
-          return OrderWidget(commandes.commandesList[index]);
+          return OrderWidget(widget.orderBloc.state.orders[index]);
         });
   }
 }
