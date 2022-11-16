@@ -1,5 +1,6 @@
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
@@ -7,22 +8,34 @@ import '../models/order.dart';
 
 
 
- //Order commande = Order("Mathis");
+ late Order order;
 
-class OrderPage extends StatelessWidget{
+class OrderPage extends StatefulWidget{
   ItemBloc itemBloc;
   OrderBloc orderBloc;
   OrderPage(this.itemBloc,this.orderBloc,{super.key});
-  
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  @override
+  void initState() {
+    order = Order("Nouveau client",widget.itemBloc.state.items);
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Commande")),
-      body: Column(
-        children: [clientNameForms(),
-        Expanded(child: itemListWidget()),
-        orderBottomBar()     
-        ]),
+    return BlocProvider<OrderBloc>.value(
+      value: widget.itemBloc,
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Commande")),
+        body: Column(
+          children: [clientNameForms(),
+          Expanded(child: itemListWidget(widget.orderBloc)),
+          orderBottomBar()     
+          ]),
+      ),
     );
   }
 }
@@ -34,6 +47,8 @@ class clientNameForms extends StatefulWidget{
 }
 
 class _clientNameFormsState extends State<clientNameForms>{
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -51,7 +66,7 @@ class _clientNameFormsState extends State<clientNameForms>{
                   }
                   return null;
                 },
-          onChanged: (value) {if(value != null){commande.customer = value;}},
+          onChanged: (value) {if(value != null){order.customer = value;}},
           ),
           
       )
@@ -61,6 +76,8 @@ class _clientNameFormsState extends State<clientNameForms>{
 
 
 class itemListWidget extends StatefulWidget{
+  OrderBloc orderBloc;
+  itemListWidget(this.orderBloc);
   @override
   State<itemListWidget> createState() => _itemListWidgetState();
   
@@ -73,9 +90,9 @@ class _itemListWidgetState extends State<itemListWidget>{
     return Container(
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: commande.itemList.length,
+          itemCount: order.itemList.length,
           itemBuilder: (context , int index){
-            return ItemWidget(commande.itemList[index]);
+            return ItemWidget(order.itemList[index]);
           }),
     );
   }
@@ -99,7 +116,7 @@ _itemWidgetState(this.item);
   void _incrementItemNumber() {
     setState(() {
       item.number++;
-      commande.totalPrice += item.price;
+      order.totalPrice += item.price;
     });
   }
   void _decrementItemNumber() {
@@ -108,7 +125,7 @@ _itemWidgetState(this.item);
     }
     setState(() {
       item.number--;
-      commande.totalPrice -= item.price;
+      order.totalPrice -= item.price;
     });
   }
 
@@ -202,7 +219,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           onPressed: () async { 
           var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => OrderSummary(commande),
+                    builder: (context) => OrderSummary(order),
                   ),);
 
            },
@@ -213,7 +230,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          Text(commande.totalPrice.toString() + "€",
+          Text(order.totalPrice.toString() + "€",
           style: TextStyle(
             fontSize:20,
             fontWeight: FontWeight.w400
