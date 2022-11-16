@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '../models/item.dart';
 import '../models/order.dart';
 import '../models/order_list.dart';
+import '../bloc/order_bloc.dart';
+import '../bloc/order_events.dart';
+import '../bloc/order_states.dart';
 
-OrderList commandes = OrderList();
 
 class KitchenPage extends StatelessWidget {
   const KitchenPage({super.key});
@@ -20,12 +22,21 @@ class KitchenPage extends StatelessWidget {
 
 class OrderListWidget extends StatefulWidget {
   const OrderListWidget({super.key});
-
   @override
   State<OrderListWidget> createState() => _OrderListWidgetState();
 }
 
 class _OrderListWidgetState extends State<OrderListWidget> {
+  late OrderBloc _bloc;
+  @override
+    void initState() {
+      super.initState();
+      List<Order> orders = List.generate(
+          10,
+          (index) => Order('Client $index'));
+      _bloc = OrderBloc(orders);
+
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

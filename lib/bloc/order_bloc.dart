@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/order.dart';
 import 'order_events.dart';
 import 'order_states.dart';
@@ -11,7 +12,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
     on<RemoveOrderEvent>((event, emit) {
       List<Order> order = List.from(state.orders);
-      order.remove(event.Order);
+      order.remove(event.order);
       emit(OrderState(order));
     });
     on<UpdateOrderEvent>((event, emit) {
