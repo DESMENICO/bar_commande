@@ -11,7 +11,7 @@ import 'models/order.dart';
 void main() {
  List<Item> items = List.generate(
         10,
-        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+        (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, "Ceci est une description", true));
   ItemBloc itemBloc = ItemBloc(items);
 
 List<Order> orders = List.generate(
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OrderBloc>.value(value: orderBloc),
-  BlocProvider<ItemBloc>.value(value: itemBloc),
+        BlocProvider<ItemBloc>.value(value: itemBloc),
 
       ],
       child: MaterialApp(

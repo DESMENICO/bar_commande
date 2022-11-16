@@ -17,7 +17,8 @@ class Order{
 
   Order(this._customer,this._itemList){
     _id = uuid.v4();
-    
+    _foodFinish = false;
+    _drinkFinish = false;    
     }
   
   void checkFoodAndDrink(){
@@ -36,7 +37,8 @@ class Order{
 
   List<Item> get itemList => _itemList;
   double get totalPrice => _totalPrice;
-
+  bool get foodFinish => _foodFinish;
+  bool get drinkFinish => _drinkFinish;
   String get customer => _customer;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;

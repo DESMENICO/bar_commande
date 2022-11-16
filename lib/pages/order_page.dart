@@ -157,7 +157,7 @@ _itemWidgetState(this.item);
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 5.0),
-              child: Text("${item.name} ${item.price}€",
+              child: Text("${item.name} ${item.price.toStringAsPrecision(2)}€",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
@@ -246,7 +246,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text(order.totalPrice.toString() + "€",style: TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice.toStringAsPrecision(2)}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
             ),)
         ],),
     );
