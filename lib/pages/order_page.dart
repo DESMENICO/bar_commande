@@ -254,7 +254,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice.toStringAsPrecision(2)}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
             ),)
         ],),
     );

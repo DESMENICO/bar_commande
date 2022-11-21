@@ -22,6 +22,7 @@ class OrderSummary extends StatelessWidget {
 
 class SummaryItem extends StatelessWidget {
   Order commande;
+  List<Item> itemUsed = [];
   SummaryItem(this.commande);
 
   @override
@@ -36,8 +37,11 @@ class SummaryItem extends StatelessWidget {
             shrinkWrap: true,
             itemCount: commande.itemList.length,
             itemBuilder: (context, int index) {
-              if (commande.getItemNumber(commande.getItemInList(index)) != 0) {
-                return ItemWidget(commande.itemList[index],commande.getItemNumber(commande.getItemInList(index)));
+              List<Item> list = commande.itemList;
+              Item currentItem = commande.getItemInList(index);
+              if (commande.getItemNumber(list[index]) != 0 && !commande.isInsideAList(index, itemUsed)) {
+                itemUsed.add(currentItem);
+                return ItemWidget(currentItem,commande.getItemNumber(currentItem));
               } else {
                 return Row();
               }
@@ -46,6 +50,16 @@ class SummaryItem extends StatelessWidget {
     );
   }
 }
+
+/*bool isInList(Item item,List<Item> list){
+bool isInside = false;
+for(Item itemInList in list){
+  if(itemInList == item){
+    isInside = true;
+  }
+}
+  return isInside;
+}*/
 
 class ItemWidget extends StatelessWidget {
   Item item;
@@ -59,7 +73,7 @@ class ItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(item.name,
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           Text(count.toString(), style: const TextStyle(fontSize: 25))
         ],
       ),

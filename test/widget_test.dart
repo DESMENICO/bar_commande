@@ -25,7 +25,7 @@ void main() {
 
   List<Order> orders = List.generate(
         10,
-        (index) => Order("Vendeur$index",items));
+        (index) => Order("Vendeur$index"));
 OrderBloc orderBloc = OrderBloc(orders);
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp(itemBloc,orderBloc));
@@ -42,4 +42,4 @@ OrderBloc orderBloc = OrderBloc(orders);
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
-}*/
+}

@@ -42,6 +42,17 @@ class Order{
   }
 
 
+  bool isInsideAList(int index,List<Item> list){
+    bool isInside = false;
+    for(Item itemInList in list){
+    if(itemInList == itemList[index]){
+      isInside = true;
+    }
+  }
+  return isInside;
+  
+  }
+
   int getItemNumber(Item item){
     int number = 0;
     for(Item itemInList in _itemList){

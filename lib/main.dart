@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'models/order.dart';
 
-void main() async {
+void main() {
  List<Item> items = List.generate(
         10,
         (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, "Ceci est une description", true));
@@ -20,8 +20,8 @@ List<Order> orders = List.generate(
         (index) => Order("Commende $index"));
 OrderBloc orderBloc = OrderBloc(orders);
 
-WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp();
+//WidgetsFlutterBinding.ensureInitialized();
+//await Firebase.initializeApp();
   runApp(MyApp(itemBloc,orderBloc));
 }
 
