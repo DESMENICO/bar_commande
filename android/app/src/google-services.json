@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589988597380",
+    "project_id": "hsb-bar",
+    "storage_bucket": "hsb-bar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589988597380:android:14fd0f3d3d60a65baf7cd1",
+        "android_client_info": {
+          "package_name": "com.example.bar_commande"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589988597380-b1b9n5nk2q7h2t5f6bf0j4lpaijod6lr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ1pgX7EEjdgrbTfL4FeWARkFfUNSuRro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589988597380-b1b9n5nk2q7h2t5f6bf0j4lpaijod6lr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

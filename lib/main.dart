@@ -5,17 +5,14 @@ import 'package:bar_commande/pages/reception_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'models/order.dart';
 
-void main() {
+void main() async {
  List<Item> items = List.generate(
         10,
-<<<<<<< HEAD
-        (index) => Item("Item${Random().nextInt(10000)}", (index*1.5)+1, false, "Ceci est une description", true));
-=======
         (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, "Ceci est une description", true));
->>>>>>> 4b6c4e5afbdab7095e745d09db57b2b5060eeb7d
   ItemBloc itemBloc = ItemBloc(items);
 
 List<Order> orders = List.generate(
@@ -23,6 +20,8 @@ List<Order> orders = List.generate(
         (index) => Order("Commende $index"));
 OrderBloc orderBloc = OrderBloc(orders);
 
+WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp();
   runApp(MyApp(itemBloc,orderBloc));
 }
 
