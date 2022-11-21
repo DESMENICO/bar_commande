@@ -178,8 +178,13 @@ _itemWidgetState(this.item);
         Row(
           children: [
             Padding(
+<<<<<<< HEAD
               padding: const EdgeInsets.only(left: 5.0,right: 5.0),
               child: Text("${item.price}€",
+=======
+              padding: const EdgeInsets.only(left: 5.0),
+              child: Text("${item.name} ${item.price.toStringAsPrecision(2)}€",
+>>>>>>> 4b6c4e5afbdab7095e745d09db57b2b5060eeb7d
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
@@ -254,7 +259,11 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
+<<<<<<< HEAD
           BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+=======
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice.toStringAsPrecision(2)}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+>>>>>>> 4b6c4e5afbdab7095e745d09db57b2b5060eeb7d
             ),)
         ],),
     );

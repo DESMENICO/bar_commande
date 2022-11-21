@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/typicons_icons.dart';
+import 'package:fluttericon/fontelico_icons.dart';
+import 'package:fluttericon/linecons_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
@@ -81,7 +85,18 @@ class _OrderWidgetState extends State<OrderWidget> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.check),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Visibility(
+                  visible: !order.drinkFinish,
+                  child: const Icon(Icons.local_bar)),
+              ),
+             Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Visibility(
+                  visible: !order.foodFinish,
+                  child: const Icon(Icons.local_dining)),
+              ),
               /*Text(
                 order.customer,
                 style: const TextStyle(
