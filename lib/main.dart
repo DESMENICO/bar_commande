@@ -11,12 +11,12 @@ import 'models/order.dart';
 void main() {
  List<Item> items = List.generate(
         10,
-        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+        (index) => Item("Item${Random().nextInt(10000)}", (index*1.5)+1, false, "Ceci est une description", true));
   ItemBloc itemBloc = ItemBloc(items);
 
 List<Order> orders = List.generate(
         10,
-        (index) => Order("Commende $index",items));
+        (index) => Order("Commende $index"));
 OrderBloc orderBloc = OrderBloc(orders);
 
   runApp(MyApp(itemBloc,orderBloc));

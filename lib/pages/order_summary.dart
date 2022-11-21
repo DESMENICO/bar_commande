@@ -36,8 +36,8 @@ class SummaryItem extends StatelessWidget {
             shrinkWrap: true,
             itemCount: commande.itemList.length,
             itemBuilder: (context, int index) {
-              if (commande.itemList[index].number != 0) {
-                return ItemWidget(commande.itemList[index]);
+              if (commande.getItemNumber(commande.getItemInList(index)) != 0) {
+                return ItemWidget(commande.itemList[index],commande.getItemNumber(commande.getItemInList(index)));
               } else {
                 return Row();
               }
@@ -49,7 +49,8 @@ class SummaryItem extends StatelessWidget {
 
 class ItemWidget extends StatelessWidget {
   Item item;
-  ItemWidget(this.item, {super.key});
+  int count;
+  ItemWidget(this.item,this.count ,{super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,7 +60,7 @@ class ItemWidget extends StatelessWidget {
         children: [
           Text(item.name,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-          Text(item.number.toString(), style: const TextStyle(fontSize: 25))
+          Text(count.toString(), style: const TextStyle(fontSize: 25))
         ],
       ),
     );

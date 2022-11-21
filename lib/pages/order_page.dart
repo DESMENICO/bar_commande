@@ -7,6 +7,7 @@ import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/item_bloc.dart';
+import '../bloc/item_states.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
 import '../models/order.dart';
@@ -17,7 +18,7 @@ import '../models/order.dart';
 List<Item> items = List.generate(
         10,
         (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
- Order commande = Order("Mathis",items);
+ Order commande = Order("Mathis");
 
 class OrderPage extends StatefulWidget{
   ItemBloc itemBloc;
@@ -31,7 +32,8 @@ class OrderPage extends StatefulWidget{
 class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
-    order = Order("Nouveau client",widget.itemBloc.state.items);
+    super.initState();
+    order = Order("Nouveau client");
     context.read<OrderBloc>().add(AddOrderEvent(order));
   }
   @override
@@ -39,7 +41,7 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Commande")),
       body: Column(
-        children: [clientNameForms(),
+        children: [const clientNameForms(),
         Expanded(child: itemListWidget(widget.orderBloc)),
         orderBottomBar()     
         ]),
@@ -48,12 +50,14 @@ class _OrderPageState extends State<OrderPage> {
 }
 
 class clientNameForms extends StatefulWidget{
+  const clientNameForms({super.key});
+
   @override
-  State<clientNameForms> createState() => _clientNameFormsState();
+  State<clientNameForms> createState() => _client_name_forms_state();
 
 }
 
-class _clientNameFormsState extends State<clientNameForms>{
+class _client_name_forms_state extends State<clientNameForms>{
 
 
   @override
@@ -96,13 +100,14 @@ class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: BlocBuilder<OrderBloc, OrderState>(
+      child: BlocBuilder<ItemBloc,ItemState>(
         builder: (context, state) {
+          print(state);
           return ListView.builder(
               shrinkWrap: true,
-              itemCount: order.itemList.length,
+              itemCount: state.items.length,
               itemBuilder: (context , int index){
-                return ItemWidget(order.itemList[index]);
+                return ItemWidget(state.items[index]);
               });
         }
       ),
@@ -127,20 +132,13 @@ _itemWidgetState(this.item);
 
   void _incrementItemNumber() {
     setState(() {
-      item.number++;
-      order.totalPrice += item.price;
-      context.read<ItemBloc>().add(UpdateItemEvent(item));
+      order.addItem(item);
       context.read<OrderBloc>().add(UpdateOrderEvent(order));
     });
   }
   void _decrementItemNumber() {
-    if(item.number == 0){
-      return;
-    }
     setState(() {
-      item.number--;
-      order.totalPrice -= item.price;
-      context.read<ItemBloc>().add(UpdateItemEvent(item));
+      order.removeItem(item);
       context.read<OrderBloc>().add(UpdateOrderEvent(order));
     });
   }
@@ -152,31 +150,42 @@ _itemWidgetState(this.item);
      child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(item.name,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(item.description,
+                style: const TextStyle(
+                  fontSize: 12,
+                 fontWeight: FontWeight.bold,
+                ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Text("${item.name} ${item.price}€",
+              padding: const EdgeInsets.only(left: 5.0,right: 5.0),
+              child: Text("${item.price}€",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
               ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(item.description,
-              style: const TextStyle(
-                fontSize: 12,
-               fontWeight: FontWeight.bold,
-              ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
             ElevatedButton(
               onPressed: _decrementItemNumber,
               style: ElevatedButton.styleFrom(
@@ -189,16 +198,15 @@ _itemWidgetState(this.item);
                 fontSize: 25),
               ),
               ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(item.number.toString(),   
-              style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+                Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(order.getItemNumber(item).toString(),   
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
               ),
-              ),
-            ),
-
             ElevatedButton(
               onPressed: _incrementItemNumber,
               style: ElevatedButton.styleFrom(
@@ -246,7 +254,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text(order.totalPrice.toString() + "€",style: TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
             ),)
         ],),
     );
