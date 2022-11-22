@@ -7,9 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'firebase_options.dart';
 import 'models/order.dart';
 
-void main() {
+void main() async {
  List<Item> items = List.generate(
         10,
         (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, "Ceci est une description", true));
@@ -20,8 +21,8 @@ List<Order> orders = List.generate(
         (index) => Order("Commende $index"));
 OrderBloc orderBloc = OrderBloc(orders);
 
-//WidgetsFlutterBinding.ensureInitialized();
-//await Firebase.initializeApp();
+WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp(itemBloc,orderBloc));
 }
 
