@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:bar_commande/bloc/item_events.dart';
 import 'package:bar_commande/bloc/order_events.dart';
 import 'package:bar_commande/bloc/order_states.dart';
@@ -10,19 +9,15 @@ import '../bloc/item_bloc.dart';
 import '../bloc/item_states.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
-import '../models/order.dart';
+import "../models/order.dart" as Models;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-
- late Order order;
-List<Item> items = List.generate(
-        10,
-        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
- Order commande = Order("Mathis");
 
 class OrderPage extends StatefulWidget{
   ItemBloc itemBloc;
   OrderBloc orderBloc;
+  late Models.Order order;
   OrderPage(this.itemBloc,this.orderBloc,{super.key});
 
   @override
@@ -30,27 +25,32 @@ class OrderPage extends StatefulWidget{
 }
 
 class _OrderPageState extends State<OrderPage> {
+
+ 
+
   @override
   void initState() {
     super.initState();
-    order = Order("Nouveau client");
-    context.read<OrderBloc>().add(AddOrderEvent(order));
+    widget.order = Models.Order("Nouveau Client");
+    context.read<OrderBloc>().add(AddOrderEvent(widget.order));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Commande")),
       body: Column(
-        children: [const clientNameForms(),
-        Expanded(child: itemListWidget(widget.orderBloc)),
-        orderBottomBar()     
+        children: [clientNameForms(widget.order),
+        Expanded(child: itemListWidget(widget.orderBloc,widget.order)),
+        orderBottomBar(widget.order)     
         ]),
     );
   }
 }
 
 class clientNameForms extends StatefulWidget{
-  const clientNameForms({super.key});
+  late Models.Order order;
+  clientNameForms(this.order,{super.key});
 
   @override
   State<clientNameForms> createState() => _client_name_forms_state();
@@ -77,8 +77,8 @@ class _client_name_forms_state extends State<clientNameForms>{
                   }
                   return null;
                 },
-          onChanged: (value) {if(value != null){order.customer = value;
-          context.read<OrderBloc>().add(UpdateOrderEvent(order));}},
+          onChanged: (value) {if(value != null){widget.order.customer = value;
+          context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));}},
           ),
           
       )
@@ -89,7 +89,8 @@ class _client_name_forms_state extends State<clientNameForms>{
 
 class itemListWidget extends StatefulWidget{
   OrderBloc orderBloc;
-  itemListWidget(this.orderBloc);
+  Models.Order order;
+  itemListWidget(this.orderBloc,this.order);
   @override
   State<itemListWidget> createState() => _itemListWidgetState();
   
@@ -99,27 +100,35 @@ class itemListWidget extends StatefulWidget{
 class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BlocBuilder<ItemBloc,ItemState>(
-        builder: (context, state) {
-          print(state);
-          return ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.items.length,
-              itemBuilder: (context , int index){
-                return ItemWidget(state.items[index]);
-              });
-        }
-      ),
-    );
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('Item').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+       if(!snapshot.hasData){
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+       }
+        return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context , int index){
+                  String name = snapshot.data!.docs[index]['name'];
+                  double price = snapshot.data!.docs[index]['price'];
+                  bool isFood = snapshot.data!.docs[index]['isFood'];
+                  bool isAvailable = snapshot.data!.docs[index]['available'];
+                  return ItemWidget(Item(name,price,isFood,isAvailable),widget.order);
+                });
+          }
+        );
   }
 }
 
 
 class ItemWidget extends StatefulWidget{
   Item item;
+  Models.Order order;
 
-  ItemWidget(this.item,{super.key});
+  ItemWidget(this.item, this.order,{super.key});
   
   @override
   State<ItemWidget> createState() => _itemWidgetState(item);
@@ -132,14 +141,14 @@ _itemWidgetState(this.item);
 
   void _incrementItemNumber() {
     setState(() {
-      order.addItem(item);
-      context.read<OrderBloc>().add(UpdateOrderEvent(order));
+      widget.order.addItem(item);
+      context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
     });
   }
   void _decrementItemNumber() {
     setState(() {
-      order.removeItem(item);
-      context.read<OrderBloc>().add(UpdateOrderEvent(order));
+      widget.order.removeItem(item);
+      context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
     });
   }
 
@@ -165,8 +174,8 @@ _itemWidgetState(this.item);
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: Text(item.description,
-                style: const TextStyle(
+                child: const Text("///",
+                style: TextStyle(
                   fontSize: 12,
                  fontWeight: FontWeight.bold,
                 ),
@@ -200,7 +209,7 @@ _itemWidgetState(this.item);
               ),
                 Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(order.getItemNumber(item).toString(),   
+                child: Text(widget.order.getItemNumber(item).toString(),   
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -228,6 +237,8 @@ _itemWidgetState(this.item);
 
 
 class orderBottomBar extends StatefulWidget{
+  Models.Order order;
+  orderBottomBar(this.order, {super.key});
   @override
   State<orderBottomBar> createState() => _orderBottomBar();
 }
@@ -243,7 +254,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           onPressed: () async { 
           var response = await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => OrderSummary(order),
+                    builder: (context) => OrderSummary(widget.order),
                   ),);
 
            },
@@ -254,7 +265,7 @@ class _orderBottomBar extends State<orderBottomBar>{
           ),
           ),
           ), 
-          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${order.totalPrice}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
+          BlocBuilder<OrderBloc,OrderState>(builder: (context,state) => Text("${widget.order.totalPrice}€",style: const TextStyle(fontSize:20,fontWeight: FontWeight.w400),
             ),)
         ],),
     );

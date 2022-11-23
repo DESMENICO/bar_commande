@@ -13,7 +13,7 @@ import 'models/order.dart';
 void main() async {
  List<Item> items = List.generate(
         10,
-        (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, "Ceci est une description", true));
+        (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, true));
   ItemBloc itemBloc = ItemBloc(items);
 
 List<Order> orders = List.generate(
