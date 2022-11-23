@@ -51,15 +51,6 @@ class SummaryItem extends StatelessWidget {
   }
 }
 
-/*bool isInList(Item item,List<Item> list){
-bool isInside = false;
-for(Item itemInList in list){
-  if(itemInList == item){
-    isInside = true;
-  }
-}
-  return isInside;
-}*/
 
 class ItemWidget extends StatelessWidget {
   Item item;

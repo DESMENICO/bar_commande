@@ -3,6 +3,7 @@ import 'package:bar_commande/bloc/item_events.dart';
 import 'package:bar_commande/bloc/order_events.dart';
 import 'package:bar_commande/bloc/order_states.dart';
 import 'package:bar_commande/pages/order_summary.dart';
+import 'package:bar_commande/services/FireStore_Item_Collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/item_bloc.dart';
@@ -33,6 +34,7 @@ class _OrderPageState extends State<OrderPage> {
     super.initState();
     widget.order = Models.Order("Nouveau Client");
     context.read<OrderBloc>().add(AddOrderEvent(widget.order));
+    
   }
 
   @override
@@ -90,6 +92,7 @@ class _client_name_forms_state extends State<clientNameForms>{
 class itemListWidget extends StatefulWidget{
   OrderBloc orderBloc;
   Models.Order order;
+  ItemDataBase itemDb = ItemDataBase();
   itemListWidget(this.orderBloc,this.order);
   @override
   State<itemListWidget> createState() => _itemListWidgetState();
@@ -100,27 +103,31 @@ class itemListWidget extends StatefulWidget{
 class _itemListWidgetState extends State<itemListWidget>{
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('Item').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        
       print(snapshot.connectionState);
-      //  if(!snapshot.hasData){
-      //   return Center(
-      //     child: CircularProgressIndicator(),
-      //   );
-      //  }
+      if(!snapshot.hasData){
+        return Center(
+          child: const CircularProgressIndicator(),
+         );
+      }else{
+        var snap = snapshot.data!.docs;
         return ListView.builder(
                 shrinkWrap: true,
-                itemCount: snapshot.data!.docs.length,
+                itemCount:snap.length,
                 itemBuilder: (context , int index){
-                  String name = snapshot.data!.docs[index]['name'];
-                  double price = snapshot.data!.docs[index]['price'];
-                  bool isFood = snapshot.data!.docs[index]['isFood'];
-                  bool isAvailable = snapshot.data!.docs[index]['available'];
-                  return ItemWidget(Item(name,price,isFood,isAvailable),widget.order);
+                  String name = snap[index]['name'];
+                  var price = snap[index]['price'];
+                  bool isFood = snap[index]['isFood'];
+                  bool isAvailable = snap[index]['available'];
+                  return ItemWidget(Item(name,price.toDouble(),isFood,isAvailable),widget.order);
                 });
           }
+          }
         );
+  
   }
 }
 
@@ -156,82 +163,70 @@ _itemWidgetState(this.item);
   @override
   Widget build(BuildContext context) {
    return Padding(
-     padding: const EdgeInsets.symmetric(horizontal:8.0),
-     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+     padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 4),
+     child: Card(
+       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(item.name,
+                    style: const TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    ),
+            ),
+          ),
+          Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
-                child: Text(item.name,
+                child: Text("${item.price}€",
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                 ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: const Text("///",
+              ElevatedButton(
+                onPressed: _decrementItemNumber,
+                style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)
+                ),
+                ),
+                child: const Text("-",
                 style: TextStyle(
-                  fontSize: 12,
-                 fontWeight: FontWeight.bold,
+                  fontSize: 25),
                 ),
                 ),
-              ),
+                  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(widget.order.getItemNumber(item).toString(),   
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ),
+                ),
+              ElevatedButton(
+                onPressed: _incrementItemNumber,
+                style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)
+                ),
+                ),
+                child: const Text("+",
+                style: TextStyle(
+                  fontSize: 25),
+                ),
+                ),
             ],
           ),
-        ),
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Text("${item.price}€",
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-              ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: _decrementItemNumber,
-              style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0)
-              ),
-              ),
-              child: const Text("-",
-              style: TextStyle(
-                fontSize: 25),
-              ),
-              ),
-                Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(widget.order.getItemNumber(item).toString(),   
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-                ),
-              ),
-            ElevatedButton(
-              onPressed: _incrementItemNumber,
-              style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0)
-              ),
-              ),
-              child: const Text("+",
-              style: TextStyle(
-                fontSize: 25),
-              ),
-              ),
-          ],
-        ),
-      ]),
+        ]),
+     ),
    );
   }
 } 
