@@ -74,6 +74,8 @@ class Order{
   String get customer => _customer;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;
+  set foodFinish(bool value) => _foodFinish = value;
+  set drinkFinish(bool value) => _drinkFinish = value;
   
   void updateTotal() {
     totalPrice = 0;

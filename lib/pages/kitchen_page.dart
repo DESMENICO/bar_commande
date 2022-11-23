@@ -98,13 +98,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                    visible: !order.drinkFinish,
+                    visible: !widget.order.drinkFinish,
                     child: const Icon(Icons.local_bar)),
                 ),
                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                    visible: !order.foodFinish,
+                    visible: !widget.order.foodFinish,
                     child: const Icon(Icons.local_dining)),
                 ),
                 /*Text(

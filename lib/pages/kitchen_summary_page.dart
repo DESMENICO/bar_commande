@@ -72,9 +72,35 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-class SummaryOrderBottombar extends StatelessWidget {
+class SummaryOrderBottombar extends StatefulWidget {
   Order order;
   SummaryOrderBottombar(this.order);
+
+  @override
+  State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
+}
+
+class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
+    _SummaryOrderBottombarState();
+    void _setDrinkFinish() {
+    setState(() {
+      widget.order.drinkFinish = true;
+    }
+    );
+    if(widget.order.foodFinish){
+      Navigator.pop(context);
+    }
+    }
+
+    void _setFoodFinish() {
+    setState(() {
+      widget.order.foodFinish = true;
+    }
+    );
+    if(widget.order.drinkFinish){
+      Navigator.pop(context);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,9 +109,9 @@ class SummaryOrderBottombar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
         Visibility(
-          visible: !order.foodFinish,
+          visible: !widget.order.foodFinish,
           child: ElevatedButton(
-            onPressed: () async {},
+            onPressed: _setFoodFinish,
             child: const Text(
               "Servir Nourriture",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
@@ -93,9 +119,9 @@ class SummaryOrderBottombar extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: !order.drinkFinish,
+          visible: !widget.order.drinkFinish,
           child: ElevatedButton(
-            onPressed: () async {},
+            onPressed: _setDrinkFinish,
             child: const Text(
               "Servir Boisson",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
