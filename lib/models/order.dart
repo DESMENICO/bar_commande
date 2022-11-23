@@ -6,12 +6,12 @@ class Order{
   String  _id = '';
   String _customer;// ="hgdfgukjgkjgjkqf";
   String _sellerId="hgdfgukjgkjgjkqf";
-  String? _waiterDrinkId;
-  String? _waiterFoodId;
   bool finish = false;
   bool _drinkFinish = true;
   bool _foodFinish = true;
   double _totalPrice = 0;
+
+
   List<Item> _itemList = <Item>[];//liste littérale = liste dont la taille n'est pas renseigné (d'apres la documentation officiel de dart )
   //https://dart.dev/tools/diagnostic-messages?utm_source=dartdev&utm_medium=redir&utm_id=diagcode&utm_content=default_list_constructor#default_list_constructor
 
@@ -67,6 +67,8 @@ class Order{
     return _itemList[index];
   }
 
+  String get id => _id;
+  String get sellerId => _sellerId;
   List<Item> get itemList => _itemList;
   double get totalPrice => _totalPrice;
   bool get foodFinish => _foodFinish;
@@ -77,6 +79,8 @@ class Order{
   set foodFinish(bool value) => _foodFinish = value;
   set drinkFinish(bool value) => _drinkFinish = value;
   
+
+
   void updateTotal() {
     totalPrice = 0;
     for(Item item in _itemList){

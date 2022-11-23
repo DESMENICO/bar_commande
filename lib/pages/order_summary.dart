@@ -1,29 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 import '../models/order.dart';
 
 class OrderSummary extends StatelessWidget {
-  Order commande;
-  OrderSummary(this.commande, {super.key});
+  Order order;
+  OrderSummary(this.order, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Commande de ${commande.customer}"),
+        title: Text("Commande de ${order.customer}"),
       ),
       body: Column(children: [
-        Expanded(child: SummaryItem(commande)),
-        SummaryOrderBottombar(commande)
+        Expanded(child: SummaryItem(order)),
+        SummaryOrderBottombar(order)
       ]),
     );
   }
 }
 
 class SummaryItem extends StatelessWidget {
-  Order commande;
+  Order order;
   List<Item> itemUsed = [];
-  SummaryItem(this.commande);
+  SummaryItem(this.order);
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +37,15 @@ class SummaryItem extends StatelessWidget {
         ),
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: commande.itemList.length,
+            itemCount: order.itemList.length,
             itemBuilder: (context, int index) {
-              List<Item> list = commande.itemList;
-              Item currentItem = commande.getItemInList(index);
-              if (commande.getItemNumber(list[index]) != 0 && !commande.isInsideAList(index, itemUsed)) {
+              List<Item> list = order.itemList;
+              Item currentItem = order.getItemInList(index);
+              if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
                 itemUsed.add(currentItem);
-                return ItemWidget(currentItem,commande.getItemNumber(currentItem));
+                return ItemWidget(currentItem,order.getItemNumber(currentItem));
               } else {
-                return Row();
+                return Container();
               }
             }),
       ),
@@ -72,9 +74,16 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-class SummaryOrderBottombar extends StatelessWidget {
+class SummaryOrderBottombar extends StatefulWidget {
   Order order;
+  bool isPaid = false;
   SummaryOrderBottombar(this.order);
+
+  @override
+  State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
+}
+
+class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,19 +91,39 @@ class SummaryOrderBottombar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-        ElevatedButton(
-          onPressed: () {
-                   },
-          child: Text(
-            "Payer : ${order.totalPrice}",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+        Visibility(
+          visible: !widget.isPaid,
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() { 
+                  widget.isPaid =true;
+              });
+                     },
+            child: Text(
+              "Payer : ${widget.order.totalPrice}",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+            ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () async {},
-          child: const Text(
-            "Envoyer en cuisine",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+        Visibility(
+          visible: widget.isPaid,
+          child: ElevatedButton(
+            onPressed: () async {
+              Map<String,dynamic> orderToSend = {
+                "id" : widget.order.id,
+                "foodFinish": widget.order.foodFinish,
+                "drinkFinish": widget.order.drinkFinish,
+                "sellerId" : widget.order.sellerId,
+                "totalPrice" :widget.order.totalPrice,
+                "customer" : widget.order.customer,
+              };
+              FirebaseFirestore.instance.collection('CurrentOrder').add(orderToSend);
+              Navigator.pop(context,Order("Nouveau Client"));
+            },
+            child: const Text(
+              "Envoyer en cuisine",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+            ),
           ),
         )
       ]),
