@@ -34,13 +34,22 @@ class _OrderPageState extends State<OrderPage> {
     super.initState();
     widget.order = Models.Order("Nouveau Client");
     context.read<OrderBloc>().add(AddOrderEvent(widget.order));
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Commande")),
+      appBar: AppBar(title: const Text("Commande"),
+      automaticallyImplyLeading: false,
+      leading: new IconButton(
+      icon: new Icon(Icons.arrow_back, color: Colors.white),
+      onPressed: () {
+        context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
+        Navigator.of(context).pop();
+      },
+      ), 
+      
+      ),
       body: Column(
         children: [clientNameForms(widget.order),
         Expanded(child: itemListWidget(widget.orderBloc,widget.order)),
@@ -252,7 +261,9 @@ class _orderBottomBar extends State<orderBottomBar>{
                   MaterialPageRoute(
                     builder: (context) => OrderSummary(widget.order),
                   ),);
-
+                  widget.order = Models.Order("Nouveau Client");
+                  context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
+                  setState(() {});
            },
           child: const Text("Total",
           style: TextStyle(
