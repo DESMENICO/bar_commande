@@ -103,11 +103,12 @@ class _itemListWidgetState extends State<itemListWidget>{
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('Item').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-       if(!snapshot.hasData){
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-       }
+      print(snapshot.connectionState);
+      //  if(!snapshot.hasData){
+      //   return Center(
+      //     child: CircularProgressIndicator(),
+      //   );
+      //  }
         return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data!.docs.length,
