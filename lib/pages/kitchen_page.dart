@@ -1,3 +1,4 @@
+import 'package:bar_commande/pages/kitchen_summary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:fluttericon/fontelico_icons.dart';
@@ -11,6 +12,7 @@ import '../models/order_list.dart';
 import '../bloc/order_bloc.dart';
 import '../bloc/order_events.dart';
 import '../bloc/order_states.dart';
+import 'order_summary.dart';
 
 class KitchenPage extends StatelessWidget {
   ItemBloc itemBloc;
@@ -64,49 +66,58 @@ class _OrderWidgetState extends State<OrderWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
+      child: InkWell(
+        onTap: () async { 
+          var response = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => KitchenSummary(order),
+                  ),);
+
+           },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    order.customer,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Visibility(
+                    visible: !order.drinkFinish,
+                    child: const Icon(Icons.local_bar)),
+                ),
+               Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Visibility(
+                    visible: !order.foodFinish,
+                    child: const Icon(Icons.local_dining)),
+                ),
+                /*Text(
                   order.customer,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                   ),
-                ),
-              )
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Visibility(
-                  visible: !order.drinkFinish,
-                  child: const Icon(Icons.local_bar)),
-              ),
-             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Visibility(
-                  visible: !order.foodFinish,
-                  child: const Icon(Icons.local_dining)),
-              ),
-              /*Text(
-                order.customer,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                ),
-              )*/
-            ],
-          ),
-        ],
+                )*/
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

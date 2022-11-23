@@ -18,7 +18,7 @@ void main() async {
 
 List<Order> orders = List.generate(
         10,
-        (index) => Order("Commende $index"));
+        (index) => Order("Commande $index"));
 OrderBloc orderBloc = OrderBloc(orders);
 
 WidgetsFlutterBinding.ensureInitialized();
