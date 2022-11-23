@@ -20,7 +20,7 @@ void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
    List<Item> items = List.generate(
         10,
-        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, "Ceci est une description", true));
+        (index) => Item("Item${Random().nextInt(10000)}", Random().nextDouble() * 2.5, false, true));
   ItemBloc itemBloc = ItemBloc(items);
 
   List<Order> orders = List.generate(
