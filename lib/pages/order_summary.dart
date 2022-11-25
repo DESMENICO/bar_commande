@@ -1,3 +1,4 @@
+import 'package:bar_commande/services/firestore_item_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -109,15 +110,12 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
           visible: widget.isPaid,
           child: ElevatedButton(
             onPressed: () async {
-              Map<String,dynamic> orderToSend = {
-                "id" : widget.order.id,
-                "foodFinish": widget.order.foodFinish,
-                "drinkFinish": widget.order.drinkFinish,
-                "sellerId" : widget.order.sellerId,
-                "totalPrice" :widget.order.totalPrice,
-                "customer" : widget.order.customer,
-              };
-              FirebaseFirestore.instance.collection('CurrentOrder').add(orderToSend);
+              DataBase database = DataBase();
+              await database.addCurrentOrder(widget.order);
+             
+
+            
+              //FirebaseFirestore.instance.collection('CurrentOrder').add(orderToSend);
               Navigator.pop(context,Order("Nouveau Client"));
             },
             child: const Text(

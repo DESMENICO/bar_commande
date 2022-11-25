@@ -1,12 +1,45 @@
 import 'package:bar_commande/models/item.dart';
+import 'package:bar_commande/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ItemDataBase {
-  ItemDataBase();
+class DataBase {
+  DataBase();
 
-  final CollectionReference<Map<String, dynamic>> itemCollection = FirebaseFirestore.instance.collection("Item");
+  final CollectionReference itemCollection = FirebaseFirestore.instance.collection("Item");
+  final CollectionReference orderCurrentCollection = FirebaseFirestore.instance.collection("CurrentOrder");
 
-  Future<void> saveUser(String name, double price, bool isFood, bool isAvailable,String docName) async {
+  Future<void> addCurrentOrder(Order order) async {
+    Map<String,dynamic> orderToSend = {
+    "id" : order.id,
+    "foodFinish": order.foodFinish,
+    "drinkFinish": order.drinkFinish,
+    "sellerId" : order.sellerId,
+    "totalPrice" :order.totalPrice,
+    "customer" : order.customer,
+    };
+    var document = await orderCurrentCollection.add(orderToSend);
+
+    for(Item item in order.itemList){
+      await addItemInOrder(item, document.id);
+    }
+  }
+
+
+  Future<void> addItemInOrder(Item item,String id) async {
+    Map<String,dynamic> itemToAdd = {
+      "name":item.name,
+      "price":item.price,
+      "isFood":item.isFood,
+      "available":item.isAvailable
+    };
+    orderCurrentCollection.doc(id).collection('Item').add(itemToAdd);
+  }
+
+
+
+
+
+  /*Future<void> saveUser(String name, double price, bool isFood, bool isAvailable,String docName) async {
     return await itemCollection.doc(docName).set({
         'name' : name,
         'price':price,
@@ -42,5 +75,5 @@ class ItemDataBase {
 
   Stream<List<Item>> get itemList {
     return itemCollection.snapshots().map(_itemListFromSnapchot);
-  }
+  }*/
 }
