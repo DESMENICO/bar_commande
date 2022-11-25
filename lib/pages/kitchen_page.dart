@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:bar_commande/pages/kitchen_summary_page.dart';
+import 'package:bar_commande/services/firestore_item_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
@@ -41,12 +42,13 @@ class OrderListWidget extends StatefulWidget {
 }
 
 class _OrderListWidgetState extends State<OrderListWidget> {
+  final DataBase dataBase = DataBase();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream:
             FirebaseFirestore.instance.collection('CurrentOrder').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
           print(snapshot.connectionState);
           if (!snapshot.hasData) {
             return Center(
@@ -64,34 +66,16 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   var foodFinish = snap[index]['foodFinish'];
                   var id = snap[index]['id'];
                   var totalPrice = snap[index]['totalPrice'];
-                  Order order = Order.kitchen(
-                      customer, drinkFinish, foodFinish, id, totalPrice);
-                  List<Item> itemsList = [];
-                  FirebaseFirestore.instance
-                      .collection('CurrentOrder')
-                      .get()
-                      .then((QuerySnapshot querySnapshot) {
-                    querySnapshot.docs.forEach((doc) {
-                      FirebaseFirestore.instance
-                          .doc(doc.id)
-                          .collection('Item')
-                          .get()
-                          .then((QuerySnapshot querySnapshot) {
-                        querySnapshot.docs.forEach((doc) {
-                          var name = doc['name'];
-                          var price = doc['price'];
-                          var isFood = doc['isFood'];
-                          var isAvailable = doc['available'];
-                          Item item =
-                              Item(name, price.toDouble(), isFood, isAvailable);
-                              print(name + " " + price.toString());
-                          order.addItem(item);
-                        });
-                      });
-                    });
-                  });
+                  late Order order;
+                  dataBase.getItemList(snapshot.data?.docs[index].id).then((value){
+                   order = Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice,value);
+                   });
+
+                  print(order.containDrink());
+                  print(order.containFood());
                   return OrderWidget(order);
-                });
+                  
+                  });
           }
         });
   }
@@ -152,13 +136,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                      visible: !widget.order.drinkFinish,
+                      visible: !widget.order.containDrink(),
                       child: const Icon(Icons.local_bar)),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                      visible: !widget.order.foodFinish,
+                      visible: !widget.order.containFood(),
                       child: const Icon(Icons.local_dining)),
                 ),
                 /*Text(
