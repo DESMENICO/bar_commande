@@ -38,24 +38,24 @@ class _OrderPageState extends State<OrderPage> {
     return BlocBuilder<OrderBloc,OrderState>(
       builder:((context, state) {
         widget.order = state.orders.last;
-        return Scaffold(
-        appBar: AppBar(
-          title: const Text("Commande"),
-          automaticallyImplyLeading: false,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
-              Navigator.of(context).pop();
-            },
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Commande"),
+        automaticallyImplyLeading: false,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
+            Navigator.of(context).pop();
+          },
         ),
-        body: Column(children: [
-          clientNameForms(widget.order),
-          Expanded(child: itemListWidget(widget.orderBloc, widget.order)),
-          orderBottomBar(widget.order)
-        ]),
-      );
+      ),
+      body: Column(children: [
+        clientNameForms(widget.order),
+        Expanded(child: itemListWidget(widget.orderBloc, widget.order)),
+        orderBottomBar(widget.order)
+      ]),
+    );
       }) ,
     );
   }
@@ -81,29 +81,29 @@ class _client_name_forms_state extends State<clientNameForms> {
         if(widget.order.customer == "Nouveau Client"){
           _controller.clear();
         }
-        return Form(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
+    return Form(
+        child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
           controller: _controller,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Entrer le nom du client',
-            icon: Icon(Icons.person),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Entrer un nom de client svp';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            if (value != null) {
-              widget.order.customer = value;
-              context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
-            }
-          },
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Entrer le nom du client',
+          icon: Icon(Icons.person),
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Entrer un nom de client svp';
+          }
+          return null;
+        },
+        onChanged: (value) {
+          if (value != null) {
+            widget.order.customer = value;
+            context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
+          }
+        },
+      ),
       ),
       );
       },
@@ -226,12 +226,12 @@ class _itemWidgetState extends State<ItemWidget> {
                   builder: (context, state) => Text(
                     state.orders.last.getItemNumber(item).toString(),
                     //widget.order.getItemNumber(item).toString(),
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
               ),
               ElevatedButton(
                 onPressed: _incrementItemNumber,

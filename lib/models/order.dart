@@ -9,17 +9,23 @@ class Order{
   bool finish = false;
   bool _drinkFinish = true;
   bool _foodFinish = true;
-  double _totalPrice = 0;
+  late double _totalPrice = 0;
 
 
   List<Item> _itemList = <Item>[];//liste littérale = liste dont la taille n'est pas renseigné (d'apres la documentation officiel de dart )
   //https://dart.dev/tools/diagnostic-messages?utm_source=dartdev&utm_medium=redir&utm_id=diagcode&utm_content=default_list_constructor#default_list_constructor
-
+  
   Order(this._customer){
     _id = uuid.v4();
     _foodFinish = false;
     _drinkFinish = false;    
     }
+  Order.kitchen(this._customer, this._drinkFinish, this._foodFinish, this._id, this._totalPrice){
+    _id = uuid.v4();
+    _foodFinish = false;
+    _drinkFinish = false;    
+    }
+  
   
   void checkFoodAndDrink(){
     for (var item in _itemList) {
