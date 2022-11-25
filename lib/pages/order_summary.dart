@@ -111,6 +111,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
           child: ElevatedButton(
             onPressed: () async {
               DataBase database = DataBase();
+              widget.order.checkFoodAndDrink();
               await database.addCurrentOrder(widget.order);
              
 

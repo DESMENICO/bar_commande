@@ -84,20 +84,20 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
     _SummaryOrderBottombarState();
     void _setDrinkFinish() {
     setState(() {
-      widget.order.drinkFinish = true;
+      widget.order.containDrink = false;
     }
     );
-    if(widget.order.foodFinish){
+    if(!widget.order.containFood){
       Navigator.pop(context);
     }
     }
 
     void _setFoodFinish() {
     setState(() {
-      widget.order.foodFinish = true;
+      widget.order.containFood = false;
     }
     );
-    if(widget.order.drinkFinish){
+    if(!widget.order.containDrink){
       Navigator.pop(context);
     }
   }
@@ -109,7 +109,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
         Visibility(
-          visible: !widget.order.foodFinish,
+          visible: widget.order.containFood,
           child: ElevatedButton(
             onPressed: _setFoodFinish,
             child: const Text(
@@ -119,7 +119,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
           ),
         ),
         Visibility(
-          visible: !widget.order.drinkFinish,
+          visible: widget.order.containDrink,
           child: ElevatedButton(
             onPressed: _setDrinkFinish,
             child: const Text(

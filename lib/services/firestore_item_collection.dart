@@ -11,8 +11,8 @@ class DataBase {
   Future<void> addCurrentOrder(Order order) async {
     Map<String,dynamic> orderToSend = {
     "id" : order.id,
-    "foodFinish": order.foodFinish,
-    "drinkFinish": order.drinkFinish,
+    "foodFinish": order.containFood,
+    "drinkFinish": order.containDrink,
     "sellerId" : order.sellerId,
     "totalPrice" :order.totalPrice,
     "customer" : order.customer,

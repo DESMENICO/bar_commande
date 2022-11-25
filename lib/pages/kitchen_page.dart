@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:bar_commande/pages/kitchen_summary_page.dart';
 import 'package:bar_commande/services/firestore_item_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +47,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
         stream:
             FirebaseFirestore.instance.collection('CurrentOrder').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
-          print(snapshot.connectionState);
+          
           if (!snapshot.hasData) {
             return Center(
               child: const CircularProgressIndicator(),
@@ -66,15 +64,9 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   var foodFinish = snap[index]['foodFinish'];
                   var id = snap[index]['id'];
                   var totalPrice = snap[index]['totalPrice'];
-                  late Order order;
-                  dataBase.getItemList(snapshot.data?.docs[index].id).then((value){
-                   order = Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice,value);
-                   });
-
-                  print(order.containDrink());
-                  print(order.containFood());
+                  late Order order =Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice.toDouble());  
+                  dataBase.getItemList(snapshot.data?.docs[index].id).then((value) => order.itemList = value);
                   return OrderWidget(order);
-                  
                   });
           }
         });
@@ -131,18 +123,18 @@ class _OrderWidgetState extends State<OrderWidget> {
               ],
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                      visible: !widget.order.containDrink(),
+                      visible: widget.order.containDrink,
                       child: const Icon(Icons.local_bar)),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Visibility(
-                      visible: !widget.order.containFood(),
+                      visible: widget.order.containFood,
                       child: const Icon(Icons.local_dining)),
                 ),
                 /*Text(

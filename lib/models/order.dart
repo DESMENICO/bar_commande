@@ -8,8 +8,8 @@ class Order{
   String _customer;// ="hgdfgukjgkjgjkqf";
   String _sellerId="hgdfgukjgkjgjkqf";
   bool finish = false;
-  bool _drinkFinish = true;
-  bool _foodFinish = true;
+  bool _containDrink = true;
+  bool _containFood = true;
   late double _totalPrice = 0;
 
 
@@ -18,41 +18,20 @@ class Order{
   
   Order(this._customer){
     _id = uuid.v4();
-    _foodFinish = false;
-    _drinkFinish = false;    
+    _containFood = false;
+    _containDrink = false;    
     }
 
-  bool containFood(){
-    for(var item in _itemList){
-      if(item.isFood == true){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool containDrink(){
-    for(var item in _itemList){
-      if(item.isFood == false){
-        return true;
-      }
-    }
-    return false;
-  }
-
-
-
-
-  Order.kitchen(this._customer, this._drinkFinish, this._foodFinish, this._id, this._totalPrice,this._itemList);
+  Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice);
 
     
   
   void checkFoodAndDrink(){
     for (var item in _itemList) {
       if(item.isFood){
-        _foodFinish = true;
+        _containFood = true;
       }else{
-        _drinkFinish = false;
+        _containDrink = true;
       }
     }
   }
@@ -96,18 +75,19 @@ class Order{
   String get sellerId => _sellerId;
   List<Item> get itemList => _itemList;
   double get totalPrice => _totalPrice;
-  bool get foodFinish => _foodFinish;
-  bool get drinkFinish => _drinkFinish;
+  bool get containFood => _containFood;
+  bool get containDrink => _containDrink;
   String get customer => _customer;
   set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;
-  set foodFinish(bool value) => _foodFinish = value;
-  set drinkFinish(bool value) => _drinkFinish = value;
+  set containFood(bool value) => _containFood = value;
+  set containDrink(bool value) => _containDrink = value;
   
 
 
   void updateTotal() {
+    checkFoodAndDrink();
     totalPrice = 0;
     for(Item item in _itemList){
       totalPrice += item.price;
