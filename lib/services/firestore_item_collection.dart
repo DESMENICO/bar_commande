@@ -36,6 +36,25 @@ class DataBase {
   }
 
 
+  Future<List<Item>> getItemList(String? docId) async {
+    List<Item> itemList = [];
+    
+    QuerySnapshot feed = await orderCurrentCollection.doc(docId).collection("Item").get();
+      for (var itemdoc in feed.docs ) {
+        var name = itemdoc['name'];
+        var price = itemdoc['price'];
+        var isFood = itemdoc['isFood'];
+        var isAvailable = itemdoc['available'];
+        Item item = Item(name, price.toDouble(), isFood, isAvailable);
+        itemList.add(item);
+      }
+    return itemList;
+  }
+
+
+
+
+
 
 
 

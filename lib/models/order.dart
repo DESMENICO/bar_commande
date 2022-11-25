@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'item.dart';
 
@@ -20,17 +21,36 @@ class Order{
     _foodFinish = false;
     _drinkFinish = false;    
     }
-  Order.kitchen(this._customer, this._drinkFinish, this._foodFinish, this._id, this._totalPrice){
-    _id = uuid.v4();
-    _foodFinish = false;
-    _drinkFinish = false;    
+
+  bool containFood(){
+    for(var item in _itemList){
+      if(item.isFood == true){
+        return true;
+      }
     }
-  
+    return false;
+  }
+
+  bool containDrink(){
+    for(var item in _itemList){
+      if(item.isFood == false){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+
+
+  Order.kitchen(this._customer, this._drinkFinish, this._foodFinish, this._id, this._totalPrice,this._itemList);
+
+    
   
   void checkFoodAndDrink(){
     for (var item in _itemList) {
       if(item.isFood){
-        _foodFinish = false;
+        _foodFinish = true;
       }else{
         _drinkFinish = false;
       }
@@ -56,7 +76,6 @@ class Order{
     }
   }
   return isInside;
-  
   }
 
   int getItemNumber(Item item){
@@ -80,6 +99,7 @@ class Order{
   bool get foodFinish => _foodFinish;
   bool get drinkFinish => _drinkFinish;
   String get customer => _customer;
+  set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;
   set foodFinish(bool value) => _foodFinish = value;
