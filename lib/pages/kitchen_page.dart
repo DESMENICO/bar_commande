@@ -1,5 +1,5 @@
 import 'package:bar_commande/pages/kitchen_summary_page.dart';
-import 'package:bar_commande/services/firestore_item_collection.dart';
+import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
@@ -65,17 +65,10 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   double totalPrice = snap[i]['totalPrice'];
                   orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice));
             }
-           
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: orderList.length,
                 itemBuilder: (context, int index) {
-                  /*var customer = snap[index]['customer'];
-                  var drinkFinish = snap[index]['containDrink'];
-                  var foodFinish = snap[index]['containFood'];
-                  var id = snap[index]['id'];
-                  var totalPrice = snap[index]['totalPrice'];
-                  late Order order =Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice.toDouble());  */
 
                   return OrderWidget(orderList[index]);
                   });
@@ -141,13 +134,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                       visible: widget.order.containFood,
                       child: const Icon(Icons.local_dining)),
                 ),
-                /*Text(
-                  order.customer,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                  ),
-                )*/
               ],
             ),
           ],

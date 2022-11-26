@@ -3,7 +3,6 @@ import 'package:bar_commande/bloc/item_events.dart';
 import 'package:bar_commande/bloc/order_events.dart';
 import 'package:bar_commande/bloc/order_states.dart';
 import 'package:bar_commande/pages/order_summary.dart';
-import 'package:bar_commande/services/FireStore_Item_Collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/item_bloc.dart';
@@ -14,7 +13,7 @@ import "../models/order.dart" as Models;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/user.dart';
-import '../services/firestore_item_collection.dart';
+import '../services/firestore_service.dart';
 
 class OrderPage extends StatefulWidget {
   ItemBloc itemBloc;
@@ -129,7 +128,6 @@ class _itemListWidgetState extends State<itemListWidget> {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Item').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          print(snapshot.connectionState);
           if (!snapshot.hasData) {
             return Center(
               child: const CircularProgressIndicator(),

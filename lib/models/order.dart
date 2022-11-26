@@ -5,7 +5,7 @@ import 'item.dart';
 class Order{
   var uuid = const Uuid();
   String  _id = '';
-  String _customer;// ="hgdfgukjgkjgjkqf";
+  String _customer;
   String _sellerId="hgdfgukjgkjgjkqf";
   bool finish = false;
   bool _containDrink = true;

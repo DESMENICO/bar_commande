@@ -8,6 +8,8 @@ class AuthentificationService{
   final _auth = FirebaseAuth.instance;
 
   Models.User userFromFirebase(User? user){
+
+
      return Models.User(user!.uid);
   }
 
