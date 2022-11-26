@@ -8,6 +8,8 @@ class DataBase {
   final CollectionReference itemCollection = FirebaseFirestore.instance.collection("Item");
   final CollectionReference orderCurrentCollection = FirebaseFirestore.instance.collection("CurrentOrder");
   final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Order");
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection("User");
+
 
 
   Future<void> addCurrentOrder(Order order) async {
@@ -101,6 +103,15 @@ class DataBase {
     return itemList;
   }
 
+Future<Map<String,dynamic>> getUserInformation(String userId) async{
+  DocumentSnapshot<Object?> information = await userCollection.doc(userId).get();
+  
+  Map<String,dynamic> map ={
+    "name": information["name"],
+    "isAdmin": information["isAdmin"]
+  };
+  return map;
+}
 
 
 

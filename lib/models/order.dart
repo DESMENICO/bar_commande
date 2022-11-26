@@ -91,6 +91,7 @@ for(Item item in _itemList){
   bool get containFood => _containFood;
   bool get containDrink => _containDrink;
   String get customer => _customer;
+  set sellerId(String value)=> _sellerId = value;
   set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;

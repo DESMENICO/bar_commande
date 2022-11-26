@@ -1,7 +1,10 @@
 import 'package:bar_commande/bloc/item_bloc.dart';
 import 'package:bar_commande/bloc/order_bloc.dart';
 import 'package:bar_commande/models/item.dart';
+import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_page.dart';
+import 'package:bar_commande/services/authentifcation_service.dart';
+import 'package:bar_commande/services/firestore_item_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
@@ -74,6 +77,22 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = "";
+    _passwordController.text = "";
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +103,7 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextFormField(
+              controller: _emailController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Entrer votre identifiant',
@@ -91,7 +111,7 @@ class LoginFormState extends State<LoginForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'Entrez votre adresse email';
                 }
                 return null;
               },
@@ -100,6 +120,7 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextFormField(
+              controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -107,8 +128,8 @@ class LoginFormState extends State<LoginForm> {
                 icon: Icon(Icons.key),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                if (value != null && value.length < 6) {
+                  return "Veuillez mettre un mot de passe composé de 6 caractères minimum";
                 }
                 return null;
               },
@@ -118,11 +139,21 @@ class LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
               onPressed: () async {
-                var response = await Navigator.of(context).push(
+                DataBase dataBase = DataBase();
+                AuthentificationService authentificationService = AuthentificationService();
+                if(_formKey.currentState?.validate() == true){
+                  var email = _emailController.value.text;
+                  var password = _passwordController.value.text;
+                  User user = await authentificationService.signinUser(email, password);
+                  Map map = await dataBase.getUserInformation(user.id);
+                  user.isAdmin = map["isAdmin"];
+                  user.name = map["name"];
+                  await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc),
-                  ),
-                );
+                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc,user),
+                  ));
+                }
+                ;
               },
               child: const Text('Connexion'),
             ),

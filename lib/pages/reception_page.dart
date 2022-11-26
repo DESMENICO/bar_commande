@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
+import '../models/user.dart';
 
 class Reception extends StatelessWidget {
   ItemBloc itemBloc;
   OrderBloc orderBloc;
-  Reception(this.itemBloc, this.orderBloc, {super.key});
+  User user;
+  Reception(this.itemBloc, this.orderBloc,this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class Reception extends StatelessWidget {
                     onPressed: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => OrderPage(itemBloc, orderBloc),
+                          builder: (context) => OrderPage(itemBloc, orderBloc,user),
                         ),
                       );
                     },
@@ -127,7 +129,7 @@ class Reception extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: true,
+            visible: user.isAdmin,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(

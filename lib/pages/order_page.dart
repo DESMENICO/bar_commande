@@ -13,13 +13,15 @@ import '../models/item.dart';
 import "../models/order.dart" as Models;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/user.dart';
 import '../services/firestore_item_collection.dart';
 
 class OrderPage extends StatefulWidget {
   ItemBloc itemBloc;
   OrderBloc orderBloc;
+  User user;
   late Models.Order order;
-  OrderPage(this.itemBloc, this.orderBloc, {super.key});
+  OrderPage(this.itemBloc, this.orderBloc,this.user, {super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -30,6 +32,7 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
     widget.order = Models.Order("Nouveau Client");
+    widget.order.sellerId = widget.user.name;
     context.read<OrderBloc>().add(AddOrderEvent(widget.order));
   }
 
@@ -53,7 +56,7 @@ class _OrderPageState extends State<OrderPage> {
       body: Column(children: [
         clientNameForms(widget.order),
         Expanded(child: itemListWidget(widget.orderBloc, widget.order)),
-        orderBottomBar(widget.order)
+        orderBottomBar(widget.order,widget.user)
       ]),
     );
       }) ,
@@ -254,7 +257,8 @@ class _itemWidgetState extends State<ItemWidget> {
 
 class orderBottomBar extends StatefulWidget {
   Models.Order order;
-  orderBottomBar(this.order, {super.key});
+  User user;
+  orderBottomBar(this.order,this.user, {super.key});
   @override
   State<orderBottomBar> createState() => _orderBottomBar();
 }
@@ -275,6 +279,7 @@ class _orderBottomBar extends State<orderBottomBar> {
                 ),
               );
               widget.order = Models.Order("Nouveau Client");
+              widget.order.sellerId = widget.user.name;
               context.read<OrderBloc>().add(AddOrderEvent(widget.order));
             },
             child: const Text(
