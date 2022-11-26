@@ -41,6 +41,7 @@ class OrderListWidget extends StatefulWidget {
 
 class _OrderListWidgetState extends State<OrderListWidget> {
   final DataBase dataBase = DataBase();
+  List<Order> orderList = [];
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -53,35 +54,38 @@ class _OrderListWidgetState extends State<OrderListWidget> {
               child: const CircularProgressIndicator(),
             );
           } else {
-            var snap = snapshot.data!.docs;
 
+            var snap = snapshot.data!.docs;
+            orderList = [];
+            for(int i = 0; i < snap.length;i++){
+                  var customer = snap[i]['customer'];
+                  var drinkFinish = snap[i]['containDrink'];
+                  var foodFinish = snap[i]['containFood'];
+                  var id = snap[i]['id'];
+                  double totalPrice = snap[i]['totalPrice'];
+                  orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice));
+            }
+           
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: snap.length,
+                itemCount: orderList.length,
                 itemBuilder: (context, int index) {
-                  var customer = snap[index]['customer'];
-                  var drinkFinish = snap[index]['drinkFinish'];
-                  var foodFinish = snap[index]['foodFinish'];
+                  /*var customer = snap[index]['customer'];
+                  var drinkFinish = snap[index]['containDrink'];
+                  var foodFinish = snap[index]['containFood'];
                   var id = snap[index]['id'];
                   var totalPrice = snap[index]['totalPrice'];
-                  late Order order =Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice.toDouble());  
-                  dataBase.getItemList(snapshot.data?.docs[index].id).then((value) => order.itemList = value);
-                  return OrderWidget(order);
+                  late Order order =Order.kitchen(customer, drinkFinish, foodFinish, id, totalPrice.toDouble());  */
+
+                  return OrderWidget(orderList[index]);
                   });
           }
         });
   }
 }
-/*var query = FirebaseFirestore.instance.collection('CurrentOrder').get();
-              for(var doc in query.docs){
-                //QuerySnapshot subQuery = await FirebaseFirestore.instance.collection('CurrentOrder').doc(snapshot.data!.docs).collection('Item').get(); 
-              }
-              //Future<QuerySnapshot<Map<String, dynamic>>> subQuery = FirebaseFirestore.instance.collection('CurrentOrder').doc(snapshot.data!.docs).collection('Item').get(); 
-              //DocumentSnapshot itemList = snapshot.data.documents[index];*/
 
 class OrderWidget extends StatefulWidget {
   Order order;
-
   OrderWidget(this.order, {super.key});
 
   @override

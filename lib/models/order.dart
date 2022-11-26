@@ -46,6 +46,23 @@ class Order{
     updateTotal();
   }
 
+  void removeFoodItem(){
+    for(Item item in _itemList){
+      if(item.isFood){
+        _itemList.remove(item);
+      }
+    }
+  }
+
+  void removeDrinkItem(){
+for(Item item in _itemList){
+      if(!item.isFood){
+        _itemList.remove(item);
+      }
+    }
+  }
+  
+
 
   bool isInsideAList(int index,List<Item> list){
     bool isInside = false;
@@ -65,10 +82,6 @@ class Order{
         }
     }
     return number;
-  }
-
-  Item getItemInList(int index){
-    return _itemList[index];
   }
 
   String get id => _id;

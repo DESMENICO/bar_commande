@@ -41,7 +41,7 @@ class SummaryItem extends StatelessWidget {
             itemCount: order.itemList.length,
             itemBuilder: (context, int index) {
               List<Item> list = order.itemList;
-              Item currentItem = order.getItemInList(index);
+              Item currentItem = order.itemList[index];
               if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
                 itemUsed.add(currentItem);
                 return ItemWidget(currentItem,order.getItemNumber(currentItem));
@@ -113,10 +113,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
               DataBase database = DataBase();
               widget.order.checkFoodAndDrink();
               await database.addCurrentOrder(widget.order);
-             
-
-            
-              //FirebaseFirestore.instance.collection('CurrentOrder').add(orderToSend);
+              await database.addOrder(widget.order);
               Navigator.pop(context,Order("Nouveau Client"));
             },
             child: const Text(

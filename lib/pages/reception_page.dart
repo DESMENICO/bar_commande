@@ -5,80 +5,130 @@ import 'package:flutter/material.dart';
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 
-class Reception extends StatelessWidget{
+class Reception extends StatelessWidget {
   ItemBloc itemBloc;
   OrderBloc orderBloc;
-  Reception(this.itemBloc,this.orderBloc,{super.key});
-  
- 
- @override
-  Widget build(BuildContext context){
+  Reception(this.itemBloc, this.orderBloc, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Acceuil"),
-        automaticallyImplyLeading: false
-      ),
+          title: const Text("Acceuil"), automaticallyImplyLeading: false),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                var response = await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => OrderPage(itemBloc,orderBloc),
-                  ),);
-                  }, 
-                      child:  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.account_balance_wallet, size: MediaQuery.of(context).size.width * 0.05),
-                          Text("COMMANDE",style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
-                          Icon(Icons.account_balance_wallet, size: MediaQuery.of(context).size.width * 0.05),
-                        ],
-                      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(itemBloc, orderBloc),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.account_balance_wallet,
+                            size: MediaQuery.of(context).size.width * 0.05),
+                        Text(
+                          "COMMANDE",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                        ),
+                        Icon(Icons.account_balance_wallet,
+                            size: MediaQuery.of(context).size.width * 0.05),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                var response = await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => KitchenPage(itemBloc,orderBloc),
-                  ),);
-                  }, 
-                      child:  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.coffee, size: MediaQuery.of(context).size.width * 0.05,),
-                          Text("CUISINE",style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
-                          Icon(Icons.coffee, size: MediaQuery.of(context).size.width * 0.05,),
-                        ],
-                      ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var response = await Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              KitchenPage(itemBloc, orderBloc),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.coffee,
+                          size: MediaQuery.of(context).size.width * 0.05,
+                        ),
+                        Text(
+                          "CUISINE",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                        ),
+                        Icon(
+                          Icons.coffee,
+                          size: MediaQuery.of(context).size.width * 0.05,
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-            Padding(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.tv,
+                            size: MediaQuery.of(context).size.width * 0.05),
+                        Text(
+                          "AFFICHAGE",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                        ),
+                        Icon(Icons.tv,
+                            size: MediaQuery.of(context).size.width * 0.05),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Visibility(
+            visible: true,
+            child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -87,13 +137,22 @@ class Reception extends StatelessWidget{
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.2,
                     child: ElevatedButton(
-                      onPressed: () {}, 
-                      child:  Row(
+                      onPressed: () async {
+                        
+                      },
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.tv, size: MediaQuery.of(context).size.width * 0.05),
-                          Text("AFFICHAGE",style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
-                          Icon(Icons.tv, size: MediaQuery.of(context).size.width * 0.05),
+                          Icon(Icons.admin_panel_settings,
+                              size: MediaQuery.of(context).size.width * 0.05),
+                          Text(
+                            "ADMINISTRATION",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05),
+                          ),
+                          Icon(Icons.admin_panel_settings,
+                              size: MediaQuery.of(context).size.width * 0.05),
                         ],
                       ),
                     ),
@@ -101,11 +160,9 @@ class Reception extends StatelessWidget{
                 ],
               ),
             ),
-          ], )
-        ),
-      );
-    }
+          )
+        ],
+      )),
+    );
   }
-   
-
-
+}

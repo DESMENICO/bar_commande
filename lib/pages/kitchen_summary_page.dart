@@ -1,52 +1,82 @@
+import 'package:bar_commande/services/firestore_item_collection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 import '../models/order.dart';
 
 class KitchenSummary extends StatelessWidget {
-  Order commande;
-  KitchenSummary(this.commande, {super.key});
+  Order order;
+  KitchenSummary(this.order, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Commande de ${commande.customer}"),
+        title: Text("Commande de ${order.customer}"),
       ),
       body: Column(children: [
-        Expanded(child: SummaryItem(commande)),
-        SummaryOrderBottombar(commande)
+        Expanded(child: SummaryItem(order)),
+        SummaryOrderBottombar(order)
       ]),
     );
   }
 }
 
 class SummaryItem extends StatelessWidget {
-  Order commande;
+  Order order;
   List<Item> itemUsed = [];
-  SummaryItem(this.commande);
+  SummaryItem(this.order,{super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection("CurrentOrder").doc(order.id).collection("Item").snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+            return Center(
+              child: const CircularProgressIndicator(),
+            );
+          } else { 
+      var itemList = snapshot.data!.docs;
+      order.itemList = [];
+      for(int i = 0; i< itemList.length;i++){
+        var name = itemList[i]['name'];
+        var price = itemList[i]['price'];
+        var isFood = itemList[i]['isFood'];
+        var available = itemList[i]['available'];
+        order.addItem(Item(name, price, isFood, available));
+      }
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(),
+          ),
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: order.itemList.length,
+              itemBuilder: (context, int index) {
+                return ItemWidget(order.itemList[index], 1);
+                /*
+
+              
+                List<Item> list = order.itemList;
+                Item currentItem = order.itemList[index];
+                print(order.itemList.length);
+                print("${currentItem.name} ${currentItem.price}");
+                if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed) && order.containFood == currentItem.isFood)
+                {
+                  itemUsed.add(currentItem);
+                  
+                  return ItemWidget(currentItem,order.getItemNumber(currentItem));
+                } else {
+                  return Row();
+                }*/
+              }),
         ),
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: commande.itemList.length,
-            itemBuilder: (context, int index) {
-              List<Item> list = commande.itemList;
-              Item currentItem = commande.getItemInList(index);
-              if (commande.getItemNumber(list[index]) != 0 && !commande.isInsideAList(index, itemUsed)) {
-                itemUsed.add(currentItem);
-                return ItemWidget(currentItem,commande.getItemNumber(currentItem));
-              } else {
-                return Row();
-              }
-            }),
-      ),
+      );
+      }},
     );
   }
 }
@@ -74,6 +104,7 @@ class ItemWidget extends StatelessWidget {
 
 class SummaryOrderBottombar extends StatefulWidget {
   Order order;
+  DataBase dataBase = DataBase();
   SummaryOrderBottombar(this.order);
 
   @override
@@ -82,25 +113,42 @@ class SummaryOrderBottombar extends StatefulWidget {
 
 class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
     _SummaryOrderBottombarState();
-    void _setDrinkFinish() {
+    void _setDrinkFinish() async {
     setState(() {
       widget.order.containDrink = false;
     }
     );
+    widget.order.removeDrinkItem();
+    print("length order.item : ${widget.order.itemList.length}");
+    await widget.dataBase.updateItemList(widget.order);
+    await widget.dataBase.updateOrder(widget.order);
+    if(!widget.order.containDrink && !widget.order.containFood){
+      await widget.dataBase.deleteCurrentOrder(widget.order);
+    }
+    //widget.order.itemList = await widget.dataBase.getItemList(widget.order.id);
     if(!widget.order.containFood){
       Navigator.pop(context);
     }
     }
 
-    void _setFoodFinish() {
+    void _setFoodFinish() async {
     setState(() {
       widget.order.containFood = false;
     }
     );
+    widget.order.removeFoodItem();
+    print("length order.item : ${widget.order.itemList.length}");
+    await widget.dataBase.updateItemList(widget.order);
+    await widget.dataBase.updateOrder(widget.order);
+    if(!widget.order.containDrink && !widget.order.containFood){
+      await widget.dataBase.deleteCurrentOrder(widget.order);
+    }
+    //widget.order.itemList = await widget.dataBase.getItemList(widget.order.id);
     if(!widget.order.containDrink){
       Navigator.pop(context);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
