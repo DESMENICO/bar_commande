@@ -4,7 +4,7 @@ import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_page.dart';
 import 'package:bar_commande/services/authentifcation_service.dart';
-import 'package:bar_commande/services/firestore_item_collection.dart';
+import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
