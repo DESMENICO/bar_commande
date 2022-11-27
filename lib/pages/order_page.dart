@@ -44,8 +44,8 @@ class _OrderPageState extends State<OrderPage> {
       appBar: AppBar(
         title: const Text("Commande"),
         automaticallyImplyLeading: false,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white),
+        leading: IconButton(
+          icon:  Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
             Navigator.of(context).pop();
@@ -129,8 +129,8 @@ class _itemListWidgetState extends State<itemListWidget> {
         stream: FirebaseFirestore.instance.collection('Item').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: const CircularProgressIndicator(),
+            return const Center(
+              child:  CircularProgressIndicator(),
             );
           } else {
             var snap = snapshot.data!.docs;
@@ -181,73 +181,76 @@ class _itemWidgetState extends State<ItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-      child: Card(
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
+    return Visibility(
+      visible: item.isAvailable,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+        child: Card(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  "${item.price}€",
+                  item.name,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 23,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: _decrementItemNumber,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0)),
-                ),
-                child: const Text(
-                  "-",
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: BlocBuilder<OrderBloc, OrderState>(
-                  builder: (context, state) => Text(
-                    state.orders.last.getItemNumber(item).toString(),
-                    //widget.order.getItemNumber(item).toString(),
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    "${item.price}€",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
-              ),
-              ),
-              ElevatedButton(
-                onPressed: _incrementItemNumber,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0)),
+                ElevatedButton(
+                  onPressed: _decrementItemNumber,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                  child: const Text(
+                    "-",
+                    style: TextStyle(fontSize: 25),
+                  ),
                 ),
-                child: const Text(
-                  "+",
-                  style: TextStyle(fontSize: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: BlocBuilder<OrderBloc, OrderState>(
+                    builder: (context, state) => Text(
+                      state.orders.last.getItemNumber(item).toString(),
+                      //widget.order.getItemNumber(item).toString(),
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ]),
+                ),
+                ElevatedButton(
+                  onPressed: _incrementItemNumber,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                  child: const Text(
+                    "+",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
