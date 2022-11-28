@@ -169,9 +169,7 @@ class DataBase {
       "email": user.email,
       "isAdmin": user.isAdmin,
     };
-    var document = await userCollection.add(userToSend);
-    Map<String, dynamic> userId = {"id": document.id};
-    userCollection.doc(document.id).update(userId);
+    await userCollection.doc(user.id).set(userToSend);
   }
 
   deleteUser(User user) {
