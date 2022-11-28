@@ -14,12 +14,34 @@ class DataBase {
       FirebaseFirestore.instance.collection("Order");
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("User");
+  final CollectionReference orderFinishedCollection = FirebaseFirestore.instance.collection("FinishedOrder");
+  
+  Future<void> addFinishedOrder(Order order)async{
+    Map<String, dynamic> orderToSend = {
+      "id": order.id,
+      "containFood": order.containFood,
+      "containDrink": order.containDrink,
+      "sellerId": order.sellerId,
+      "totalPrice": order.totalPrice,
+      "customer": order.customer,
+      "date": Timestamp.now()
+    };
+    var document = await orderFinishedCollection.add(orderToSend);
+    Map<String, dynamic> orderId = {"id": document.id};
+    orderFinishedCollection.doc(document.id).update(orderId);
+  }
+  Future<void> removeFinishedOrder(Order order) async{
+    orderFinishedCollection.doc(order.id).delete();
+    print("je passe par la");
+  }
 
   Future<void> addCurrentOrder(Order order) async {
     Map<String, dynamic> orderToSend = {
       "id": order.id,
       "containFood": order.containFood,
       "containDrink": order.containDrink,
+      "finish": false,
+      "isOnScreen":false,
       "sellerId": order.sellerId,
       "totalPrice": order.totalPrice,
       "customer": order.customer,
@@ -85,7 +107,9 @@ class DataBase {
   Future<void> updateOrder(Order order) async {
     Map<String, dynamic> orderUpdate = {
       "containFood": order.containFood,
-      "containDrink": order.containDrink
+      "containDrink": order.containDrink,
+      "finish":order.finish,
+      "isOnScreen":order.isOnScreen
     };
     orderCurrentCollection.doc(order.id).update(orderUpdate);
   }

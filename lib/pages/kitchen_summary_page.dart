@@ -105,38 +105,58 @@ class SummaryOrderBottombar extends StatefulWidget {
 
 class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
   _SummaryOrderBottombarState();
+
+  void deleteOrderFromScreenWithDelay() async{
+      Future.delayed(const Duration(seconds: 5),((() async{
+      widget.order.isOnScreen = false;
+      await widget.dataBase.updateOrder(widget.order);
+      if(widget.order.finish){
+      await widget.dataBase.deleteCurrentOrder(widget.order);
+    }
+    })));
+    
+  }
+
   void _setDrinkFinish() async {
     setState(() {
       widget.order.containDrink = false;
     });
     widget.order.removeDrinkItem();
-    print("length order.item : ${widget.order.itemList.length}");
-    await widget.dataBase.updateItemList(widget.order);
-    await widget.dataBase.updateOrder(widget.order);
+        
     if (!widget.order.containDrink && !widget.order.containFood) {
+      widget.order.finish = true;
       await widget.dataBase.deleteCurrentOrder(widget.order);
     }
+     await widget.dataBase.removeFinishedOrder(widget.order);
     //widget.order.itemList = await widget.dataBase.getItemList(widget.order.id);
     if (!widget.order.containFood) {
       Navigator.pop(context);
     }
+    await widget.dataBase.updateItemList(widget.order);
+    await widget.dataBase.updateOrder(widget.order);
   }
+
+  
 
   void _setFoodFinish() async {
     setState(() {
       widget.order.containFood = false;
     });
-    widget.order.removeFoodItem();
-    print("length order.item : ${widget.order.itemList.length}");
+    widget.order.removeFoodItem();    
+    //await widget.dataBase.addFinishedOrder(widget.order);
+    //await widget.dataBase.removeFinishedOrder(widget.order);
+    widget.order.isOnScreen = true;
+    if (!widget.order.containDrink && !widget.order.containFood) {
+      widget.order.finish = true;
+      
+    }
     await widget.dataBase.updateItemList(widget.order);
     await widget.dataBase.updateOrder(widget.order);
-    if (!widget.order.containDrink && !widget.order.containFood) {
-      await widget.dataBase.deleteCurrentOrder(widget.order);
-    }
-    //widget.order.itemList = await widget.dataBase.getItemList(widget.order.id);
     if (!widget.order.containDrink) {
       Navigator.pop(context);
     }
+    deleteOrderFromScreenWithDelay();
+    
   }
 
   @override

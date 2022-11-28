@@ -67,13 +67,18 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
                   orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice,date));
             }
-            orderList.sort((order1,order2) => order2.date.compareTo(order1.date));
+            orderList.sort((order1,order2) => order1.date.compareTo(order2.date));
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: orderList.length,
                 itemBuilder: (context, int index) {
-
+                  if(!orderList[index].isOnScreen){
                   return OrderWidget(orderList[index], key: ValueKey(orderList[index]));
+                  }else{
+                    
+                    return Container();
+                  }
+                
                   });
           }
         });

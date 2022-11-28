@@ -9,11 +9,12 @@ class Order{
   String  _id = '';
   String _customer;
   String _sellerId="hgdfgukjgkjgjkqf";
-  bool finish = false;
+  bool _finish = false;
   bool _containDrink = true;
   bool _containFood = true;
   late DateTime _date;
   late double _totalPrice = 0;
+  bool _isOnScreen = false;
 
 
   List<Item> _itemList = <Item>[];//liste littérale = liste dont la taille n'est pas renseigné (d'apres la documentation officiel de dart )
@@ -27,6 +28,9 @@ class Order{
     }
 
   Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice,this._date);
+  Order.television(this._customer,this._containDrink,this._containFood,this._date,this._finish,this._isOnScreen){
+    
+  }
 
     
   
@@ -98,7 +102,9 @@ class Order{
   bool get containFood => _containFood;
   bool get containDrink => _containDrink;
   String get customer => _customer;
+  bool get finish => _finish;
   DateTime get date => _date;
+  bool get isOnScreen => _isOnScreen;
   set sellerId(String value)=> _sellerId = value;
   set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   
@@ -106,7 +112,8 @@ class Order{
   set containFood(bool value) => _containFood = value;
   set containDrink(bool value) => _containDrink = value;
   set date(DateTime value) => _date = value;
-  
+  set finish(bool value)=> _finish = value;
+  set isOnScreen(bool value)=> _isOnScreen=value;
 
 
   void updateTotal() {
