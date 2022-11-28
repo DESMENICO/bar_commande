@@ -63,22 +63,8 @@ class SummaryItem extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: itemSummary.item1.length,
                   itemBuilder: (context, int index) {   
-
-                  print(itemSummary.item1.length);
-                  Item currentItem = itemSummary.item2[index];
-                  int itemNumber = itemSummary.item1[index];
                   return ItemWidget(itemSummary.item2[index], itemSummary.item1[index]);
-               
-               
-               /*Item currentItem = order.itemList[index];
-              if (!order.isInsideAList(currentItem, itemUsed)) {
-                itemUsed.add(currentItem);
-                return ItemWidget(currentItem,order.getItemNumber(currentItem));
-              } else {
-                return Container();
-              }*/
-
-                  }),
+               }),
             ),
           );
         }

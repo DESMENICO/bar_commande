@@ -63,8 +63,11 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   var foodFinish = snap[i]['containFood'];
                   var id = snap[i]['id'];
                   double totalPrice = snap[i]['totalPrice'];
-                  orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice));
+                  Timestamp dateTime = snap[i]['date'];
+                  DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
+                  orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice,date));
             }
+            orderList.sort((order1,order2) => order2.date.compareTo(order1.date));
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: orderList.length,

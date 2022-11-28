@@ -23,6 +23,7 @@ class DataBase {
       "sellerId": order.sellerId,
       "totalPrice": order.totalPrice,
       "customer": order.customer,
+      "date": Timestamp.now()
     };
     var document = await orderCurrentCollection.add(orderToSend);
     Map<String, dynamic> orderId = {"id": document.id};
