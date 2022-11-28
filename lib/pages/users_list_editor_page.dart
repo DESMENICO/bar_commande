@@ -1,7 +1,9 @@
 import 'package:bar_commande/pages/user_editor_page.dart';
+import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
+import '../services/firestore_service.dart';
 
 class UsersListEditor extends StatefulWidget {
   const UsersListEditor({super.key});
@@ -24,7 +26,7 @@ class _UsersListEditorState extends State<UsersListEditor> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => UserEditor(User("fgghjg")),
+              builder: (context) => UserEditor(User("Nouvel utilisateur")),
             ),
           );
         },
@@ -41,7 +43,7 @@ class UsersListEditorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   /* return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('User').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
@@ -49,19 +51,20 @@ class UsersListEditorWidget extends StatelessWidget {
               child:CircularProgressIndicator(),
             );
           } else {
-            var snap = snapshot.data!.docs;*/
+            var snap = snapshot.data!.docs;
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: snap.length,
                 itemBuilder: (context, int index) {
-                  /*String name = snap[index]['name'];
-                      var price = snap[index]['price'];
-                      bool isFood = snap[index]['isFood'];
-                      bool isAvailable = snap[index]['available'];*/
-                  return USerEditorWidget(User("gffghh"));
+                  String name = snap[index]['name'];
+                  bool isAdmin = snap[index]['isAdmin'];
+                  String email = snap[index]['email'];
+                  String password = snap[index]['password'];
+                  String id = snap[index].id;
+                  return USerEditorWidget(User.edit(name, isAdmin, email,id,password));
                 });
-          //}
-        //});
+          }
+        });
   }
 }
 
@@ -75,12 +78,6 @@ class USerEditorWidget extends StatefulWidget {
 }
 
 class _USerEditorWidgetState extends State<USerEditorWidget> {
-   @override
-  void initState() {
-    super.initState();
-    widget.user.name = "Utilisateur local";
-    widget.user.isAdmin = true;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +109,12 @@ class _USerEditorWidgetState extends State<USerEditorWidget> {
             ),
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () {},
+              onPressed: () async{
+                DataBase database = DataBase();
+                AuthentificationService auth = AuthentificationService();
+                await auth.removeUser(widget.user);
+                await database.deleteUser(widget.user);
+              },
             )
           ]),
         ),

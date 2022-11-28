@@ -1,7 +1,9 @@
+import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/user.dart';
+import '../services/firestore_service.dart';
 
 class UserEditor extends StatefulWidget {
   User user;
@@ -16,16 +18,7 @@ class UserEditor extends StatefulWidget {
 
 class UserEditorState extends State<UserEditor> {
   final _formKey = GlobalKey<FormState>();
-  bool isAdmin = false;
-
-  @override
-  void initState() {
-    super.initState();
-    //formattedDate = formatter.format(widget.crime.date);
-    //dateController.text = formattedDate;
-    isAdmin = widget.user.isAdmin;
-  }
-
+  late String _password;
   @override
   Widget build(BuildContext context) {
     String? newPassword;
@@ -39,12 +32,12 @@ class UserEditorState extends State<UserEditor> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
+              /*TextFormField(
                 initialValue: widget.user.id,
                 decoration: const InputDecoration(
                     labelText: 'Id', icon: Icon(Icons.key)),
                 enabled: false,
-              ),
+              ),*/
               TextFormField(
                   initialValue: widget.user.name,
                   decoration: const InputDecoration(
@@ -60,7 +53,7 @@ class UserEditorState extends State<UserEditor> {
                     widget.user.name = value!;
                   }),
               TextFormField(
-                //initialValue: widget.user.name,
+                initialValue: widget.user.email,
                 decoration: const InputDecoration(
                     labelText: "Entrer l'adresse email de l'utilisateur",
                     icon: Icon(Icons.alternate_email)),
@@ -70,11 +63,14 @@ class UserEditorState extends State<UserEditor> {
                   }
                   return null;
                 },
+                onSaved: (value) {
+                    widget.user.email = value!;
+                  }
               ),
               TextFormField(
                 obscureText: true,
                 decoration: const InputDecoration(
-                    labelText: "Entrer le nouveau mot de passe",
+                    labelText: "Entrer le mot de passe",
                     icon: Icon(Icons.password)),
                 validator: (value) {
                   newPassword = value;
@@ -98,9 +94,9 @@ class UserEditorState extends State<UserEditor> {
                   }
                   return null;
                 },
-                /*onSaved: (value) {
-                    widget.crime.date = formatter.parse(value!);
-                  }*/
+                onSaved: (value) {
+                    _password = value!;
+                  }
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -110,10 +106,10 @@ class UserEditorState extends State<UserEditor> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: Switch(
-                          value: isAdmin,
+                          value: widget.user.isAdmin,
                           onChanged: (value) {
                             setState(() {
-                              isAdmin = value;
+                              widget.user.isAdmin=value;
                             });
                           }),
                     ),
@@ -122,10 +118,19 @@ class UserEditorState extends State<UserEditor> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    widget.user.isAdmin = isAdmin;
+                    
+                    AuthentificationService auth = AuthentificationService();
+                   User temp = await auth.createUser(widget.user.email, _password);
+                    print(temp.id);
+                    temp.email = widget.user.email;
+                    temp.name = widget.user.name;
+                    temp.isAdmin = widget.user.isAdmin;
+                    temp.password = _password;
+                    DataBase database = DataBase();
+                    await database.updateUserCollection(temp);
                     Navigator.pop(context);
                   }
                 },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/item.dart';
 import '../services/firestore_service.dart';
@@ -53,6 +54,7 @@ class ItemEditorState extends State<ItemEditor> {
                     widget.item.name = value!;
                   }),
               TextFormField(
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]+')),],
                 keyboardType: TextInputType.number,
                 initialValue: widget.item.price.toString(),
                 decoration: const InputDecoration(

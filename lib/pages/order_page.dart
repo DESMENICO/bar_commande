@@ -142,9 +142,9 @@ class _itemListWidgetState extends State<itemListWidget> {
                   var price = snap[index]['price'];
                   bool isFood = snap[index]['isFood'];
                   bool isAvailable = snap[index]['available'];
+                  Item item = Item(name, price.toDouble(), isFood, isAvailable);
                   return ItemWidget(
-                      Item(name, price.toDouble(), isFood, isAvailable),
-                      widget.order);
+                      item,widget.order,key: ValueKey(item));
                 });
           }
         });

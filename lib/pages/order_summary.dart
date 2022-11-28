@@ -2,6 +2,7 @@ import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 import '../models/item.dart';
 import '../models/order.dart';
@@ -40,9 +41,9 @@ class SummaryItem extends StatelessWidget {
             shrinkWrap: true,
             itemCount: order.itemList.length,
             itemBuilder: (context, int index) {
-              List<Item> list = order.itemList;
+
               Item currentItem = order.itemList[index];
-              if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
+              if (!order.isInsideAList(currentItem, itemUsed)) {
                 itemUsed.add(currentItem);
                 return ItemWidget(currentItem,order.getItemNumber(currentItem));
               } else {
