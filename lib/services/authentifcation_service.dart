@@ -9,7 +9,6 @@ class AuthentificationService{
   final _auth = FirebaseAuth.instance;
 
   Models.User userFromFirebase(User? user){
-
      return Models.User.auth(user!.uid);
   }
 
@@ -21,8 +20,7 @@ class AuthentificationService{
 
   Future<Models.User> 
   createUser(String mail, String password) async {
-    UserCredential firebaseResult = 
-    await _auth.createUserWithEmailAndPassword(email: mail, password: password);
+    UserCredential firebaseResult = await _auth.createUserWithEmailAndPassword(email: mail, password: password);
    User? user = firebaseResult.user;
     return userFromFirebase(user);
   } 
