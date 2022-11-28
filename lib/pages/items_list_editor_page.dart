@@ -37,7 +37,6 @@ class _ItemListEditorState extends State<ItemListEditor> {
 }
 
 class ItemListEditorWidget extends StatelessWidget {
-
   ItemListEditorWidget({super.key});
 
   @override
