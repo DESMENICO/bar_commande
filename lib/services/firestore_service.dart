@@ -1,5 +1,6 @@
 import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/order.dart';
+import 'package:bar_commande/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBase {
@@ -144,6 +145,36 @@ class DataBase {
 
   deleteItem(Item item) {
     itemCollection.doc(item.id).delete();
+  }
+
+  updateUserCollection(User user) async{
+    var doc = await userCollection.doc(user.id).get();
+    if (!doc.exists) {
+      addUser(user);
+    }else {
+      Map<String, dynamic> userUpdate = {
+      "name": user.name,
+      "email": user.email,
+      "isAdmin": user.isAdmin,
+      };
+      userCollection.doc(user.id).update(userUpdate);
+    }
+  }
+  
+  void addUser(User user)async {
+    Map<String, dynamic> userToSend = {
+      "id": user.id,
+      "name": user.name,
+      "email": user.email,
+      "isAdmin": user.isAdmin,
+    };
+    var document = await userCollection.add(userToSend);
+    Map<String, dynamic> userId = {"id": document.id};
+    userCollection.doc(document.id).update(userId);
+  }
+
+  deleteUser(User user) {
+    userCollection.doc(user.id).delete();
   }
 
   /*Future<void> saveUser(String name, double price, bool isFood, bool isAvailable,String docName) async {

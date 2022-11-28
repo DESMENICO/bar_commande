@@ -2,6 +2,7 @@ import 'package:bar_commande/pages/user_editor_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
+import '../services/firestore_service.dart';
 
 class UsersListEditor extends StatefulWidget {
   const UsersListEditor({super.key});
@@ -56,7 +57,9 @@ class UsersListEditorWidget extends StatelessWidget {
                 itemBuilder: (context, int index) {
                   String name = snap[index]['name'];
                   bool isAdmin = snap[index]['isAdmin'];
-                  return USerEditorWidget(User.edit(name, isAdmin));
+                  String email = snap[index]['email'];
+                  String id = snap[index].id;
+                  return USerEditorWidget(User.edit(name, isAdmin, email,id));
                 });
           }
         });
@@ -104,7 +107,10 @@ class _USerEditorWidgetState extends State<USerEditorWidget> {
             ),
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () {},
+              onPressed: () async{
+                DataBase database = DataBase();
+                    await database.deleteUser(widget.user);
+              },
             )
           ]),
         ),
