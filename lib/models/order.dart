@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'item.dart';
@@ -11,6 +12,7 @@ class Order{
   bool finish = false;
   bool _containDrink = true;
   bool _containFood = true;
+  late DateTime _date;
   late double _totalPrice = 0;
 
 
@@ -20,10 +22,11 @@ class Order{
   Order(this._customer){
     _id = uuid.v4();
     _containFood = false;
-    _containDrink = false;    
+    _containDrink = false; 
+    _date = DateTime.now();   
     }
 
-  Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice);
+  Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice,this._date);
 
     
   
@@ -71,7 +74,7 @@ class Order{
 
   bool isInsideAList(Item item,List<Item> list){
     for(Item itemInList in list){
-    if(itemInList == item){
+    if(itemInList.name == item.name){
       return true;
       }
     }
@@ -81,7 +84,7 @@ class Order{
   int getItemNumber(Item item){
     int number = 0;
     for(Item itemInList in _itemList){
-        if(itemInList==item){
+        if(itemInList.name==item.name){
           number++;
         }
     }
@@ -95,12 +98,14 @@ class Order{
   bool get containFood => _containFood;
   bool get containDrink => _containDrink;
   String get customer => _customer;
+  DateTime get date => _date;
   set sellerId(String value)=> _sellerId = value;
   set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   
   set totalPrice(double value) => _totalPrice = value;
   set containFood(bool value) => _containFood = value;
   set containDrink(bool value) => _containDrink = value;
+  set date(DateTime value) => _date = value;
   
 
 
