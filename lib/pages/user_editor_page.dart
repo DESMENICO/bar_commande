@@ -123,17 +123,12 @@ class UserEditorState extends State<UserEditor> {
                     _formKey.currentState!.save();
                     
                     AuthentificationService auth = AuthentificationService();
-<<<<<<< HEAD
-                    print(widget.user.email);
-                    User temp = await auth.createUser(widget.user.email, _password);
-                    print("id: ${temp.id} mail: ${temp.email} name: ${temp.name} ");
-=======
                    User temp = await auth.createUser(widget.user.email, _password);
                     print(temp.id);
->>>>>>> b0589b38468763ac70229aaff1c05b1aaa55a829
                     temp.email = widget.user.email;
                     temp.name = widget.user.name;
                     temp.isAdmin = widget.user.isAdmin;
+                    temp.password = _password;
                     DataBase database = DataBase();
                     await database.updateUserCollection(temp);
                     Navigator.pop(context);

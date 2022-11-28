@@ -1,4 +1,5 @@
 import 'package:bar_commande/pages/user_editor_page.dart';
+import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
@@ -58,8 +59,9 @@ class UsersListEditorWidget extends StatelessWidget {
                   String name = snap[index]['name'];
                   bool isAdmin = snap[index]['isAdmin'];
                   String email = snap[index]['email'];
+                  String password = snap[index]['password'];
                   String id = snap[index].id;
-                  return USerEditorWidget(User.edit(name, isAdmin, email,id));
+                  return USerEditorWidget(User.edit(name, isAdmin, email,id,password));
                 });
           }
         });
@@ -109,7 +111,9 @@ class _USerEditorWidgetState extends State<USerEditorWidget> {
               icon: const Icon(Icons.delete),
               onPressed: () async{
                 DataBase database = DataBase();
-                    await database.deleteUser(widget.user);
+                AuthentificationService auth = AuthentificationService();
+                await auth.removeUser(widget.user);
+                await database.deleteUser(widget.user);
               },
             )
           ]),

@@ -161,6 +161,8 @@ class DataBase {
       userCollection.doc(user.id).update(userUpdate);
     }
   }
+
+  
   
   void addUser(User user)async {
     Map<String, dynamic> userToSend = {
@@ -168,6 +170,7 @@ class DataBase {
       "name": user.name,
       "email": user.email,
       "isAdmin": user.isAdmin,
+      "password":user.password
     };
     await userCollection.doc(user.id).set(userToSend);
   }

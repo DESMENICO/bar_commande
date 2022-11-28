@@ -13,11 +13,7 @@ class TelevisionPage extends StatelessWidget {
     return Scaffold(
         body: Row(children: <Widget>[
       Expanded(child: Card(child: ItemListMenuWidget())),
-<<<<<<< HEAD
       //Expanded(child: OrderReadyWidget()),
-=======
-     // Expanded(child: OrderReadyWidget()),
->>>>>>> b0589b38468763ac70229aaff1c05b1aaa55a829
     ]));
   }
 }
