@@ -40,9 +40,8 @@ class SummaryItem extends StatelessWidget {
             shrinkWrap: true,
             itemCount: order.itemList.length,
             itemBuilder: (context, int index) {
-              List<Item> list = order.itemList;
               Item currentItem = order.itemList[index];
-              if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
+              if (!order.isInsideAList(currentItem, itemUsed)) {
                 itemUsed.add(currentItem);
                 return ItemWidget(currentItem,order.getItemNumber(currentItem));
               } else {

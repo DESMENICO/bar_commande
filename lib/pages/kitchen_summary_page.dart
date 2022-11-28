@@ -2,6 +2,7 @@ import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 import '../models/item.dart';
 import '../models/order.dart';
@@ -51,6 +52,7 @@ class SummaryItem extends StatelessWidget {
             var available = itemList[i]['available'];
             order.addItem(Item(name, price, isFood, available));
           }
+          Tuple2 itemSummary = order.getItemListSummary();
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -59,16 +61,23 @@ class SummaryItem extends StatelessWidget {
               ),
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: order.itemList.length,
-                  itemBuilder: (context, int index) {              
-                List<Item> list = order.itemList;
-              Item currentItem = order.itemList[index];
-              if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
+                  itemCount: itemSummary.item1.length,
+                  itemBuilder: (context, int index) {   
+
+                  print(itemSummary.item1.length);
+                  Item currentItem = itemSummary.item2[index];
+                  int itemNumber = itemSummary.item1[index];
+                  return ItemWidget(itemSummary.item2[index], itemSummary.item1[index]);
+               
+               
+               /*Item currentItem = order.itemList[index];
+              if (!order.isInsideAList(currentItem, itemUsed)) {
                 itemUsed.add(currentItem);
                 return ItemWidget(currentItem,order.getItemNumber(currentItem));
               } else {
                 return Container();
-              }
+              }*/
+
                   }),
             ),
           );
