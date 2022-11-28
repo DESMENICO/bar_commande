@@ -158,6 +158,19 @@ class LoginFormState extends State<LoginForm> {
               child: const Text('Connexion'),
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: ElevatedButton(
+              onPressed: ()  {
+                  Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc,User.edit("tff",true)),
+                  ));
+                },
+              child: const Text('Connexion admin'),
+            ),
+          ),
         ],
       ),
     );
