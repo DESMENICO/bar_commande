@@ -70,7 +70,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                 itemCount: orderList.length,
                 itemBuilder: (context, int index) {
 
-                  return OrderWidget(orderList[index]);
+                  return OrderWidget(orderList[index], key: ValueKey(orderList[index]));
                   });
           }
         });

@@ -47,19 +47,23 @@ class Order{
   }
 
   void removeFoodItem(){
-    for(Item item in _itemList){
+    _itemList = _itemList.where((element) => !element.isFood).toList();
+    /*for(Item item in _itemList){
       if(item.isFood){
         _itemList.remove(item);
       }
-    }
+    }*/
   }
 
   void removeDrinkItem(){
-for(Item item in _itemList){
+    _itemList = _itemList.where((element) => element.isFood).toList();
+
+/*for(var i = _itemList.length - 1; i >= 0; i--){
+  var item = _itemList[i];
       if(!item.isFood){
         _itemList.remove(item);
       }
-    }
+    }*/
   }
   
 
