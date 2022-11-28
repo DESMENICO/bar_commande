@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class User{
-  String _id;
-  String _name = "undefined";
+  String _id = 'dfdfs';
+  String _name ;
   bool _isAdmin = false;
   bool _isTelevision = false;
 
-  User(this._id);
+  User(this._name,);
+  User.edit(this._name, this._isAdmin);
   String get name => _name;
   bool get isAdmin => _isAdmin;
   String get id => _id;

@@ -24,7 +24,7 @@ class _UsersListEditorState extends State<UsersListEditor> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => UserEditor(User("fgghjg")),
+              builder: (context) => UserEditor(User("Nouvel utilisateur")),
             ),
           );
         },
@@ -41,7 +41,7 @@ class UsersListEditorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   /* return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('User').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
@@ -49,19 +49,17 @@ class UsersListEditorWidget extends StatelessWidget {
               child:CircularProgressIndicator(),
             );
           } else {
-            var snap = snapshot.data!.docs;*/
+            var snap = snapshot.data!.docs;
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: snap.length,
                 itemBuilder: (context, int index) {
-                  /*String name = snap[index]['name'];
-                      var price = snap[index]['price'];
-                      bool isFood = snap[index]['isFood'];
-                      bool isAvailable = snap[index]['available'];*/
-                  return USerEditorWidget(User("gffghh"));
+                  String name = snap[index]['name'];
+                  bool isAdmin = snap[index]['isAdmin'];
+                  return USerEditorWidget(User.edit(name, isAdmin));
                 });
-          //}
-        //});
+          }
+        });
   }
 }
 
@@ -75,12 +73,6 @@ class USerEditorWidget extends StatefulWidget {
 }
 
 class _USerEditorWidgetState extends State<USerEditorWidget> {
-   @override
-  void initState() {
-    super.initState();
-    widget.user.name = "Utilisateur local";
-    widget.user.isAdmin = true;
-  }
 
   @override
   Widget build(BuildContext context) {
