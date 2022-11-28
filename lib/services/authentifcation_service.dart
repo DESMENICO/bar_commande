@@ -19,10 +19,8 @@ class AuthentificationService{
     return userFromFirebase(user);
   }
 
-  Future<Models.User> 
-  createUser(String mail, String password) async {
-    UserCredential firebaseResult = 
-    await _auth.createUserWithEmailAndPassword(email: mail, password: password);
+  Future<Models.User> createUser(String mail, String password) async {
+  UserCredential firebaseResult = await _auth.createUserWithEmailAndPassword(email: mail, password: password);
    User? user = firebaseResult.user;
     return userFromFirebase(user);
   } 

@@ -5,7 +5,7 @@ class User{
   var uuid = const Uuid();
   late String _id;
   String _name = " ";
-  String _email = " ";
+  String _email = "";
   bool _isAdmin = false;
   bool _isTelevision = false;
 

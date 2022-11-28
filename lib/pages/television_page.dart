@@ -13,12 +13,12 @@ class TelevisionPage extends StatelessWidget {
     return Scaffold(
         body: Row(children: <Widget>[
       Expanded(child: Card(child: ItemListMenuWidget())),
-      Expanded(child: OrderReadyWidget()),
+     // Expanded(child: OrderReadyWidget()),
     ]));
   }
 }
 
-class OrderReadyWidget extends StatelessWidget {
+/*class OrderReadyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -28,7 +28,7 @@ class OrderReadyWidget extends StatelessWidget {
       }
     );
   }
-}
+}*/
 
 class ItemListMenuWidget extends StatelessWidget {
   @override
