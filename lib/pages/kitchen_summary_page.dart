@@ -60,23 +60,15 @@ class SummaryItem extends StatelessWidget {
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: order.itemList.length,
-                  itemBuilder: (context, int index) {
-                    return ItemWidget(order.itemList[index], 1);
-                    /*
-
-              
+                  itemBuilder: (context, int index) {              
                 List<Item> list = order.itemList;
-                Item currentItem = order.itemList[index];
-                print(order.itemList.length);
-                print("${currentItem.name} ${currentItem.price}");
-                if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed) && order.containFood == currentItem.isFood)
-                {
-                  itemUsed.add(currentItem);
-                  
-                  return ItemWidget(currentItem,order.getItemNumber(currentItem));
-                } else {
-                  return Row();
-                }*/
+              Item currentItem = order.itemList[index];
+              if (order.getItemNumber(list[index]) != 0 && !order.isInsideAList(index, itemUsed)) {
+                itemUsed.add(currentItem);
+                return ItemWidget(currentItem,order.getItemNumber(currentItem));
+              } else {
+                return Container();
+              }
                   }),
             ),
           );
