@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'item.dart';
+import 'package:tuple/tuple.dart';
 
 class Order{
   var uuid = const Uuid();
@@ -68,14 +69,13 @@ class Order{
   
 
 
-  bool isInsideAList(int index,List<Item> list){
-    bool isInside = false;
+  bool isInsideAList(Item item,List<Item> list){
     for(Item itemInList in list){
-    if(itemInList == itemList[index]){
-      isInside = true;
+    if(itemInList == item){
+      return true;
+      }
     }
-  }
-  return isInside;
+  return false;
   }
 
   int getItemNumber(Item item){
@@ -110,6 +110,19 @@ class Order{
     for(Item item in _itemList){
       totalPrice += item.price;
     }
+  }
+
+  Tuple2<List<int>,List<Item>>  getItemListSummary(){
+    List<int> itemNumber = [];
+    List<Item> itemList = [];
+
+    for(Item item in _itemList){
+      if(!isInsideAList(item, itemList)){
+        itemList.add(item);
+        itemNumber.add(getItemNumber(item));
+      }
+    }
+    return Tuple2(itemNumber, itemList);
   }
   
 
