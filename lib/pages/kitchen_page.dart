@@ -99,52 +99,55 @@ class _OrderWidgetState extends State<OrderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: InkWell(
-        onTap: () async {
-          var response = await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => KitchenSummary(order),
-            ),
-          );
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Text(
-                    order.customer,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
+    return Visibility(
+      visible:order.containDrink || order.containFood,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: InkWell(
+          onTap: () async {
+            var response = await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => KitchenSummary(order),
+              ),
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text(
+                      order.customer,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
+                  )
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Visibility(
+                        visible: widget.order.containDrink,
+                        child: const Icon(Icons.local_bar)),
                   ),
-                )
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Visibility(
-                      visible: widget.order.containDrink,
-                      child: const Icon(Icons.local_bar)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Visibility(
-                      visible: widget.order.containFood,
-                      child: const Icon(Icons.local_dining)),
-                ),
-              ],
-            ),
-          ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Visibility(
+                        visible: widget.order.containFood,
+                        child: const Icon(Icons.local_dining)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
