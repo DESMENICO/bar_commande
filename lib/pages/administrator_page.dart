@@ -1,4 +1,5 @@
 import 'package:bar_commande/pages/items_list_editor_page.dart';
+import 'package:bar_commande/pages/statistique_page.dart';
 import 'package:bar_commande/pages/users_list_editor_page.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +89,13 @@ class AdministratorPage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.height * 0.2,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StatistiquePage(),
+                        ),
+                      );
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

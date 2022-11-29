@@ -28,9 +28,8 @@ class Order{
     }
 
   Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice,this._date);
-  Order.television(this._customer,this._containDrink,this._containFood,this._date,this._finish,this._isOnScreen){
-    
-  }
+  Order.television(this._customer,this._containDrink,this._containFood,this._date,this._finish,this._isOnScreen);
+  Order.statistic(this._customer,this._totalPrice,this._sellerId,this._date);
 
     
   

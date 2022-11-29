@@ -125,10 +125,11 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
         
     if (!widget.order.containDrink && !widget.order.containFood) {
       widget.order.finish = true;
+      if(!widget.order.isOnScreen){
       await widget.dataBase.deleteCurrentOrder(widget.order);
+      }
     }
      await widget.dataBase.removeFinishedOrder(widget.order);
-    //widget.order.itemList = await widget.dataBase.getItemList(widget.order.id);
     if (!widget.order.containFood) {
       Navigator.pop(context);
     }
@@ -143,12 +144,9 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
       widget.order.containFood = false;
     });
     widget.order.removeFoodItem();    
-    //await widget.dataBase.addFinishedOrder(widget.order);
-    //await widget.dataBase.removeFinishedOrder(widget.order);
     widget.order.isOnScreen = true;
     if (!widget.order.containDrink && !widget.order.containFood) {
       widget.order.finish = true;
-      
     }
     await widget.dataBase.updateItemList(widget.order);
     await widget.dataBase.updateOrder(widget.order);
@@ -156,7 +154,6 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
       Navigator.pop(context);
     }
     deleteOrderFromScreenWithDelay();
-    
   }
 
   @override
