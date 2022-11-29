@@ -148,7 +148,7 @@ class OrderPreparingItemWidget extends StatelessWidget {
       children: [
         Text(
           "${order.customer} en cours de préparation...",
-          style: const TextStyle(fontSize: 25,backgroundColor: Color.fromARGB(255, 0, 97, 90))),
+          style: const TextStyle(fontSize: 25)),
       ],
     );
   }
