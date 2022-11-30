@@ -1,4 +1,5 @@
 import 'package:bar_commande/pages/money_statistic_page.dart';
+import 'package:bar_commande/pages/seller_statistic_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -6,8 +7,8 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../models/order.dart';
 
-class StatistiquePage extends StatelessWidget {
-  StatistiquePage({super.key});
+class StatisticPage extends StatelessWidget {
+  StatisticPage({super.key});
   List<Order> orderList = [];
 
   @override
@@ -44,7 +45,7 @@ class StatistiquePage extends StatelessWidget {
                 ),
                 body: TabBarView(children: [
                   MoneyStatistic(orderList),
-                  MoneyStatistic([]),
+                  SellerStatisticPage(orderList),
                   MoneyStatistic([]),
                 ],)
                 ));

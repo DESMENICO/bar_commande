@@ -92,7 +92,7 @@ class AdministratorPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => StatistiquePage(),
+                          builder: (context) => StatisticPage(),
                         ),
                       );
                     },
