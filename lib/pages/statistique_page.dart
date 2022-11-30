@@ -25,7 +25,7 @@ class StatisticPage extends StatelessWidget {
             for(int i = 0; i < snap.length;i++){
                   var customer = snap[i]['customer'];
                   var seller = snap[i]['sellerId'];
-                  double totalPrice = snap[i]['totalPrice'];
+                  double totalPrice = snap[i]['totalPrice'].toDouble();
                   Timestamp dateTime = snap[i]['date'];
                   DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
                   orderList.add(Order.statistic(customer,totalPrice,seller,date));
