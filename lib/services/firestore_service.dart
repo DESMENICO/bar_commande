@@ -2,6 +2,7 @@ import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/order.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class DataBase {
   DataBase();
@@ -14,7 +15,10 @@ class DataBase {
       FirebaseFirestore.instance.collection("Order");
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("User");
-  final CollectionReference orderFinishedCollection = FirebaseFirestore.instance.collection("FinishedOrder");
+  final CollectionReference orderFinishedCollection = 
+      FirebaseFirestore.instance.collection("FinishedOrder");    
+  final CollectionReference itemUsedCollection = 
+      FirebaseFirestore.instance.collection("ItemUsed");
   
   Future<void> addFinishedOrder(Order order)async{
     Map<String, dynamic> orderToSend = {
@@ -101,7 +105,26 @@ class DataBase {
       "isFood": item.isFood,
       "available": item.isAvailable
     };
+
+    DateTime dateNow = DateTime.now();
+     final DateFormat formatter = DateFormat('dd/MM/yyyy');
     collectionReference.doc(id).collection('Item').add(itemToAdd);
+    
+    Map<String,dynamic> itemUsedUpdate ={
+      item.name : getNumber(item.name, formatter.format(dateNow))
+    };
+    itemUsedCollection.doc(formatter.format(dateNow)).set(itemUsedUpdate);
+    
+  }
+
+  Future<int> getNumber(String name,String date) async {
+    int number = 0;
+    itemUsedCollection.doc(date)
+    .get()
+    .then((value) {
+      Map map = value.data() as Map;
+      number = map[name];});
+    return number++;
   }
 
   Future<void> updateOrder(Order order) async {
@@ -166,6 +189,14 @@ class DataBase {
     var document = await itemCollection.add(itemToSend);
     Map<String, dynamic> itemId = {"id": document.id};
     itemCollection.doc(document.id).update(itemId);
+    /*DateTime dateNow = DateTime.now();
+     final DateFormat formatter = DateFormat('dd/MM/yyyy');
+    Map<String,dynamic> itemToSendToItemUsed = {
+      "id":document.id,
+      "name":item.name,
+      formatter.format(dateNow): 1,
+    };
+    itemUsedCollection.doc(document.id).set(itemToSendToItemUsed);*/
   }
 
   deleteItem(Item item) {
