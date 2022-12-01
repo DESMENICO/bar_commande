@@ -8,7 +8,6 @@ import '../models/order.dart';
 
 class ItemStatistic extends StatefulWidget {
   late List<Order> orderlist;
-  List<String> itemNameList = [];
   List<ItemData> ItemDataList = [];
   ItemStatistic(this.orderlist, {super.key});
 
@@ -17,10 +16,23 @@ class ItemStatistic extends StatefulWidget {
 }
 
 class _ItemStatisticState extends State<ItemStatistic> {
+  late TooltipBehavior _tooltipBehavior;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Container()),
+      body: Center(child: Container(child: SfCircularChart(
+        title: ChartTitle(text: "Articles les plus vendus",
+        textStyle: TextStyle(fontSize: 25)),
+        tooltipBehavior: _tooltipBehavior,
+        legend: Legend(isVisible: true,borderColor: Colors.black), 
+        series: <CircularSeries>[
+        PieSeries<ItemData,String>(
+          dataSource: widget.ItemDataList,
+          xValueMapper: (ItemData data, _) => data.name,
+          yValueMapper: (ItemData data, _) => data.number,
+          dataLabelSettings:DataLabelSettings(isVisible : true)
+        )
+      ]),)),
     );
   }
 
@@ -28,35 +40,29 @@ class _ItemStatisticState extends State<ItemStatistic> {
   @override
   void initState() {
     super.initState();
-    print("hello world");
+    _tooltipBehavior =  TooltipBehavior(enable: true);
     for(String itemName in getItemList()){
       double number = getNumber(itemName);
       widget.ItemDataList.add(ItemData(itemName, number));
-      
-      print("nom: ${itemName} nombre: ${number}");
     }
-
-
   }
 
   List<String> getItemList(){
     List<String> list = [];
     for(Order order in widget.orderlist){
-      for(Item item in order.itemList){
-        print(item.name);
-        if(list.contains(item.name)){
-          
+        for(String itemUsed in order.itemUsed){
+          list.add(itemUsed);
         }
-      }
     }
-    return list;
+    
+    return list.toSet().toList();;
   }
 
   double getNumber(String itemName){
     double number = 0;
      for(Order order in widget.orderlist){
-      for(Item item in order.itemList){
-        if(order.itemList.contains(itemName)){
+      for(String item in order.itemUsed){
+        if(item == itemName){
           number++;
         }
       }

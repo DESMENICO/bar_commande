@@ -48,7 +48,7 @@ class StatisticPage extends StatelessWidget {
                 body: TabBarView(children: [
                   MoneyStatistic(orderList),
                   SellerStatisticPage(orderList),
-                  ItemStatistic([]),
+                  ItemStatistic(orderList),
                 ],)
                 ));
       }
