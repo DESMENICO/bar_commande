@@ -132,7 +132,6 @@ class _MoneyChartState extends State<MoneyChart> {
     dateList.add(date);
     for(int i = 0;i<6;i++) {
       dateList.add(date.subtract(Duration(days: i)));
-      print(dateList[i].day);
       }
   }
   double getTotalOfTheDay(DateTime date) {
@@ -176,9 +175,7 @@ class _MoneyChartState extends State<MoneyChart> {
 class MoneyData{
   String date;
   double total;
-  MoneyData(this.date,this.total){
-    print(date + " +"+ total.toString());
-  }
+  MoneyData(this.date,this.total);
 }
 
 class MoneyStatisticWidget extends StatelessWidget {

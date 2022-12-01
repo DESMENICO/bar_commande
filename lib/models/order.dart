@@ -15,6 +15,7 @@ class Order{
   late DateTime _date;
   late double _totalPrice = 0;
   bool _isOnScreen = false;
+  List<String> _itemUsed = [];
 
 
   List<Item> _itemList = <Item>[];//liste littérale = liste dont la taille n'est pas renseigné (d'apres la documentation officiel de dart )
@@ -29,7 +30,7 @@ class Order{
 
   Order.kitchen(this._customer, this._containDrink, this._containFood, this._id, this._totalPrice,this._date);
   Order.television(this._customer,this._containDrink,this._containFood,this._date,this._finish,this._isOnScreen);
-  Order.statistic(this._customer,this._totalPrice,this._sellerId,this._date);
+  Order.statistic(this._customer,this._totalPrice,this._sellerId,this._date,this._itemUsed);
 
     
   
@@ -93,7 +94,7 @@ class Order{
     }
     return number;
   }
-
+  List<String> get itemUsed => _itemUsed;
   String get id => _id;
   String get sellerId => _sellerId;
   List<Item> get itemList => _itemList;
@@ -104,6 +105,7 @@ class Order{
   bool get finish => _finish;
   DateTime get date => _date;
   bool get isOnScreen => _isOnScreen;
+  set itemUsed(List<String> value)=> _itemUsed = value;
   set sellerId(String value)=> _sellerId = value;
   set itemList(List<Item> value) => _itemList = value;
   set customer(String value) => _customer = value;   

@@ -3,6 +3,7 @@ import 'package:bar_commande/models/order.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 
 class DataBase {
   DataBase();
@@ -62,6 +63,10 @@ class DataBase {
   }
 
   Future<void> addOrder(Order order) async {
+    List<String> itemlist = [];
+    for(Item item in order.itemList){
+      itemlist.add(item.name);
+    }
     Map<String, dynamic> orderToSend = {
       "id": order.id,
       "containFood": order.containFood,
@@ -69,13 +74,15 @@ class DataBase {
       "sellerId": order.sellerId,
       "totalPrice": order.totalPrice,
       "customer": order.customer,
+      "items":itemlist,
       "date": Timestamp.now(),
     };
     var document = await orderCollection.add(orderToSend);
+    print(document.id);
     Map<String, dynamic> orderId = {"id": document.id};
     orderCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
-      await updateItemUsed(item);
+      //await updateItemUsed(item);
       await addItemInOrder(item, document.id, orderCollection);
     }
   }
@@ -108,11 +115,53 @@ class DataBase {
       "available": item.isAvailable
     };
     collectionReference.doc(id).collection('Item').add(itemToAdd);
+  }
+  
+  Future<int> getNumberOfItemUsed(Item item,String docId) async{
+    DocumentSnapshot<Object?> doc = await itemUsedCollection.doc(docId).get();
+    Map<String,dynamic> map = doc[item.id];
+    if(map.containsKey(item.id)){
+      return 0;
+    }else{
+      return 1;
     }
+  }
 
-  Future<void> updateItemUsed(Item item) async {
+
+
+    /*Future<void> updateItemUsed(Item item) async{
     DateTime dateNow = DateTime.now();
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    int number =await getNumberOfItemUsed(item, formatter.format(dateNow));
+    /*var test = await itemUsedCollection.doc(formatter.format(dateNow)).get();
+    if(!test.exists){
+      itemUsedCollection.doc(formatter.format(dateNow)).set({});
+    }*/
+    /*await itemUsedCollection.doc(formatter.format(dateNow)).get().then((value) {
+      Map map = value.data() as Map;
+      if(map.containsKey(item.name)){
+        number = map[item.name];
+      }  
+    });*/
+
+      number++;
+      Map<String,dynamic> addItemUsed = {
+        item.id: {"name" : item.name, "number" : number},
+      };
+      /*
+      var doc = await itemUsedCollection.doc(formatter.format(dateNow)).get();
+      if(!doc.exists){
+        itemUsedCollection.doc(formatter.format(dateNow)).set(addItemUsed);
+      }else{
+        itemUsedCollection.doc(formatter.format(dateNow)).update(addItemUsed);
+      }*/
+      itemUsedCollection.doc(formatter.format(dateNow)).set(addItemUsed,SetOptions(merge: true));
+      
+    }
+
+
+  /*Future<void> updateItemUsed(Item item) async {
+    
     int number = 0;
     await itemUsedCollection.doc(formatter.format(dateNow)).get().then((value) {
       Map map = value.data() as Map;
@@ -157,7 +206,7 @@ class DataBase {
     int number = 5;
     
     
-  }*/
+  }*/*/*/
 
   Future<void> updateOrder(Order order) async {
     Map<String, dynamic> orderUpdate = {

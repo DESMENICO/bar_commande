@@ -1,3 +1,4 @@
+import 'package:bar_commande/pages/item_statistic_page.dart';
 import 'package:bar_commande/pages/money_statistic_page.dart';
 import 'package:bar_commande/pages/seller_statistic_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,9 +27,10 @@ class StatisticPage extends StatelessWidget {
                   var customer = snap[i]['customer'];
                   var seller = snap[i]['sellerId'];
                   double totalPrice = snap[i]['totalPrice'].toDouble();
+                  List<dynamic> itemUsed = snap[i]['items']; 
                   Timestamp dateTime = snap[i]['date'];
                   DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
-                  orderList.add(Order.statistic(customer,totalPrice,seller,date));
+                  orderList.add(Order.statistic(customer,totalPrice,seller,date,itemUsed.cast<String>()));
             }
             orderList.sort((order1,order2) => order1.date.compareTo(order2.date));
 
@@ -46,7 +48,7 @@ class StatisticPage extends StatelessWidget {
                 body: TabBarView(children: [
                   MoneyStatistic(orderList),
                   SellerStatisticPage(orderList),
-                  MoneyStatistic([]),
+                  ItemStatistic([]),
                 ],)
                 ));
       }
