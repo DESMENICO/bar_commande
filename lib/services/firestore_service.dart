@@ -15,12 +15,12 @@ class DataBase {
       FirebaseFirestore.instance.collection("Order");
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("User");
-  final CollectionReference orderFinishedCollection = 
-      FirebaseFirestore.instance.collection("FinishedOrder");    
-  final CollectionReference itemUsedCollection = 
+  final CollectionReference orderFinishedCollection =
+      FirebaseFirestore.instance.collection("FinishedOrder");
+  final CollectionReference itemUsedCollection =
       FirebaseFirestore.instance.collection("ItemUsed");
-  
-  Future<void> addFinishedOrder(Order order)async{
+
+  Future<void> addFinishedOrder(Order order) async {
     Map<String, dynamic> orderToSend = {
       "id": order.id,
       "containFood": order.containFood,
@@ -34,7 +34,8 @@ class DataBase {
     Map<String, dynamic> orderId = {"id": document.id};
     orderFinishedCollection.doc(document.id).update(orderId);
   }
-  Future<void> removeFinishedOrder(Order order) async{
+
+  Future<void> removeFinishedOrder(Order order) async {
     orderFinishedCollection.doc(order.id).delete();
     print("je passe par la");
   }
@@ -45,7 +46,7 @@ class DataBase {
       "containFood": order.containFood,
       "containDrink": order.containDrink,
       "finish": false,
-      "isOnScreen":false,
+      "isOnScreen": false,
       "sellerId": order.sellerId,
       "totalPrice": order.totalPrice,
       "customer": order.customer,
@@ -55,6 +56,7 @@ class DataBase {
     Map<String, dynamic> orderId = {"id": document.id};
     orderCurrentCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
+      
       await addItemInOrder(item, document.id, orderCurrentCollection);
     }
   }
@@ -73,6 +75,7 @@ class DataBase {
     Map<String, dynamic> orderId = {"id": document.id};
     orderCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
+      await updateItemUsed(item);
       await addItemInOrder(item, document.id, orderCollection);
     }
   }
@@ -97,42 +100,71 @@ class DataBase {
     orderCurrentCollection.doc(order.id).delete();
   }
 
-  Future<void> addItemInOrder(
-      Item item, String id, CollectionReference collectionReference) async {
+  Future<void> addItemInOrder(Item item, String id, CollectionReference collectionReference) async {
     Map<String, dynamic> itemToAdd = {
       "name": item.name,
       "price": item.price,
       "isFood": item.isFood,
       "available": item.isAvailable
     };
-
-    DateTime dateNow = DateTime.now();
-     final DateFormat formatter = DateFormat('dd/MM/yyyy');
     collectionReference.doc(id).collection('Item').add(itemToAdd);
-    
-    Map<String,dynamic> itemUsedUpdate ={
-      item.name : getNumber(item.name, formatter.format(dateNow))
+    }
+
+  Future<void> updateItemUsed(Item item) async {
+    DateTime dateNow = DateTime.now();
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    int number = 0;
+    await itemUsedCollection.doc(formatter.format(dateNow)).get().then((value) {
+      Map map = value.data() as Map;
+      if(map.containsKey(item.name)){
+        number = map[item.name];
+      }  
+    });
+    number++;
+    Map<String, dynamic> itemUsedUpdate = {
+      item.name : number
     };
-    itemUsedCollection.doc(formatter.format(dateNow)).set(itemUsedUpdate);
     
+    itemUsedCollection.doc(formatter.format(dateNow)).set({
+      item.name : number
+    },SetOptions(merge: true));
+
+    var doc = await itemUsedCollection.doc(formatter.format(dateNow)).get();
+    if(!doc.exists){
+      itemUsedCollection.doc(formatter.format(dateNow)).set(itemUsedUpdate);
+    }else{
+      itemUsedCollection.doc(formatter.format(dateNow)).update(itemUsedUpdate);
+      }
   }
 
-  Future<int> getNumber(String name,String date) async {
-    int number = 0;
-    itemUsedCollection.doc(date)
-    .get()
-    .then((value) {
-      Map map = value.data() as Map;
-      number = map[name];});
-    return number++;
+  Future<List<Item>> getAllItem() async {
+    List<Item> itemList = [];
+        QuerySnapshot feed =
+      await itemCollection.get();
+        for (var itemdoc in feed.docs) {
+    var name = itemdoc['name'];
+    var price = itemdoc['price'];
+    var isFood = itemdoc['isFood'];
+    var isAvailable = itemdoc['available'];
+    Item item = Item(name, price.toDouble(), isFood, isAvailable);
+    itemList.add(item);
+        }
+        return itemList;
   }
+    
+
+  /*Future<int> getNumber(String name, String date) async {
+    int number = 5;
+    
+    
+  }*/
 
   Future<void> updateOrder(Order order) async {
     Map<String, dynamic> orderUpdate = {
       "containFood": order.containFood,
       "containDrink": order.containDrink,
-      "finish":order.finish,
-      "isOnScreen":order.isOnScreen
+      "finish": order.finish,
+      "isOnScreen": order.isOnScreen
     };
     orderCurrentCollection.doc(order.id).update(orderUpdate);
   }
@@ -203,29 +235,27 @@ class DataBase {
     itemCollection.doc(item.id).delete();
   }
 
-  updateUserCollection(User user) async{
+  updateUserCollection(User user) async {
     var doc = await userCollection.doc(user.id).get();
     if (!doc.exists) {
       addUser(user);
-    }else {
+    } else {
       Map<String, dynamic> userUpdate = {
-      "name": user.name,
-      "email": user.email,
-      "isAdmin": user.isAdmin,
+        "name": user.name,
+        "email": user.email,
+        "isAdmin": user.isAdmin,
       };
       userCollection.doc(user.id).update(userUpdate);
     }
   }
 
-  
-  
-  void addUser(User user)async {
+  void addUser(User user) async {
     Map<String, dynamic> userToSend = {
       "id": user.id,
       "name": user.name,
       "email": user.email,
       "isAdmin": user.isAdmin,
-      "password":user.password
+      "password": user.password
     };
     await userCollection.doc(user.id).set(userToSend);
   }
