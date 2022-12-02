@@ -37,7 +37,7 @@ class _ItemListEditorState extends State<ItemListEditor> {
 }
 
 class ItemListEditorWidget extends StatelessWidget {
-  ItemListEditorWidget({super.key});
+  const ItemListEditorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
