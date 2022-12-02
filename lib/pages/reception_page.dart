@@ -30,7 +30,7 @@ class Reception extends StatelessWidget {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).push(
@@ -66,7 +66,7 @@ class Reception extends StatelessWidget {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
                     onPressed: () async {
                       var response = await Navigator.of(context).push(
@@ -107,7 +107,7 @@ class Reception extends StatelessWidget {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -145,7 +145,7 @@ class Reception extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(

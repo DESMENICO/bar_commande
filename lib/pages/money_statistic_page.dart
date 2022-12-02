@@ -26,6 +26,9 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime(2100));
+        if(newDate!=null){
+      widget.selectedDate = newDate;
+    }
 
     setState(() {
       if (widget.selectedDate != null) {
@@ -33,9 +36,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
       }
     });
 
-    if(newDate!=null){
-      widget.selectedDate = newDate;
-    }
+    
   }
 
   @override
@@ -85,7 +86,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Le montant de total de la journée ${getTotalOfTheDay(widget.selectedDate!).toString()}€",
+                "Le montant de total de la journée ${new NumberFormat("0.##").format(getTotalOfTheDay(widget.selectedDate!))}€",
                 style: const TextStyle(fontSize: 18),
                 
               )
@@ -194,7 +195,7 @@ class MoneyStatisticWidget extends StatelessWidget {
           Expanded(
               child: Row(children: [
             const Icon(Icons.euro_symbol),
-            Text(order.totalPrice.toString())
+            Text(new NumberFormat("0.##").format(order.totalPrice))
           ])),
         ]),
         Row(children: [
