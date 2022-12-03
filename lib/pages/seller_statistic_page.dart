@@ -1,11 +1,10 @@
-
-
 import 'package:bar_commande/models/order_list.dart';
 import 'package:bar_commande/pages/money_statistic_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/order.dart';
 
@@ -22,7 +21,6 @@ class SellerStatisticPage extends StatefulWidget {
 class _SellerStatisticPageState extends State<SellerStatisticPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setOrderPerSeller();
   }
@@ -45,15 +43,18 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
     return Scaffold(
         body: Column(
       children: [
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: widget.sellersList.length,
-          itemBuilder: (context, index) {
-            return SellerStatisticWidget(
-                widget.ordersPerSeller[widget.sellersList[index]].toString(),
-                widget.sellersList[index]);
-          },
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.sellersList.length,
+            itemBuilder: (context, index) {
+              return SellerStatisticWidget(
+                  widget.ordersPerSeller[widget.sellersList[index]].toString(),
+                  widget.sellersList[index]);
+            },
+          ),
         ),
+        SellerChart(widget.sellersList, widget.ordersPerSeller)
       ],
     ));
   }
@@ -68,17 +69,60 @@ class SellerStatisticWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-     onTap: () {},
+      onTap: () {},
       child: Card(
         child: Row(
           children: [
             Expanded(
                 child: Row(children: [const Icon(Icons.person), Text(seller)])),
             Expanded(
-                child: Row(children: [const Icon(Icons.numbers), Text(ordersPerSeller)])),
+                child: Row(children: [
+              const Icon(Icons.numbers),
+              Text(ordersPerSeller)
+            ])),
           ],
         ),
       ),
     );
   }
+}
+
+class SellerChart extends StatefulWidget {
+  Map<String, int> ordersPerSeller;
+  List<String> sellersList;
+  SellerChart(this.sellersList, this.ordersPerSeller, {super.key});
+
+  @override
+  State<SellerChart> createState() => _SellerChartState();
+}
+
+class _SellerChartState extends State<SellerChart> {
+
+  @override
+  Widget build(BuildContext context) {
+    return SfCartesianChart(
+        primaryXAxis: CategoryAxis(),
+        series: <ChartSeries<ChartData, String>>[
+          // Renders column chart
+          ColumnSeries<ChartData, String>(
+              dataSource: ListChartData(widget.ordersPerSeller, widget.sellersList),
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y)
+        ]);
+  }
+}
+
+List<ChartData> ListChartData(
+    Map<String, int> ordersPerSeller, List<String> sellersList) {
+    List<ChartData> chartData =[];// <ChartData>[
+      for(int i =0; i<ordersPerSeller.length; i++){
+        chartData.add(ChartData(sellersList[i], ordersPerSeller[sellersList[i]]!));
+      }
+  return chartData;
+}
+
+class ChartData {
+  ChartData(this.x, this.y);
+  final String x;
+  final int y;
 }
