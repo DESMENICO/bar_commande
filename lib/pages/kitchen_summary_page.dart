@@ -50,7 +50,7 @@ class SummaryItem extends StatelessWidget {
             var price = itemList[i]['price'];
             var isFood = itemList[i]['isFood'];
             var available = itemList[i]['available'];
-            order.addItem(Item(name, price, isFood, available));
+            order.addItem(Item(name, price.toDouble(), isFood, available));
           }
           Tuple2 itemSummary = order.getItemListSummary();
           return Padding(

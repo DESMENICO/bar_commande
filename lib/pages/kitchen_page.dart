@@ -60,12 +60,12 @@ class _OrderListWidgetState extends State<OrderListWidget> {
               var drinkFinish = snap[i]['containDrink'];
               var foodFinish = snap[i]['containFood'];
               var id = snap[i]['id'];
-              double totalPrice = snap[i]['totalPrice'];
+              var totalPrice = snap[i]['totalPrice'];
               Timestamp dateTime = snap[i]['date'];
               DateTime date =
                   DateTime.fromMillisecondsSinceEpoch(dateTime.seconds * 1000);
               orderList.add(Order.kitchen(
-                  customer, drinkFinish, foodFinish, id, totalPrice, date));
+                  customer, drinkFinish, foodFinish, id, totalPrice.toDouble(), date));
             }
             orderList
                 .sort((order1, order2) => order1.date.compareTo(order2.date));
@@ -103,50 +103,52 @@ class _OrderWidgetState extends State<OrderWidget> {
       visible: order.containDrink || order.containFood,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: InkWell(
-          onTap: () async {
-            var response = await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => KitchenSummary(order),
-              ),
-            );
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: Text(
-                      order.customer,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
+        child: Card(
+          child: InkWell(
+            onTap: () async {
+              var response = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => KitchenSummary(order),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: Text(
+                        order.customer,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
+                    )
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Visibility(
+                          visible: widget.order.containDrink,
+                          child: const Icon(Icons.local_bar)),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Visibility(
-                        visible: widget.order.containDrink,
-                        child: const Icon(Icons.local_bar)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Visibility(
-                        visible: widget.order.containFood,
-                        child: const Icon(Icons.local_dining)),
-                  ),
-                ],
-              ),
-            ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Visibility(
+                          visible: widget.order.containFood,
+                          child: const Icon(Icons.local_dining)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
