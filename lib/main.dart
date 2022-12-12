@@ -3,6 +3,7 @@ import 'package:bar_commande/bloc/order_bloc.dart';
 import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_page.dart';
+import 'package:bar_commande/pages/television_page.dart';
 import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -169,6 +170,18 @@ class LoginFormState extends State<LoginForm> {
                   ));
                 },
               child: const Text('Connexion admin'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: ElevatedButton(
+              onPressed: ()  {
+                  Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TelevisionPage())
+                  );
+                },
+              child: const Text('Connexion Television'),
             ),
           ),
         ],

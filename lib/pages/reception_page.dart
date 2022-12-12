@@ -100,42 +100,6 @@ class Reception extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TelevisionPage(),
-                        ));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.tv,
-                            size: MediaQuery.of(context).size.width * 0.05),
-                        Text(
-                          "AFFICHAGE",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.05),
-                        ),
-                        Icon(Icons.tv,
-                            size: MediaQuery.of(context).size.width * 0.05),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
           Visibility(
             visible: user.isAdmin,
             child: Padding(

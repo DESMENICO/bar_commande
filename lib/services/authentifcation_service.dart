@@ -25,6 +25,13 @@ class AuthentificationService{
     userToDelete!.delete();
   }
 
+  Future<Models.User> updateUser(Models.User user) async{
+    removeUser(user);
+    return createUser(user.email, user.password);
+  }
+
+
+
   Future<Models.User> createUser(String mail, String password) async {
   UserCredential firebaseResult = await _auth.createUserWithEmailAndPassword(email: mail, password: password);
    User? user = firebaseResult.user;

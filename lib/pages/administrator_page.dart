@@ -1,6 +1,7 @@
 import 'package:bar_commande/pages/items_list_editor_page.dart';
 import 'package:bar_commande/pages/statistique_page.dart';
 import 'package:bar_commande/pages/users_list_editor_page.dart';
+import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 
@@ -121,12 +122,15 @@ class AdministratorPage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      DataBase dataBase = DataBase();
+                      await dataBase.deleteCurrentOrderCollection(); 
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "DEBUT DE JOURNEE",
+                          "RESET AFFICHAGE",
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.05),

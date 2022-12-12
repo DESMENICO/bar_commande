@@ -50,8 +50,13 @@ class Order{
   }
 
   void removeItem(Item item){
-    _itemList.remove(item);
-    updateTotal();
+    for(Item itemInList in _itemList){
+      if(itemInList.name == item.name){
+        _itemList.remove(itemInList);
+        updateTotal();
+        return;
+      }
+    }
   }
 
   void removeFoodItem(){

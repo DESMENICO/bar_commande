@@ -173,8 +173,8 @@ class _itemWidgetState extends State<ItemWidget> {
   }
 
   void _decrementItemNumber() {
-    setState(() {
       widget.order.removeItem(item);
+    setState(() {
       context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
     });
   }

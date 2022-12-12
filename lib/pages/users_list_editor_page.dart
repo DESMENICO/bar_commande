@@ -26,7 +26,7 @@ class _UsersListEditorState extends State<UsersListEditor> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => UserEditor(User("Nouvel utilisateur")),
+              builder: (context) => UserEditor(User("Nouvel utilisateur"),true),
             ),
           );
         },
@@ -88,7 +88,7 @@ class _USerEditorWidgetState extends State<USerEditorWidget> {
            Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              UserEditor(widget.user),
+                              UserEditor(widget.user,false),
                         ),
                       );
         },

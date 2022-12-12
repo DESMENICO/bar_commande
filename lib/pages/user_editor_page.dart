@@ -7,8 +7,8 @@ import '../services/firestore_service.dart';
 
 class UserEditor extends StatefulWidget {
   User user;
-
-  UserEditor(this.user, {super.key});
+  bool isNew;
+  UserEditor(this.user,this.isNew, {super.key});
 
   @override
   UserEditorState createState() {
@@ -122,18 +122,20 @@ class UserEditorState extends State<UserEditor> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     
-                    AuthentificationService auth = AuthentificationService();
-                   User temp = await auth.createUser(widget.user.email, _password);
-                    print(temp.id);
+                  AuthentificationService auth = AuthentificationService();
+                  DataBase database = DataBase();
+                  if(!widget.isNew){
+                    auth.removeUser(widget.user);
+                    database.deleteUser(widget.user);
+                  }
+                    User temp = await auth.createUser(widget.user.email, _password);
                     temp.email = widget.user.email;
                     temp.name = widget.user.name;
                     temp.isAdmin = widget.user.isAdmin;
                     temp.password = _password;
-                    DataBase database = DataBase();
-                    await database.updateUserCollection(temp);
+                    database.addUser(temp);
                     Navigator.pop(context);
-                  }
-                },
+                }},
                 child: const Text("Sauvegarder"),
               ),
             ],

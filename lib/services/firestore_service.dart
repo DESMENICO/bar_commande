@@ -3,6 +3,7 @@ import 'package:bar_commande/models/order.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:tuple/tuple.dart';
 
 class DataBase {
@@ -100,6 +101,12 @@ class DataBase {
 
     for (Item item in order.itemList) {
       addItemInOrder(item, order.id, orderCurrentCollection);
+    }
+  }
+  Future<void> deleteCurrentOrderCollection() async{
+    var snapshots = await orderCurrentCollection.get();
+    for(var doc in snapshots.docs){
+      await doc.reference.delete();
     }
   }
 

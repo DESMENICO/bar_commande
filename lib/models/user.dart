@@ -8,7 +8,6 @@ class User{
   String _email = "";
   String _password= "";
   bool _isAdmin = false;
-  bool _isTelevision = false;
 
   User(this._name,)
   {
