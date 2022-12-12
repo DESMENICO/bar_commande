@@ -47,39 +47,39 @@ class _OrderListWidgetState extends State<OrderListWidget> {
     return StreamBuilder<QuerySnapshot>(
         stream:
             FirebaseFirestore.instance.collection('CurrentOrder').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
-          
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: const CircularProgressIndicator(),
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           } else {
-
             var snap = snapshot.data!.docs;
             orderList = [];
-            for(int i = 0; i < snap.length;i++){
-                  var customer = snap[i]['customer'];
-                  var drinkFinish = snap[i]['containDrink'];
-                  var foodFinish = snap[i]['containFood'];
-                  var id = snap[i]['id'];
-                  double totalPrice = snap[i]['totalPrice'];
-                  Timestamp dateTime = snap[i]['date'];
-                  DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
-                  orderList.add(Order.kitchen(customer,drinkFinish,foodFinish,id,totalPrice,date));
+            for (int i = 0; i < snap.length; i++) {
+              var customer = snap[i]['customer'];
+              var drinkFinish = snap[i]['containDrink'];
+              var foodFinish = snap[i]['containFood'];
+              var id = snap[i]['id'];
+              double totalPrice = snap[i]['totalPrice'];
+              Timestamp dateTime = snap[i]['date'];
+              DateTime date =
+                  DateTime.fromMillisecondsSinceEpoch(dateTime.seconds * 1000);
+              orderList.add(Order.kitchen(
+                  customer, drinkFinish, foodFinish, id, totalPrice, date));
             }
-            orderList.sort((order1,order2) => order1.date.compareTo(order2.date));
+            orderList
+                .sort((order1, order2) => order1.date.compareTo(order2.date));
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: orderList.length,
                 itemBuilder: (context, int index) {
-                  if(!orderList[index].isOnScreen){
-                  return OrderWidget(orderList[index], key: ValueKey(orderList[index]));
-                  }else{
-                    
+                  if (!orderList[index].isOnScreen) {
+                    return OrderWidget(orderList[index],
+                        key: ValueKey(orderList[index]));
+                  } else {
                     return Container();
                   }
-                
-                  });
+                });
           }
         });
   }
@@ -100,7 +100,7 @@ class _OrderWidgetState extends State<OrderWidget> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible:order.containDrink || order.containFood,
+      visible: order.containDrink || order.containFood,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: InkWell(
