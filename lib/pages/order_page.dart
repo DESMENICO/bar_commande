@@ -1,25 +1,21 @@
-import 'dart:math';
-import 'package:bar_commande/bloc/item_events.dart';
 import 'package:bar_commande/bloc/order_events.dart';
 import 'package:bar_commande/bloc/order_states.dart';
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/item_bloc.dart';
-import '../bloc/item_states.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
-import "../models/order.dart" as Models;
+import "../models/order.dart" as models;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/user.dart';
-import '../services/firestore_service.dart';
 
 class OrderPage extends StatefulWidget {
   ItemBloc itemBloc;
   OrderBloc orderBloc;
   User user;
-  late Models.Order order;
+  late models.Order order;
   OrderPage(this.itemBloc, this.orderBloc,this.user, {super.key});
 
   @override
@@ -30,7 +26,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     super.initState();
-    widget.order = Models.Order("Nouveau Client");
+    widget.order = models.Order("Nouveau Client");
     widget.order.sellerId = widget.user.name;
     context.read<OrderBloc>().add(AddOrderEvent(widget.order));
   }
@@ -45,7 +41,7 @@ class _OrderPageState extends State<OrderPage> {
         title: const Text("Commande"),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon:  Icon(Icons.arrow_back, color: Colors.white),
+          icon:  const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
             Navigator.of(context).pop();
@@ -53,9 +49,9 @@ class _OrderPageState extends State<OrderPage> {
         ),
       ),
       body: Column(children: [
-        clientNameForms(widget.order),
-        Expanded(child: itemListWidget(widget.orderBloc, widget.order)),
-        orderBottomBar(widget.order,widget.user)
+        ClientNameForms(widget.order),
+        Expanded(child: ItemListWidget(widget.orderBloc, widget.order)),
+        OrderBottomBar(widget.order,widget.user)
       ]),
     );
       }) ,
@@ -63,15 +59,15 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-class clientNameForms extends StatefulWidget {
-  late Models.Order order;
-  clientNameForms(this.order, {super.key});
+class ClientNameForms extends StatefulWidget {
+  late models.Order order;
+  ClientNameForms(this.order, {super.key});
 
   @override
-  State<clientNameForms> createState() => _client_name_forms_state();
+  State<ClientNameForms> createState() => _ClientNameFormsState();
 }
 
-class _client_name_forms_state extends State<clientNameForms> {
+class _ClientNameFormsState extends State<ClientNameForms> {
 
   final _controller = TextEditingController();
 
@@ -100,10 +96,8 @@ class _client_name_forms_state extends State<clientNameForms> {
           return null;
         },
         onChanged: (value) {
-          if (value != null) {
-            widget.order.customer = value;
-            context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
-          }
+          widget.order.customer = value;
+          context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
         },
       ),
       ),
@@ -114,15 +108,15 @@ class _client_name_forms_state extends State<clientNameForms> {
   }
 }
 
-class itemListWidget extends StatefulWidget {
+class ItemListWidget extends StatefulWidget {
   OrderBloc orderBloc;
-  Models.Order order;
-  itemListWidget(this.orderBloc, this.order);
+  models.Order order;
+  ItemListWidget(this.orderBloc, this.order, {super.key});
   @override
-  State<itemListWidget> createState() => _itemListWidgetState();
+  State<ItemListWidget> createState() => _ItemListWidgetState();
 }
 
-class _itemListWidgetState extends State<itemListWidget> {
+class _ItemListWidgetState extends State<ItemListWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -153,17 +147,17 @@ class _itemListWidgetState extends State<itemListWidget> {
 
 class ItemWidget extends StatefulWidget {
   Item item;
-  Models.Order order;
+  models.Order order;
 
   ItemWidget(this.item, this.order, {super.key});
 
   @override
-  State<ItemWidget> createState() => _itemWidgetState(item);
+  State<ItemWidget> createState() => _ItemWidgetState(item);
 }
 
-class _itemWidgetState extends State<ItemWidget> {
+class _ItemWidgetState extends State<ItemWidget> {
   Item item;
-  _itemWidgetState(this.item);
+  _ItemWidgetState(this.item);
 
   void _incrementItemNumber() {
     setState(() {
@@ -256,15 +250,15 @@ class _itemWidgetState extends State<ItemWidget> {
   }
 }
 
-class orderBottomBar extends StatefulWidget {
-  Models.Order order;
+class OrderBottomBar extends StatefulWidget {
+  models.Order order;
   User user;
-  orderBottomBar(this.order,this.user, {super.key});
+  OrderBottomBar(this.order,this.user, {super.key});
   @override
-  State<orderBottomBar> createState() => _orderBottomBar();
+  State<OrderBottomBar> createState() => _OrderBottomBar();
 }
 
-class _orderBottomBar extends State<orderBottomBar> {
+class _OrderBottomBar extends State<OrderBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -274,12 +268,12 @@ class _orderBottomBar extends State<orderBottomBar> {
         children: [
           ElevatedButton(
             onPressed: () async {
-              var response = await Navigator.of(context).push(
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => OrderSummary(widget.order),
                 ),
               );
-              widget.order = Models.Order("Nouveau Client");
+              widget.order = models.Order("Nouveau Client");
               widget.order.sellerId = widget.user.name;
               context.read<OrderBloc>().add(AddOrderEvent(widget.order));
             },

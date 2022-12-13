@@ -1,6 +1,5 @@
 import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/user.dart';
 import '../services/firestore_service.dart';

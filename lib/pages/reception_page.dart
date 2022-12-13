@@ -1,12 +1,11 @@
 import 'package:bar_commande/pages/administrator_page.dart';
 import 'package:bar_commande/pages/order_page.dart';
-import 'package:bar_commande/pages/kitchen_page.dart';
-import 'package:bar_commande/pages/television_page.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/user.dart';
+import 'kitchen_page.dart';
 
 class Reception extends StatelessWidget {
   ItemBloc itemBloc;
@@ -69,7 +68,7 @@ class Reception extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.15,
                   child: ElevatedButton(
                     onPressed: () async {
-                      var response = await Navigator.of(context).push(
+                      await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
                               KitchenPage(itemBloc, orderBloc),

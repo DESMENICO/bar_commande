@@ -33,16 +33,22 @@ await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   ItemBloc itemBloc;
   OrderBloc orderBloc;
   MyApp(this.itemBloc, this.orderBloc, {super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<OrderBloc>.value(value: orderBloc),
-        BlocProvider<ItemBloc>.value(value: itemBloc),
+        BlocProvider<OrderBloc>.value(value: widget.orderBloc),
+        BlocProvider<ItemBloc>.value(value: widget.itemBloc),
 
       ],
       child: MaterialApp(
@@ -58,7 +64,7 @@ class MyApp extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [LoginForm(itemBloc,orderBloc)]),
+                  children: [LoginForm(widget.itemBloc,widget.orderBloc)]),
             ))));
   }
 }
@@ -154,7 +160,6 @@ class LoginFormState extends State<LoginForm> {
                     builder: (context) => Reception(widget.itemBloc,widget.orderBloc,user),
                   ));
                 }
-                ;
               },
               child: const Text('Connexion'),
             ),

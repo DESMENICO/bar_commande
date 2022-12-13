@@ -1,9 +1,4 @@
-import 'package:bar_commande/models/order_list.dart';
-import 'package:bar_commande/pages/money_statistic_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/order.dart';
@@ -96,6 +91,14 @@ class SellerChart extends StatefulWidget {
   State<SellerChart> createState() => _SellerChartState();
 }
 
+List<ChartData> ListChartData(Map<String, int> ordersPerSeller, List<String> sellersList) {
+    List<ChartData> chartData =[];// <ChartData>[
+      for(int i =0; i<ordersPerSeller.length; i++){
+        chartData.add(ChartData(sellersList[i], ordersPerSeller[sellersList[i]]!));
+      }
+  return chartData;
+}
+
 class _SellerChartState extends State<SellerChart> {
 
   @override
@@ -112,14 +115,7 @@ class _SellerChartState extends State<SellerChart> {
   }
 }
 
-List<ChartData> ListChartData(
-    Map<String, int> ordersPerSeller, List<String> sellersList) {
-    List<ChartData> chartData =[];// <ChartData>[
-      for(int i =0; i<ordersPerSeller.length; i++){
-        chartData.add(ChartData(sellersList[i], ordersPerSeller[sellersList[i]]!));
-      }
-  return chartData;
-}
+
 
 class ChartData {
   ChartData(this.x, this.y);

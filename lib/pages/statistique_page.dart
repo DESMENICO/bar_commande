@@ -3,8 +3,6 @@ import 'package:bar_commande/pages/money_statistic_page.dart';
 import 'package:bar_commande/pages/seller_statistic_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../models/order.dart';
 

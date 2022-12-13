@@ -21,7 +21,7 @@ class _UsersListEditorState extends State<UsersListEditor> {
       appBar: AppBar(
         title: const Text("Editeur d'utilisateurs"),
       ),
-      body: UsersListEditorWidget(),
+      body: const UsersListEditorWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -39,7 +39,7 @@ class _UsersListEditorState extends State<UsersListEditor> {
 
 class UsersListEditorWidget extends StatelessWidget {
 
-  UsersListEditorWidget({super.key});
+  const UsersListEditorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

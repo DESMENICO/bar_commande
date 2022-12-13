@@ -2,9 +2,6 @@ import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/order.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:tuple/tuple.dart';
 
 class DataBase {
   DataBase();
@@ -39,7 +36,6 @@ class DataBase {
 
   Future<void> removeFinishedOrder(Order order) async {
     orderFinishedCollection.doc(order.id).delete();
-    print("je passe par la");
   }
 
   Future<void> addCurrentOrder(Order order) async {
@@ -79,7 +75,6 @@ class DataBase {
       "date": Timestamp.now(),
     };
     var document = await orderCollection.add(orderToSend);
-    print(document.id);
     Map<String, dynamic> orderId = {"id": document.id};
     orderCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {

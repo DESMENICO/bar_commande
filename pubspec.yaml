@@ -44,6 +44,7 @@ dependencies:
   firebase_auth: ^4.1.4
   tuple: ^2.0.1
   syncfusion_flutter_charts: ^20.3.59
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:

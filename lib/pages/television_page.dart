@@ -1,18 +1,19 @@
-import 'dart:async';
 
 import 'package:bar_commande/models/order.dart';
-import 'package:bar_commande/pages/order_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 
 class TelevisionPage extends StatelessWidget {
+  const TelevisionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row(children: <Widget>[
-      Expanded(child: const Card(child: ItemListMenuWidget())),
+        body: Row(children: const <Widget>[
+      Expanded(child: Card(child: ItemListMenuWidget())),
       Expanded(child: OrderReadyWidget()),
     ]));
   }
@@ -20,7 +21,7 @@ class TelevisionPage extends StatelessWidget {
 
 class OrderFinishedWidget extends StatefulWidget {
   List<Order> orderList;
-  OrderFinishedWidget(this.orderList);
+  OrderFinishedWidget(this.orderList, {super.key});
 
   @override
   State<OrderFinishedWidget> createState() => _OrderFinishedWidgetState();
@@ -68,6 +69,8 @@ class _OrderFinishedItemWidgetState extends State<OrderFinishedItemWidget> {
 }
 
 class OrderReadyWidget extends StatelessWidget {
+  const OrderReadyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -186,10 +189,10 @@ class ItemListMenuWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        color: Color.fromARGB(255, 0, 151, 144),
+                        color: const Color.fromARGB(255, 0, 151, 144),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text('Boisson : ',
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold)),
@@ -206,7 +209,7 @@ class ItemListMenuWidget extends StatelessWidget {
                   itemBuilder: (context, int index) {
                     if (!itemList[index].isFood &&
                         itemList[index].isAvailable) {
-                      return itemMenuWidget(itemList[index]);
+                      return ItemMenuWidget(itemList[index]);
                     }
                     return Container();
                   }),
@@ -216,10 +219,10 @@ class ItemListMenuWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        color: Color.fromARGB(255, 0, 151, 144),
+                        color: const Color.fromARGB(255, 0, 151, 144),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text('Nourriture/Snack : ',
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold)),
@@ -235,7 +238,7 @@ class ItemListMenuWidget extends StatelessWidget {
                   itemCount: itemList.length,
                   itemBuilder: (context, int index) {
                     if (itemList[index].isFood && itemList[index].isAvailable) {
-                      return itemMenuWidget(itemList[index]);
+                      return ItemMenuWidget(itemList[index]);
                     }
                     return Container();
                   }),
@@ -247,9 +250,9 @@ class ItemListMenuWidget extends StatelessWidget {
   }
 }
 
-class itemMenuWidget extends StatelessWidget {
+class ItemMenuWidget extends StatelessWidget {
   final Item item;
-  const itemMenuWidget(this.item, {super.key});
+  const ItemMenuWidget(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,5 @@
 import 'package:bar_commande/services/firestore_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 import '../models/item.dart';
 import '../models/order.dart';
@@ -27,7 +24,7 @@ class OrderSummary extends StatelessWidget {
 class SummaryItem extends StatelessWidget {
   Order order;
   List<Item> itemUsed = [];
-  SummaryItem(this.order);
+  SummaryItem(this.order, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +76,7 @@ class ItemWidget extends StatelessWidget {
 class SummaryOrderBottombar extends StatefulWidget {
   Order order;
   bool isPaid = false;
-  SummaryOrderBottombar(this.order);
+  SummaryOrderBottombar(this.order, {super.key});
 
   @override
   State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
