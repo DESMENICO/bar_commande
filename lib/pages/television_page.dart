@@ -180,9 +180,26 @@ class ItemListMenuWidget extends StatelessWidget {
 
           return Column(
             children: [
-              const Text('Boisson : ',
-                  style: TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Color.fromARGB(255, 0, 151, 144),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Boisson : ',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: itemList.length,
@@ -193,9 +210,26 @@ class ItemListMenuWidget extends StatelessWidget {
                     }
                     return Container();
                   }),
-              const Text("Nourriture : ",
-                  style: TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Color.fromARGB(255, 0, 151, 144),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Nourriture/Snack : ',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: itemList.length,
