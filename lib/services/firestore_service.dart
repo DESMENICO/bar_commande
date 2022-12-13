@@ -316,8 +316,8 @@ class DataBase {
     await userCollection.doc(user.id).set(userToSend);
   }
 
-  deleteUser(User user) {
-    userCollection.doc(user.id).delete();
+  deleteUser(User user) async{
+   await userCollection.doc(user.id).delete();
   }
 
   /*Future<void> saveUser(String name, double price, bool isFood, bool isAvailable,String docName) async {

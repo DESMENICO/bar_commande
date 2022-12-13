@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'item.dart';
 import 'package:tuple/tuple.dart';
@@ -61,22 +59,10 @@ class Order{
 
   void removeFoodItem(){
     _itemList = _itemList.where((element) => !element.isFood).toList();
-    /*for(Item item in _itemList){
-      if(item.isFood){
-        _itemList.remove(item);
-      }
-    }*/
   }
 
   void removeDrinkItem(){
     _itemList = _itemList.where((element) => element.isFood).toList();
-
-/*for(var i = _itemList.length - 1; i >= 0; i--){
-  var item = _itemList[i];
-      if(!item.isFood){
-        _itemList.remove(item);
-      }
-    }*/
   }
   
 
