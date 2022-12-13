@@ -29,7 +29,7 @@ class AdministratorPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ItemListEditor(),
+                          builder: (context) => const ItemListEditor(),
                         ),
                       );
                     },

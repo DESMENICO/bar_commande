@@ -1,11 +1,7 @@
-import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:intl/intl.dart';
-import '../models/item.dart';
 import '../models/order.dart';
 
 class ItemStatistic extends StatefulWidget {
@@ -25,7 +21,7 @@ class _ItemStatisticState extends State<ItemStatistic> {
         children: [
           SpecificDayItemStatistic(widget.orderlist),
           Card(
-            child: Center(child: Container(child: SfCircularChart(
+            child: Center(child: SfCircularChart(
               title: ChartTitle(text: "Ventes globales des articles",
               textStyle: const TextStyle(fontSize: 25)),
               tooltipBehavior: _tooltipBehavior,
@@ -37,7 +33,7 @@ class _ItemStatisticState extends State<ItemStatistic> {
                 yValueMapper: (ItemData data, _) => data.number,
                 dataLabelSettings:const DataLabelSettings(isVisible : true)
               )
-            ]),)),
+            ])),
           ),
         ],
       ),
@@ -149,8 +145,8 @@ class _SpecificDayItemStatisticState extends State<SpecificDayItemStatistic> {
               ),
             ),
           ),
-          Center(child: Container(child: SfCircularChart(
-              title: ChartTitle(text: "Articles vendus le ${date}",
+          Center(child: SfCircularChart(
+              title: ChartTitle(text: "Articles vendus le $date",
               textStyle: const TextStyle(fontSize: 25)),
               tooltipBehavior: _tooltipBehavior,
               legend: Legend(isVisible: true,borderColor: Colors.black,), 
@@ -161,7 +157,7 @@ class _SpecificDayItemStatisticState extends State<SpecificDayItemStatistic> {
                 yValueMapper: (ItemData data, _) => data.number,
                 dataLabelSettings:const DataLabelSettings(isVisible : true)
               )
-            ]),))],),
+            ]))],),
     );
   }
 

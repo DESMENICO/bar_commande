@@ -109,7 +109,7 @@ class ItemEditorState extends State<ItemEditor> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () async{
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     widget.item.isFood = isFood;

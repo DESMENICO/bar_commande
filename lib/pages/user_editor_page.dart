@@ -124,8 +124,8 @@ class UserEditorState extends State<UserEditor> {
                   AuthentificationService auth = AuthentificationService();
                   DataBase database = DataBase();
                   if(!widget.isNew){
-                    auth.removeUser(widget.user);
-                    database.deleteUser(widget.user);
+                    await auth.removeUser(widget.user);
+                    await database.deleteUser(widget.user);
                   }
                     User temp = await auth.createUser(widget.user.email, _password);
                     temp.email = widget.user.email;
