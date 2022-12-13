@@ -102,13 +102,14 @@ class OrderReadyWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text("Commande en cours de préparation...",
-                        style: TextStyle(fontSize: 45,
-                        backgroundColor: Color.fromARGB(255, 0, 97, 90))),
+                        style: TextStyle(
+                            fontSize: 45, fontWeight: FontWeight.bold)),
                     Expanded(
                       child: OrderPreparingWidget(orderList),
                     ),
                     const Text("Commande finit",
-                        style: TextStyle(fontSize: 45,backgroundColor: Color.fromARGB(255, 0, 97, 90))),
+                        style: TextStyle(
+                            fontSize: 45, fontWeight: FontWeight.bold)),
                     Expanded(child: OrderFinishedWidget(orderList))
                   ],
                 ),
@@ -146,9 +147,8 @@ class OrderPreparingItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          "${order.customer} en cours de préparation...",
-          style: const TextStyle(fontSize: 25)),
+        Text("${order.customer} en cours de préparation...",
+            style: const TextStyle(fontSize: 25)),
       ],
     );
   }
@@ -180,26 +180,27 @@ class ItemListMenuWidget extends StatelessWidget {
 
           return Column(
             children: [
-              const Text(
-                'Boisson : ',
-                style: const TextStyle(fontSize: 25,backgroundColor: Color.fromARGB(255, 0, 97, 90))),
+              const Text('Boisson : ',
+                  style: TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.bold)),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: itemList.length,
                   itemBuilder: (context, int index) {
-                    if (!itemList[index].isFood) {
+                    if (!itemList[index].isFood &&
+                        itemList[index].isAvailable) {
                       return itemMenuWidget(itemList[index]);
                     }
                     return Container();
                   }),
-              const Text(
-                "Nourriture : ",
-                style: const TextStyle(fontSize: 25,backgroundColor: Color.fromARGB(255, 0, 97, 90))),
+              const Text("Nourriture : ",
+                  style: TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.bold)),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: itemList.length,
                   itemBuilder: (context, int index) {
-                    if (itemList[index].isFood) {
+                    if (itemList[index].isFood && itemList[index].isAvailable) {
                       return itemMenuWidget(itemList[index]);
                     }
                     return Container();
@@ -222,11 +223,11 @@ class itemMenuWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
       child: Row(
         children: [
-          Text(item.name, style: TextStyle(fontSize: 25)),
+          Text(item.name, style: const TextStyle(fontSize: 25)),
           const Spacer(),
           Text(
             "${item.price} €",
-            style: TextStyle(fontSize: 25),
+            style: const TextStyle(fontSize: 25),
           )
         ],
       ),
