@@ -2,18 +2,9 @@ import 'package:bar_commande/pages/kitchen_summary_page.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/typicons_icons.dart';
-import 'package:fluttericon/fontelico_icons.dart';
-import 'package:fluttericon/linecons_icons.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
-import '../models/item.dart';
 import '../models/order.dart';
-import '../bloc/order_bloc.dart';
-import '../bloc/order_events.dart';
-import '../bloc/order_states.dart';
-import 'order_summary.dart';
 
 class KitchenPage extends StatelessWidget {
   ItemBloc itemBloc;
@@ -105,7 +96,7 @@ class _OrderWidgetState extends State<OrderWidget> {
         child: Card(
           child: InkWell(
             onTap: () async {
-              var response = await Navigator.of(context).push(
+               await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => KitchenSummary(order),
                 ),

@@ -1,6 +1,5 @@
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
@@ -39,8 +38,8 @@ class SummaryItem extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
-            child: const CircularProgressIndicator(),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         } else {
           var itemList = snapshot.data!.docs;
@@ -97,7 +96,7 @@ class ItemWidget extends StatelessWidget {
 class SummaryOrderBottombar extends StatefulWidget {
   Order order;
   DataBase dataBase = DataBase();
-  SummaryOrderBottombar(this.order);
+  SummaryOrderBottombar(this.order, {super.key});
 
   @override
   State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();

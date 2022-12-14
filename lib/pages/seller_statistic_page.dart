@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import 'package:bar_commande/pages/money_statistic_page.dart';
->>>>>>> 0e91af7ab4b2b25ed681a3ba31f19ea5381cc7f7
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 

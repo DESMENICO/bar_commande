@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -85,7 +83,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Le montant de total de la journée ${new NumberFormat("0.##").format(getTotalOfTheDay(widget.selectedDate!))}€",
+                "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(widget.selectedDate!))}€",
                 style: const TextStyle(fontSize: 18),
                 
               )
@@ -194,7 +192,7 @@ class MoneyStatisticWidget extends StatelessWidget {
           Expanded(
               child: Row(children: [
             const Icon(Icons.euro_symbol),
-            Text(new NumberFormat("0.##").format(order.totalPrice))
+            Text(NumberFormat("0.##").format(order.totalPrice))
           ])),
         ]),
         Row(children: [

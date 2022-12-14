@@ -20,7 +20,7 @@ class _ItemListEditorState extends State<ItemListEditor> {
       appBar: AppBar(
         title: const Text("Editeur d'articles"),
       ),
-      body: ItemListEditorWidget(),
+      body: const ItemListEditorWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
