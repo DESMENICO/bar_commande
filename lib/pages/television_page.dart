@@ -103,15 +103,37 @@ class OrderReadyWidget extends StatelessWidget {
               child: Card(
                 child: Column(
                   children: [
-                    const Text("Commande en cours de préparation...",
-                        style: TextStyle(
-                            fontSize: 45, fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: const Color.fromARGB(255, 0, 151, 144),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Commande en cours de Préparation ',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: OrderPreparingWidget(orderList),
+                    ),Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: const Color.fromARGB(255, 0, 151, 144),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Commande terminée ',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
                     ),
-                    const Text("Commande finit",
-                        style: TextStyle(
-                            fontSize: 45, fontWeight: FontWeight.bold)),
+                  
                     Expanded(child: OrderFinishedWidget(orderList))
                   ],
                 ),
