@@ -1,7 +1,6 @@
 
 import 'package:bar_commande/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';

@@ -2,18 +2,9 @@ import 'package:bar_commande/pages/kitchen_summary_page.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/typicons_icons.dart';
-import 'package:fluttericon/fontelico_icons.dart';
-import 'package:fluttericon/linecons_icons.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
-import '../models/item.dart';
 import '../models/order.dart';
-import '../bloc/order_bloc.dart';
-import '../bloc/order_events.dart';
-import '../bloc/order_states.dart';
-import 'order_summary.dart';
 
 class KitchenPage extends StatelessWidget {
   ItemBloc itemBloc;
@@ -89,25 +80,25 @@ class OrderWidget extends StatefulWidget {
   OrderWidget(this.order, {super.key});
 
   @override
-  State<OrderWidget> createState() => _OrderWidgetState(order);
+  State<OrderWidget> createState() => _OrderWidgetState();//order);
 }
 
 class _OrderWidgetState extends State<OrderWidget> {
-  Order order;
-  _OrderWidgetState(this.order);
+  //Order order;
+  _OrderWidgetState();//this.order);
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: order.containDrink || order.containFood,
+      visible: widget.order.containDrink || widget.order.containFood,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Card(
           child: InkWell(
             onTap: () async {
-              var response = await Navigator.of(context).push(
+               await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => KitchenSummary(order),
+                  builder: (context) => KitchenSummary(widget.order),
                 ),
               );
             },
@@ -120,7 +111,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: Text(
-                        order.customer,
+                        widget.order.customer,
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w600,

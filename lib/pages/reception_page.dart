@@ -1,4 +1,4 @@
-import 'package:bar_commande/pages/administrator_page.dart';
+import 'package:bar_commande/pages/administrator/administrator_page.dart';
 import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
 

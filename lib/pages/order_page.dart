@@ -152,22 +152,22 @@ class ItemWidget extends StatefulWidget {
   ItemWidget(this.item, this.order, {super.key});
 
   @override
-  State<ItemWidget> createState() => _ItemWidgetState(item);
+  State<ItemWidget> createState() => _ItemWidgetState();//item);
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-  Item item;
-  _ItemWidgetState(this.item);
+ // Item item;
+  _ItemWidgetState();//this.item);
 
   void _incrementItemNumber() {
     setState(() {
-      widget.order.addItem(item);
+      widget.order.addItem(widget.item);
       context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
     });
   }
 
   void _decrementItemNumber() {
-      widget.order.removeItem(item);
+      widget.order.removeItem(widget.item);
     setState(() {
       context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
     });
@@ -176,7 +176,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: item.isAvailable,
+      visible: widget.item.isAvailable,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
         child: Card(
@@ -186,7 +186,7 @@ class _ItemWidgetState extends State<ItemWidget> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  item.name,
+                  widget.item.name,
                   style: const TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w900,
@@ -199,7 +199,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                 Padding(
                   padding: const EdgeInsets.only(left: 5.0),
                   child: Text(
-                    "${item.price}€",
+                    "${widget.item.price}€",
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
@@ -221,7 +221,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: BlocBuilder<OrderBloc, OrderState>(
                     builder: (context, state) => Text(
-                      state.orders.last.getItemNumber(item).toString(),
+                      state.orders.last.getItemNumber(widget.item).toString(),
                       //widget.order.getItemNumber(item).toString(),
                     style: const TextStyle(
                       fontSize: 25,

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import 'package:bar_commande/pages/money_statistic_page.dart';
->>>>>>> 0e91af7ab4b2b25ed681a3ba31f19ea5381cc7f7
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -95,7 +91,7 @@ class SellerChart extends StatefulWidget {
   State<SellerChart> createState() => _SellerChartState();
 }
 
-List<ChartData> ListChartData(Map<String, int> ordersPerSeller, List<String> sellersList) {
+List<ChartData> listChartData(Map<String, int> ordersPerSeller, List<String> sellersList) {
     List<ChartData> chartData =[];// <ChartData>[
       for(int i =0; i<ordersPerSeller.length; i++){
         chartData.add(ChartData(sellersList[i], ordersPerSeller[sellersList[i]]!));
@@ -112,7 +108,7 @@ class _SellerChartState extends State<SellerChart> {
         series: <ChartSeries<ChartData, String>>[
           // Renders column chart
           ColumnSeries<ChartData, String>(
-              dataSource: ListChartData(widget.ordersPerSeller, widget.sellersList),
+              dataSource: listChartData(widget.ordersPerSeller, widget.sellersList),
               xValueMapper: (ChartData data, _) => data.x,
               yValueMapper: (ChartData data, _) => data.y)
         ]);
