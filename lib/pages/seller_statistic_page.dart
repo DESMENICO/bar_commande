@@ -4,9 +4,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../models/order.dart';
 
 class SellerStatisticPage extends StatefulWidget {
-  List<Order> orderList;
-  late Map<String, int> ordersPerSeller;
-  late List<String> sellersList;
+  final List<Order> orderList;
+
   SellerStatisticPage(this.orderList, {super.key});
 
   @override
@@ -14,6 +13,8 @@ class SellerStatisticPage extends StatefulWidget {
 }
 
 class _SellerStatisticPageState extends State<SellerStatisticPage> {
+   Map<String, int> ordersPerSeller = {};
+   List<String> sellersList = [];
   @override
   void initState() {
     super.initState();
@@ -21,16 +22,15 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
   }
 
   void setOrderPerSeller() {
-    widget.ordersPerSeller = {};
     for (Order order in widget.orderList) {
-      if (widget.ordersPerSeller.containsKey(order.sellerId)) {
-        widget.ordersPerSeller[order.sellerId] =
-            widget.ordersPerSeller[order.sellerId]! + 1;
+      if (ordersPerSeller.containsKey(order.sellerId)) {
+         ordersPerSeller[order.sellerId] =
+            ordersPerSeller[order.sellerId]! + 1;
       } else {
-        widget.ordersPerSeller[order.sellerId] = 1;
+        ordersPerSeller[order.sellerId] = 1;
       }
     }
-    widget.sellersList = widget.ordersPerSeller.keys.toList();
+    sellersList = ordersPerSeller.keys.toList();
   }
 
   @override
@@ -41,15 +41,15 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: widget.sellersList.length,
+            itemCount: sellersList.length,
             itemBuilder: (context, index) {
               return SellerStatisticWidget(
-                  widget.ordersPerSeller[widget.sellersList[index]].toString(),
-                  widget.sellersList[index]);
+                  ordersPerSeller[sellersList[index]].toString(),
+                  sellersList[index]);
             },
           ),
         ),
-        SellerChart(widget.sellersList, widget.ordersPerSeller)
+        SellerChart(sellersList, ordersPerSeller)
       ],
     ));
   }

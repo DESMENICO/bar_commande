@@ -8,10 +8,10 @@ import '../models/user.dart';
 import 'kitchen_page.dart';
 
 class Reception extends StatelessWidget {
-  ItemBloc itemBloc;
-  OrderBloc orderBloc;
-  User user;
-  Reception(this.itemBloc, this.orderBloc,this.user, {super.key});
+ final  ItemBloc itemBloc;
+ final  OrderBloc orderBloc;
+  final User user;
+  const Reception(this.itemBloc, this.orderBloc,this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {

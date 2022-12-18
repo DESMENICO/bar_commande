@@ -252,7 +252,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 }
 
 class OrderBottomBar extends StatefulWidget {
-   models.Order order;
+  models.Order order;
   final User user;
    OrderBottomBar(this.order,this.user, {super.key});
   @override

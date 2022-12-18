@@ -5,8 +5,8 @@ import '../models/item.dart';
 import '../models/order.dart';
 
 class OrderSummary extends StatelessWidget {
-  Order order;
-  OrderSummary(this.order, {super.key});
+  final Order order;
+  const OrderSummary(this.order, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +22,8 @@ class OrderSummary extends StatelessWidget {
 }
 
 class SummaryItem extends StatelessWidget {
-  Order order;
-  List<Item> itemUsed = [];
+  final Order order;
+  final List<Item> itemUsed = [];
   SummaryItem(this.order, {super.key});
 
   @override
@@ -54,9 +54,9 @@ class SummaryItem extends StatelessWidget {
 
 
 class ItemWidget extends StatelessWidget {
-  Item item;
-  int count;
-  ItemWidget(this.item,this.count ,{super.key});
+  final Item item;
+  final int count;
+  const ItemWidget(this.item,this.count ,{super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -74,15 +74,16 @@ class ItemWidget extends StatelessWidget {
 }
 
 class SummaryOrderBottombar extends StatefulWidget {
-  Order order;
-  bool isPaid = false;
-  SummaryOrderBottombar(this.order, {super.key});
+  final Order order;
+
+  const SummaryOrderBottombar(this.order, {super.key});
 
   @override
   State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
 }
 
 class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
+  bool isPaid = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -91,11 +92,11 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
         Visibility(
-          visible: !widget.isPaid,
+          visible: !isPaid,
           child: ElevatedButton(
             onPressed: () {
               setState(() { 
-                  widget.isPaid =true;
+                  isPaid =true;
               });
                      },
             child: Text(
@@ -105,7 +106,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
           ),
         ),
         Visibility(
-          visible: widget.isPaid,
+          visible: isPaid,
           child: ElevatedButton(
             onPressed: () async {
               DataBase database = DataBase();
