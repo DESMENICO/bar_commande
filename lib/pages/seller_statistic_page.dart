@@ -6,7 +6,7 @@ import '../models/order.dart';
 class SellerStatisticPage extends StatefulWidget {
   final List<Order> orderList;
 
-  SellerStatisticPage(this.orderList, {super.key});
+  const SellerStatisticPage(this.orderList, {super.key});
 
   @override
   State<SellerStatisticPage> createState() => _SellerStatisticPageState();
@@ -56,10 +56,10 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
 }
 
 class SellerStatisticWidget extends StatelessWidget {
-  String ordersPerSeller;
-  String seller;
+  final String ordersPerSeller;
+  final String seller;
 
-  SellerStatisticWidget(this.ordersPerSeller, this.seller, {super.key});
+  const SellerStatisticWidget(this.ordersPerSeller, this.seller, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +83,9 @@ class SellerStatisticWidget extends StatelessWidget {
 }
 
 class SellerChart extends StatefulWidget {
-  Map<String, int> ordersPerSeller;
-  List<String> sellersList;
-  SellerChart(this.sellersList, this.ordersPerSeller, {super.key});
+  final Map<String, int> ordersPerSeller;
+  final List<String> sellersList;
+  const SellerChart(this.sellersList, this.ordersPerSeller, {super.key});
 
   @override
   State<SellerChart> createState() => _SellerChartState();

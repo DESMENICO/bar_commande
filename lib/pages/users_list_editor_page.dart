@@ -61,23 +61,23 @@ class UsersListEditorWidget extends StatelessWidget {
                   String email = snap[index]['email'];
                   String password = snap[index]['password'];
                   String id = snap[index].id;
-                  return USerEditorWidget(User.edit(name, isAdmin, email,id,password));
+                  return UserEditorWidget(User.edit(name, isAdmin, email,id,password));
                 });
           }
         });
   }
 }
 
-class USerEditorWidget extends StatefulWidget {
-  User user;
+class UserEditorWidget extends StatefulWidget {
+  final User user;
 
-  USerEditorWidget(this.user, {super.key});
+  const UserEditorWidget(this.user, {super.key});
 
   @override
-  State<USerEditorWidget> createState() => _USerEditorWidgetState();
+  State<UserEditorWidget> createState() => _UserEditorWidgetState();
 }
 
-class _USerEditorWidgetState extends State<USerEditorWidget> {
+class _UserEditorWidgetState extends State<UserEditorWidget> {
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,9 @@ import '../models/user.dart';
 import '../services/firestore_service.dart';
 
 class UserEditor extends StatefulWidget {
-  User user;
-  bool isNew;
-  UserEditor(this.user,this.isNew, {super.key});
+  final User user;
+  final bool isNew;
+  const UserEditor(this.user,this.isNew, {super.key});
 
   @override
   UserEditorState createState() {

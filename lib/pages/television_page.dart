@@ -19,8 +19,8 @@ class TelevisionPage extends StatelessWidget {
 }
 
 class OrderFinishedWidget extends StatefulWidget {
-  List<Order> orderList;
-  OrderFinishedWidget(this.orderList, {super.key});
+  final List<Order> orderList;
+  const OrderFinishedWidget(this.orderList, {super.key});
 
   @override
   State<OrderFinishedWidget> createState() => _OrderFinishedWidgetState();
@@ -45,8 +45,8 @@ class _OrderFinishedWidgetState extends State<OrderFinishedWidget> {
 }
 
 class OrderFinishedItemWidget extends StatefulWidget {
-  Order order;
-  OrderFinishedItemWidget(this.order, {super.key});
+  final Order order;
+  const OrderFinishedItemWidget(this.order, {super.key});
 
   @override
   State<OrderFinishedItemWidget> createState() =>
@@ -145,8 +145,8 @@ class OrderReadyWidget extends StatelessWidget {
 }
 
 class OrderPreparingWidget extends StatelessWidget {
-  List<Order> orderList;
-  OrderPreparingWidget(this.orderList, {super.key});
+  final List<Order> orderList;
+  const OrderPreparingWidget(this.orderList, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +164,8 @@ class OrderPreparingWidget extends StatelessWidget {
 }
 
 class OrderPreparingItemWidget extends StatelessWidget {
-  Order order;
-  OrderPreparingItemWidget(this.order, {super.key});
+  final Order order;
+  const OrderPreparingItemWidget(this.order, {super.key});
 
   @override
   Widget build(BuildContext context) {

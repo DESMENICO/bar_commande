@@ -8,7 +8,7 @@ import '../models/order.dart';
 
 class StatisticPage extends StatelessWidget {
   StatisticPage({super.key});
-  List<Order> orderList = [];
+  final List<Order> orderList = [];
 
   @override
   Widget build(BuildContext context) {
