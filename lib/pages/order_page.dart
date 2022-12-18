@@ -12,30 +12,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user.dart';
 
 class OrderPage extends StatefulWidget {
-  ItemBloc itemBloc;
-  OrderBloc orderBloc;
-  User user;
-  late models.Order order;
-  OrderPage(this.itemBloc, this.orderBloc,this.user, {super.key});
+  final ItemBloc itemBloc;
+  final OrderBloc orderBloc;
+  final User user;
+
+  const OrderPage(this.itemBloc, this.orderBloc,this.user, {super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
 
 class _OrderPageState extends State<OrderPage> {
+  late models.Order order;
   @override
   void initState() {
     super.initState();
-    widget.order = models.Order("Nouveau Client");
-    widget.order.sellerId = widget.user.name;
-    context.read<OrderBloc>().add(AddOrderEvent(widget.order));
+    order = models.Order("Nouveau Client");
+    order.sellerId = widget.user.name;
+    context.read<OrderBloc>().add(AddOrderEvent(order));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc,OrderState>(
       builder:((context, state) {
-        widget.order = state.orders.last;
+        order = state.orders.last;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Commande"),
@@ -43,15 +44,15 @@ class _OrderPageState extends State<OrderPage> {
         leading: IconButton(
           icon:  const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            context.read<OrderBloc>().add(RemoveOrderEvent(widget.order));
+            context.read<OrderBloc>().add(RemoveOrderEvent(order));
             Navigator.of(context).pop();
           },
         ),
       ),
       body: Column(children: [
-        ClientNameForms(widget.order),
-        Expanded(child: ItemListWidget(widget.orderBloc, widget.order)),
-        OrderBottomBar(widget.order,widget.user)
+        ClientNameForms(order),
+        Expanded(child: ItemListWidget(widget.orderBloc,order)),
+        OrderBottomBar(order,widget.user)
       ]),
     );
       }) ,
@@ -60,8 +61,8 @@ class _OrderPageState extends State<OrderPage> {
 }
 
 class ClientNameForms extends StatefulWidget {
-  late models.Order order;
-  ClientNameForms(this.order, {super.key});
+  final models.Order order;
+  const ClientNameForms(this.order, {super.key});
 
   @override
   State<ClientNameForms> createState() => _ClientNameFormsState();
@@ -109,9 +110,9 @@ class _ClientNameFormsState extends State<ClientNameForms> {
 }
 
 class ItemListWidget extends StatefulWidget {
-  OrderBloc orderBloc;
-  models.Order order;
-  ItemListWidget(this.orderBloc, this.order, {super.key});
+  final OrderBloc orderBloc;
+  final models.Order order;
+  const ItemListWidget(this.orderBloc, this.order, {super.key});
   @override
   State<ItemListWidget> createState() => _ItemListWidgetState();
 }
@@ -146,10 +147,10 @@ class _ItemListWidgetState extends State<ItemListWidget> {
 }
 
 class ItemWidget extends StatefulWidget {
-  Item item;
-  models.Order order;
+  final Item item;
+  final models.Order order;
 
-  ItemWidget(this.item, this.order, {super.key});
+  const ItemWidget(this.item, this.order, {super.key});
 
   @override
   State<ItemWidget> createState() => _ItemWidgetState();//item);
@@ -251,9 +252,9 @@ class _ItemWidgetState extends State<ItemWidget> {
 }
 
 class OrderBottomBar extends StatefulWidget {
-  models.Order order;
-  User user;
-  OrderBottomBar(this.order,this.user, {super.key});
+   models.Order order;
+  final User user;
+   OrderBottomBar(this.order,this.user, {super.key});
   @override
   State<OrderBottomBar> createState() => _OrderBottomBar();
 }
@@ -273,9 +274,9 @@ class _OrderBottomBar extends State<OrderBottomBar> {
                   builder: (context) => OrderSummary(widget.order),
                 ),
               );
-              widget.order = models.Order("Nouveau Client");
+              widget.order = models.Order("Nouveau Client");//PBB??????????
               widget.order.sellerId = widget.user.name;
-              context.read<OrderBloc>().add(AddOrderEvent(widget.order));
+              context.read<OrderBloc>().add(AddOrderEvent(widget.order));//????????
             },
             child: const Text(
               "Total",
