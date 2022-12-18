@@ -67,9 +67,8 @@ class ItemListEditorWidget extends StatelessWidget {
 }
 
 class ItemEditorWidget extends StatefulWidget {
-  Item item;
-
-  ItemEditorWidget(this.item, {super.key});
+  final Item item;
+  const ItemEditorWidget(this.item, {super.key});
 
   @override
   State<ItemEditorWidget> createState() => _ItemEditorWidgetState();

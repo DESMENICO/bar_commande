@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../models/order.dart';
 
 class ItemStatistic extends StatefulWidget {
-  late List<Order> orderlist;
-  ItemStatistic(this.orderlist, {super.key});
+  final List<Order> orderlist;
+  const ItemStatistic(this.orderlist, {super.key});
 
   @override
   State<ItemStatistic> createState() => _ItemStatisticState();
@@ -88,14 +88,14 @@ class ItemData{
 }
 
 class SpecificDayItemStatistic extends StatefulWidget {
-  List<Order> orderList;
-  SpecificDayItemStatistic(this.orderList,{super.key});
-  DateTime? selectedDate = DateTime.now();
+  final List<Order> orderList;
+  const SpecificDayItemStatistic(this.orderList,{super.key});
   @override
   State<SpecificDayItemStatistic> createState() => _SpecificDayItemStatisticState();
 }
 
 class _SpecificDayItemStatisticState extends State<SpecificDayItemStatistic> {
+  DateTime? selectedDate = DateTime.now();
   late String date;
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   late TooltipBehavior _tooltipBehavior;
@@ -107,22 +107,22 @@ class _SpecificDayItemStatisticState extends State<SpecificDayItemStatistic> {
         firstDate: DateTime(1950),
         lastDate: DateTime(2100));
     if(newDate!=null){
-      widget.selectedDate = newDate;
+      selectedDate = newDate;
     }
     setState(() {
-      if (widget.selectedDate != null) {
-        date = formatter.format(widget.selectedDate!);
+      if (selectedDate != null) {
+        date = formatter.format(selectedDate!);
       }
     });}
 
     @override
       void initState() {
     super.initState();
-    widget.selectedDate = DateTime.now();
-    date = formatter.format(widget.selectedDate!);
+    selectedDate = DateTime.now();
+    date = formatter.format(selectedDate!);
     _tooltipBehavior =  TooltipBehavior(enable: true);
-    if (widget.selectedDate != null) {
-      date = formatter.format(widget.selectedDate!);
+    if (selectedDate != null) {
+      date = formatter.format(selectedDate!);
     }
   }
 
@@ -167,9 +167,9 @@ class _SpecificDayItemStatisticState extends State<SpecificDayItemStatistic> {
     List<Order> orderOfTheDayList = [];
 
     for(Order order in widget.orderList){
-       if (order.date.month == widget.selectedDate!.month &&
-          order.date.day == widget.selectedDate!.day &&
-          order.date.year == widget.selectedDate!.year) {
+       if (order.date.month == selectedDate!.month &&
+          order.date.day == selectedDate!.day &&
+          order.date.year == selectedDate!.year) {
             orderOfTheDayList.add(order);
             for(String string in order.itemUsed){
               itemNameList.add(string);

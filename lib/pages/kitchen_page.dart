@@ -7,9 +7,9 @@ import '../bloc/order_bloc.dart';
 import '../models/order.dart';
 
 class KitchenPage extends StatelessWidget {
-  ItemBloc itemBloc;
-  OrderBloc orderBloc;
-  KitchenPage(this.itemBloc, this.orderBloc, {super.key});
+  final ItemBloc itemBloc;
+  final OrderBloc orderBloc;
+  const KitchenPage(this.itemBloc, this.orderBloc, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +22,9 @@ class KitchenPage extends StatelessWidget {
 }
 
 class OrderListWidget extends StatefulWidget {
-  ItemBloc itemBloc;
-  OrderBloc orderBloc;
-  OrderListWidget(this.itemBloc, this.orderBloc, {super.key});
+  final ItemBloc itemBloc;
+  final OrderBloc orderBloc;
+  const OrderListWidget(this.itemBloc, this.orderBloc, {super.key});
   @override
   State<OrderListWidget> createState() => _OrderListWidgetState();
 }
@@ -76,8 +76,8 @@ class _OrderListWidgetState extends State<OrderListWidget> {
 }
 
 class OrderWidget extends StatefulWidget {
-  Order order;
-  OrderWidget(this.order, {super.key});
+  final Order order;
+  const OrderWidget(this.order, {super.key});
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();//order);

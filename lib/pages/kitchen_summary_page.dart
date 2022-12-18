@@ -7,8 +7,8 @@ import '../models/item.dart';
 import '../models/order.dart';
 
 class KitchenSummary extends StatelessWidget {
-  Order order;
-  KitchenSummary(this.order, {super.key});
+  final Order order;
+  const KitchenSummary(this.order, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +24,9 @@ class KitchenSummary extends StatelessWidget {
 }
 
 class SummaryItem extends StatelessWidget {
-  Order order;
-  List<Item> itemUsed = [];
-  SummaryItem(this.order, {super.key});
+  final Order order;
+  //List<Item> itemUsed = [];
+  const SummaryItem(this.order, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +73,9 @@ class SummaryItem extends StatelessWidget {
 }
 
 class ItemWidget extends StatelessWidget {
-  Item item;
-  int count;
-  ItemWidget(this.item, this.count, {super.key});
+  final Item item;
+  final int count;
+  const ItemWidget(this.item, this.count, {super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -94,23 +94,24 @@ class ItemWidget extends StatelessWidget {
 }
 
 class SummaryOrderBottombar extends StatefulWidget {
-  Order order;
-  DataBase dataBase = DataBase();
-  SummaryOrderBottombar(this.order, {super.key});
+  final Order order;
+
+  const SummaryOrderBottombar(this.order, {super.key});
 
   @override
   State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
 }
 
 class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
-  _SummaryOrderBottombarState();
+   DataBase dataBase = DataBase();
+  _SummaryOrderBottombarState();///??????????????????????????????????
 
   void deleteOrderFromScreenWithDelay() async{
       Future.delayed(const Duration(seconds: 5),((() async{
       widget.order.isOnScreen = false;
-      await widget.dataBase.updateOrder(widget.order);
+      await dataBase.updateOrder(widget.order);
       if(widget.order.finish){
-      await widget.dataBase.deleteCurrentOrder(widget.order);
+      await dataBase.deleteCurrentOrder(widget.order);
     }
     })));
     
@@ -125,15 +126,15 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
     if (!widget.order.containDrink && !widget.order.containFood) {
       widget.order.finish = true;
       if(!widget.order.isOnScreen){
-      await widget.dataBase.deleteCurrentOrder(widget.order);
+      await dataBase.deleteCurrentOrder(widget.order);
       }
     }
-     await widget.dataBase.removeFinishedOrder(widget.order);
+     await dataBase.removeFinishedOrder(widget.order);
     if (!widget.order.containFood) {
       Navigator.pop(context);
     }
-    await widget.dataBase.updateItemList(widget.order);
-    await widget.dataBase.updateOrder(widget.order);
+    await dataBase.updateItemList(widget.order);
+    await dataBase.updateOrder(widget.order);
   }
 
   
@@ -147,8 +148,8 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
     if (!widget.order.containDrink && !widget.order.containFood) {
       widget.order.finish = true;
     }
-    await widget.dataBase.updateItemList(widget.order);
-    await widget.dataBase.updateOrder(widget.order);
+    await dataBase.updateItemList(widget.order);
+    await dataBase.updateOrder(widget.order);
     if (!widget.order.containDrink) {
       Navigator.pop(context);
     }

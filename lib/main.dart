@@ -34,9 +34,9 @@ await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
 
 class MyApp extends StatefulWidget {
-  ItemBloc itemBloc;
-  OrderBloc orderBloc;
-  MyApp(this.itemBloc, this.orderBloc, {super.key});
+  final ItemBloc itemBloc;
+  final OrderBloc orderBloc;
+  const MyApp(this.itemBloc, this.orderBloc, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -71,10 +71,10 @@ class _MyAppState extends State<MyApp> {
 
 class LoginForm extends StatefulWidget {
 
-   ItemBloc itemBloc;
-  OrderBloc orderBloc;
+  final ItemBloc itemBloc; //utilité????
+  final OrderBloc orderBloc; //utilité????
 
-  LoginForm(this.itemBloc,this.orderBloc,{super.key});
+  const LoginForm(this.itemBloc,this.orderBloc,{super.key});
 
   @override
   LoginFormState createState() {

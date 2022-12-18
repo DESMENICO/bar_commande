@@ -5,9 +5,9 @@ import '../models/item.dart';
 import '../services/firestore_service.dart';
 
 class ItemEditor extends StatefulWidget {
-  Item item;
+  final Item item;
 
-  ItemEditor(this.item, {super.key});
+  const ItemEditor(this.item, {super.key});
 
   @override
   ItemEditorState createState() {

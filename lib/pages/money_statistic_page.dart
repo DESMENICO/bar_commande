@@ -4,17 +4,18 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/order.dart';
 
+
 class MoneyStatistic extends StatefulWidget {
-  late List<Order> orderList;
-  MoneyStatistic(this.orderList, {super.key});
-  DateTime? selectedDate = DateTime.now();
-  late String date;
+  final List<Order> orderList;
+  const MoneyStatistic(this.orderList, {super.key});
 
   @override
   State<MoneyStatistic> createState() => _MoneyStatisticState();
 }
 
 class _MoneyStatisticState extends State<MoneyStatistic> {
+  late String date;
+  DateTime? selectedDate = DateTime.now();
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
   _selectDate(BuildContext context) async {
@@ -24,12 +25,12 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         firstDate: DateTime(1950),
         lastDate: DateTime(2100));
         if(newDate!=null){
-      widget.selectedDate = newDate;
+      selectedDate = newDate;
     }
 
     setState(() {
-      if (widget.selectedDate != null) {
-        widget.date = formatter.format(widget.selectedDate!);
+      if (selectedDate != null) {
+        date = formatter.format(selectedDate!);
       }
     });
 
@@ -39,17 +40,17 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
   @override
   void initState() {
     super.initState();
-    if (widget.selectedDate != null) {
-      widget.date = formatter.format(widget.selectedDate!);
+    if (selectedDate != null) {
+      date = formatter.format(selectedDate!);
     }
   }
 
   double getTotalOfTheDay(DateTime date) {
     double total = 0;
     for (Order order in widget.orderList) {
-      if (order.date.month == widget.selectedDate!.month &&
-          order.date.day == widget.selectedDate!.day &&
-          order.date.year == widget.selectedDate!.year) {
+      if (order.date.month == selectedDate!.month &&
+          order.date.day == selectedDate!.day &&
+          order.date.year == selectedDate!.year) {
         total += order.totalPrice;
       }
     }
@@ -72,7 +73,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
               children: [
                 const Icon(Icons.calendar_month),
                 Text(
-                  widget.date,
+                  date,
                 ),
               ],
             ),
@@ -83,7 +84,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(widget.selectedDate!))}€",
+                "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(selectedDate!))}€",
                 style: const TextStyle(fontSize: 18),
                 
               )
@@ -96,10 +97,10 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             itemCount: widget.orderList.length,
             itemBuilder: (context, index) {
               if (widget.orderList[index].date.month ==
-                      widget.selectedDate!.month &&
-                  widget.orderList[index].date.day == widget.selectedDate!.day &&
+                      selectedDate!.month &&
+                  widget.orderList[index].date.day == selectedDate!.day &&
                   widget.orderList[index].date.year ==
-                      widget.selectedDate!.year) {
+                      selectedDate!.year) {
                 return MoneyStatisticWidget(widget.orderList[index]);
               } else {
                 return Container();
@@ -107,16 +108,16 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             },
           ),
         ),
-        MoneyChart(widget.selectedDate!, widget.orderList)
+        MoneyChart(selectedDate!, widget.orderList)
       ],
     ));
   }
 }
 
 class MoneyChart extends StatefulWidget {
-  DateTime date;
-  List<Order> orderList;
-  MoneyChart(this.date,this.orderList,{super.key});
+  final DateTime date;
+  final List<Order> orderList;
+  const MoneyChart(this.date,this.orderList,{super.key});
 
   @override
   State<MoneyChart> createState() => _MoneyChartState();
@@ -177,7 +178,7 @@ class MoneyData{
 }
 
 class MoneyStatisticWidget extends StatelessWidget {
-  Order order;
+  final Order order;
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   MoneyStatisticWidget(this.order, {super.key});
 
