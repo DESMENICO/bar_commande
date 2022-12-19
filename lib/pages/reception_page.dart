@@ -1,23 +1,29 @@
 import 'package:bar_commande/pages/administrator/administrator_page.dart';
+import 'package:bar_commande/pages/kitchen/kitchen_page/kitchen_page.dart';
 import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/user.dart';
-import 'kitchen_page.dart';
 
 class Reception extends StatelessWidget {
- final  ItemBloc itemBloc;
- final  OrderBloc orderBloc;
+  final ItemBloc itemBloc;
+  final OrderBloc orderBloc;
   final User user;
-  const Reception(this.itemBloc, this.orderBloc,this.user, {super.key});
+  const Reception(this.itemBloc, this.orderBloc, this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Acceuil"), automaticallyImplyLeading: false),
+          title: const Text("Acceuil"), automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => Navigator.of(context).pop()
+          )]),
+          
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,23 +40,20 @@ class Reception extends StatelessWidget {
                     onPressed: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => OrderPage(itemBloc, orderBloc,user),
+                          builder: (context) =>
+                              OrderPage(itemBloc, orderBloc, user),
                         ),
                       );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.account_balance_wallet,
-                            size: MediaQuery.of(context).size.width * 0.05),
                         Text(
                           "COMMANDE",
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.05),
-                        ),
-                        Icon(Icons.account_balance_wallet,
-                            size: MediaQuery.of(context).size.width * 0.05),
+                        )
                       ],
                     ),
                   ),
@@ -78,20 +81,12 @@ class Reception extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.coffee,
-                          size: MediaQuery.of(context).size.width * 0.05,
-                        ),
                         Text(
                           "CUISINE",
                           style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.05),
-                        ),
-                        Icon(
-                          Icons.coffee,
-                          size: MediaQuery.of(context).size.width * 0.05,
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -112,25 +107,20 @@ class Reception extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const AdministratorPage(),
-                        ),
-                      );
-                    },
+                          MaterialPageRoute(
+                            builder: (context) => const AdministratorPage(),
+                          ),
+                        );
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.admin_panel_settings,
-                              size: MediaQuery.of(context).size.width * 0.05),
                           Text(
                             "ADMINISTRATION",
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05),
-                          ),
-                          Icon(Icons.admin_panel_settings,
-                              size: MediaQuery.of(context).size.width * 0.05),
+                          )
                         ],
                       ),
                     ),

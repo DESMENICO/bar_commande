@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
 
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
@@ -165,7 +166,7 @@ class LoginFormState extends State<LoginForm> {
             ),
           ),
 
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
               onPressed: ()  {
@@ -176,7 +177,8 @@ class LoginFormState extends State<LoginForm> {
                 },
               child: const Text('Connexion admin'),
             ),
-          ),
+          ),*/
+          
           Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(

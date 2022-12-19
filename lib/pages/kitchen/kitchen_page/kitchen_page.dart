@@ -1,5 +1,4 @@
-import 'package:bar_commande/pages/kitchen/order_widget.dart';
-import 'package:bar_commande/pages/kitchen_summary_page.dart';
+import 'package:bar_commande/pages/kitchen/kitchen_page/order_widget.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

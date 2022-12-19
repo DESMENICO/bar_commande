@@ -142,7 +142,7 @@ class _MoneyChartState extends State<MoneyChart> {
         total += order.totalPrice;
       }
     }
-    return total;
+    return total/10;
   }
 
   @override
