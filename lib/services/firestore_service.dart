@@ -131,84 +131,6 @@ class DataBase {
 
 
 
-    /*Future<void> updateItemUsed(Item item) async{
-    DateTime dateNow = DateTime.now();
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    int number =await getNumberOfItemUsed(item, formatter.format(dateNow));
-    /*var test = await itemUsedCollection.doc(formatter.format(dateNow)).get();
-    if(!test.exists){
-      itemUsedCollection.doc(formatter.format(dateNow)).set({});
-    }*/
-    /*await itemUsedCollection.doc(formatter.format(dateNow)).get().then((value) {
-      Map map = value.data() as Map;
-      if(map.containsKey(item.name)){
-        number = map[item.name];
-      }  
-    });*/
-
-      number++;
-      Map<String,dynamic> addItemUsed = {
-        item.id: {"name" : item.name, "number" : number},
-      };
-      /*
-      var doc = await itemUsedCollection.doc(formatter.format(dateNow)).get();
-      if(!doc.exists){
-        itemUsedCollection.doc(formatter.format(dateNow)).set(addItemUsed);
-      }else{
-        itemUsedCollection.doc(formatter.format(dateNow)).update(addItemUsed);
-      }*/
-      itemUsedCollection.doc(formatter.format(dateNow)).set(addItemUsed,SetOptions(merge: true));
-      
-    }
-
-
-  /*Future<void> updateItemUsed(Item item) async {
-    
-    int number = 0;
-    await itemUsedCollection.doc(formatter.format(dateNow)).get().then((value) {
-      Map map = value.data() as Map;
-      if(map.containsKey(item.name)){
-        number = map[item.name];
-      }  
-    });
-    number++;
-    Map<String, dynamic> itemUsedUpdate = {
-      item.name : number
-    };
-    
-    itemUsedCollection.doc(formatter.format(dateNow)).set({
-      item.name : number
-    },SetOptions(merge: true));
-
-    var doc = await itemUsedCollection.doc(formatter.format(dateNow)).get();
-    if(!doc.exists){
-      itemUsedCollection.doc(formatter.format(dateNow)).set(itemUsedUpdate);
-    }else{
-      itemUsedCollection.doc(formatter.format(dateNow)).update(itemUsedUpdate);
-      }
-  }
-
-  Future<List<Item>> getAllItem() async {
-    List<Item> itemList = [];
-        QuerySnapshot feed =
-      await itemCollection.get();
-        for (var itemdoc in feed.docs) {
-    var name = itemdoc['name'];
-    var price = itemdoc['price'];
-    var isFood = itemdoc['isFood'];
-    var isAvailable = itemdoc['available'];
-    Item item = Item(name, price.toDouble(), isFood, isAvailable);
-    itemList.add(item);
-        }
-        return itemList;
-  }
-    
-
-  /*Future<int> getNumber(String name, String date) async {
-    int number = 5;
-    
-    
-  }*/*/*/
 
   Future<void> updateOrder(Order order) async {
     Map<String, dynamic> orderUpdate = {
@@ -272,14 +194,6 @@ class DataBase {
     var document = await itemCollection.add(itemToSend);
     Map<String, dynamic> itemId = {"id": document.id};
     itemCollection.doc(document.id).update(itemId);
-    /*DateTime dateNow = DateTime.now();
-     final DateFormat formatter = DateFormat('dd/MM/yyyy');
-    Map<String,dynamic> itemToSendToItemUsed = {
-      "id":document.id,
-      "name":item.name,
-      formatter.format(dateNow): 1,
-    };
-    itemUsedCollection.doc(document.id).set(itemToSendToItemUsed);*/
   }
 
   deleteItem(Item item) {
@@ -314,42 +228,4 @@ class DataBase {
   deleteUser(User user) async{
    await userCollection.doc(user.id).delete();
   }
-
-  /*Future<void> saveUser(String name, double price, bool isFood, bool isAvailable,String docName) async {
-    return await itemCollection.doc(docName).set({
-        'name' : name,
-        'price':price,
-        'isFood' : isFood,
-        'available' : isAvailable
-      });
-  }
-
-  Future<void> saveToken(String? token,String docName) async {
-    return await itemCollection.doc(docName).update({'token': token});
-  }
-
-  Item _itemFromSnapchot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    var data = snapshot.data();
-    if (data == null) throw Exception("user not found");
-    String name = data['name'];
-    double price = data['price'];
-    bool isFood = data['isFood'];
-    bool isAvailable = data['available'];
-    return Item(name,price,isFood,isAvailable);
-  }
-
-  Stream<Item> item(String docName) {
-    return itemCollection.doc(docName).snapshots().map(_itemFromSnapchot);
-  }
-
-  List<Item> _itemListFromSnapchot(QuerySnapshot<Map<String, dynamic>> snapshot) {
-    return snapshot.docs.map((doc) {
-      return _itemFromSnapchot
-  (doc);
-    }).toList();
-  }
-
-  Stream<List<Item>> get itemList {
-    return itemCollection.snapshots().map(_itemListFromSnapchot);
-  }*/
 }

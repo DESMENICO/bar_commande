@@ -8,12 +8,11 @@ class OrderWidget extends StatefulWidget {
   const OrderWidget(this.order, {super.key});
 
   @override
-  State<OrderWidget> createState() => _OrderWidgetState();//order);
+  State<OrderWidget> createState() => _OrderWidgetState();
 }
 
 class _OrderWidgetState extends State<OrderWidget> {
-  //Order order;
-  _OrderWidgetState();//this.order);
+  _OrderWidgetState();
 
   @override
   Widget build(BuildContext context) {

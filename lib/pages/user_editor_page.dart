@@ -31,12 +31,6 @@ class UserEditorState extends State<UserEditor> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              /*TextFormField(
-                initialValue: widget.user.id,
-                decoration: const InputDecoration(
-                    labelText: 'Id', icon: Icon(Icons.key)),
-                enabled: false,
-              ),*/
               TextFormField(
                   initialValue: widget.user.name,
                   decoration: const InputDecoration(
@@ -78,9 +72,6 @@ class UserEditorState extends State<UserEditor> {
                   }
                   return null;
                 },
-                /*onSaved: (value) {
-                    widget.crime.date = formatter.parse(value!);
-                  }*/
               ),
               TextFormField(
                 obscureText: true,
