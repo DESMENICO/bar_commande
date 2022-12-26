@@ -1,6 +1,6 @@
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_page.dart';
-import 'package:bar_commande/pages/television_page.dart';
+import 'package:bar_commande/pages/television_folder/television_page.dart';
 import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
