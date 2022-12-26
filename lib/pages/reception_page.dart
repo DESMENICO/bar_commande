@@ -2,7 +2,6 @@ import 'package:bar_commande/pages/administrator_folder/administrator_page.dart'
 import 'package:bar_commande/pages/kitchen_folder/kitchen_page/kitchen_page.dart';
 import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
-import '../bloc/order_bloc.dart';
 import '../models/user.dart';
 
 class Reception extends StatelessWidget {
@@ -70,7 +69,7 @@ class Reception extends StatelessWidget {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              KitchenPage(),
+                              const KitchenPage(),
                         ),
                       );
                     },

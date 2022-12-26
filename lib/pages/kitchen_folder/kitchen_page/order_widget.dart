@@ -1,5 +1,5 @@
 import 'package:bar_commande/models/order.dart';
-import 'package:bar_commande/pages/kitchen_summary_page.dart';
+import 'package:bar_commande/pages/kitchen_folder/kitchen_summary/kitchen_summary_page.dart';
 import 'package:flutter/material.dart';
 
 

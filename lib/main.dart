@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     List<Order> orders = List.generate(2, (index) => Order("Client$index"));
     orderBloc = OrderBloc(orders);
@@ -55,7 +54,7 @@ class _MyAppState extends State<MyApp> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [LoginForm()]),
+                    children: const [LoginForm()]),
               ))),
     );
   }
