@@ -25,7 +25,7 @@ class _OrderWidgetState extends State<OrderWidget> {
             onTap: () async {
                await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => KitchenSummary(widget.order),
+                  builder: (context) => KitchenSummaryPage(widget.order),
                 ),
               );
             },

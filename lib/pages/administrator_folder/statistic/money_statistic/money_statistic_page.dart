@@ -3,7 +3,6 @@ import 'package:bar_commande/pages/administrator_folder/statistic/money_statisti
 import 'package:bar_commande/pages/administrator_folder/statistic/money_statistic/order_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 class MoneyStatistic extends StatefulWidget {

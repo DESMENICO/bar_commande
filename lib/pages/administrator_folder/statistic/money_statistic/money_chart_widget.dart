@@ -2,7 +2,7 @@ import 'package:bar_commande/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../../models/moneyChartData.dart';
+import '../../../../models/money_chart_data.dart';
 
 
 class MoneyChart extends StatefulWidget {
