@@ -1,4 +1,4 @@
-import 'package:bar_commande/models/itemChartData.dart';
+import 'package:bar_commande/models/item_chart_data.dart';
 import 'package:bar_commande/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

@@ -1,11 +1,9 @@
 import 'package:bar_commande/bloc/order_events.dart';
 import 'package:bar_commande/bloc/order_states.dart';
-import 'package:bar_commande/pages/order_folder/order_summary/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/order_bloc.dart';
 import '../../../models/order.dart' as models;
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../models/user.dart';
 import 'client_name_form_widget.dart';

@@ -1,7 +1,5 @@
-import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/item.dart';
 import '../../../models/order.dart';
 import 'summary_item_widget.dart';
 import 'summary_order_bottom_bar_widget.dart';

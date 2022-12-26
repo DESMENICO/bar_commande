@@ -1,5 +1,4 @@
 import 'package:bar_commande/pages/administrator_folder/item_edit/item_list_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../models/item.dart';
 import 'item_editor_page.dart';
