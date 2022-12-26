@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../models/item.dart';
-import '../services/firestore_service.dart';
+import '../../../models/item.dart';
+import '../../../services/firestore_service.dart';
 
 class ItemEditor extends StatefulWidget {
   final Item item;

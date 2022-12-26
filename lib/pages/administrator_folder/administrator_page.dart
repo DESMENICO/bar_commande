@@ -1,6 +1,6 @@
-import 'package:bar_commande/pages/items_list_editor_page.dart';
-import 'package:bar_commande/pages/statistique_page.dart';
-import 'package:bar_commande/pages/users_list_editor_page.dart';
+import 'package:bar_commande/pages/administrator_folder/item_edit/items_list_editor_page.dart';
+import 'package:bar_commande/pages/administrator_folder/user_edit/users_list_editor_page.dart';
+import 'package:bar_commande/pages/administrator_folder/statistic/statistique_page.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 

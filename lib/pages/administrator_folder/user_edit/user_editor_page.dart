@@ -1,8 +1,8 @@
+import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:flutter/material.dart';
 
-import '../models/user.dart';
-import '../services/firestore_service.dart';
+import '../../../services/firestore_service.dart';
 
 class UserEditor extends StatefulWidget {
   final User user;
