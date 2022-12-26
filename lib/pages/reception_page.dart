@@ -1,17 +1,13 @@
-import 'package:bar_commande/pages/administrator/administrator_page.dart';
-import 'package:bar_commande/pages/kitchen/kitchen_page/kitchen_page.dart';
+import 'package:bar_commande/pages/administrator_folder/administrator_page.dart';
+import 'package:bar_commande/pages/kitchen_folder/kitchen_page/kitchen_page.dart';
 import 'package:bar_commande/pages/order_page.dart';
 import 'package:flutter/material.dart';
-
-import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/user.dart';
 
 class Reception extends StatelessWidget {
-  final ItemBloc itemBloc;
-  final OrderBloc orderBloc;
   final User user;
-  const Reception(this.itemBloc, this.orderBloc, this.user, {super.key});
+  const Reception(this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +37,7 @@ class Reception extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              OrderPage(itemBloc, orderBloc, user),
+                              OrderPage(user),
                         ),
                       );
                     },
@@ -74,7 +70,7 @@ class Reception extends StatelessWidget {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              KitchenPage(itemBloc, orderBloc),
+                              KitchenPage(),
                         ),
                       );
                     },
