@@ -3,7 +3,6 @@ import 'package:bar_commande/bloc/order_states.dart';
 import 'package:bar_commande/pages/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/item_bloc.dart';
 import '../bloc/order_bloc.dart';
 import '../models/item.dart';
 import "../models/order.dart" as models;
@@ -12,11 +11,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user.dart';
 
 class OrderPage extends StatefulWidget {
-  final ItemBloc itemBloc;
-  final OrderBloc orderBloc;
+
   final User user;
 
-  const OrderPage(this.itemBloc, this.orderBloc,this.user, {super.key});
+  const OrderPage(this.user, {super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -51,7 +49,7 @@ class _OrderPageState extends State<OrderPage> {
       ),
       body: Column(children: [
         ClientNameForms(order),
-        Expanded(child: ItemListWidget(widget.orderBloc,order)),
+        Expanded(child: ItemListWidget(order)),
         OrderBottomBar(order,widget.user)
       ]),
     );
@@ -110,9 +108,8 @@ class _ClientNameFormsState extends State<ClientNameForms> {
 }
 
 class ItemListWidget extends StatefulWidget {
-  final OrderBloc orderBloc;
   final models.Order order;
-  const ItemListWidget(this.orderBloc, this.order, {super.key});
+  const ItemListWidget( this.order, {super.key});
   @override
   State<ItemListWidget> createState() => _ItemListWidgetState();
 }
@@ -161,11 +158,9 @@ class _ItemWidgetState extends State<ItemWidget> {
   _ItemWidgetState();//this.item);
 
   void _incrementItemNumber() {
-    setState(() {
-      widget.order.addItem(widget.item);
-      context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
-    });
-  }
+    widget.order.addItem(widget.item);
+    context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
+    }
 
   void _decrementItemNumber() {
       widget.order.removeItem(widget.item);

@@ -1,6 +1,5 @@
-import 'package:bar_commande/bloc/item_bloc.dart';
+
 import 'package:bar_commande/bloc/order_bloc.dart';
-import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_page.dart';
 import 'package:bar_commande/pages/television_page.dart';
@@ -8,74 +7,62 @@ import 'package:bar_commande/services/authentifcation_service.dart';
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
 import 'models/order.dart';
 
 void main() async {
- List<Item> items = List.generate(
-        10,
-        (index) => Item("Item${Random().nextInt(10000)}", (index.toDouble() * 1.5) + 1, false, true));
-  ItemBloc itemBloc = ItemBloc(items);
-
-List<Order> orders = List.generate(
-        10,
-        (index) => Order("Commande $index"));
-OrderBloc orderBloc = OrderBloc(orders);
-
-WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp(itemBloc,orderBloc));
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
 }
 
-
-
-
 class MyApp extends StatefulWidget {
-  final ItemBloc itemBloc;
-  final OrderBloc orderBloc;
-  const MyApp(this.itemBloc, this.orderBloc, {super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  
+  late OrderBloc orderBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    List<Order> orders = List.generate(2, (index) => Order("Client$index"));
+    orderBloc = OrderBloc(orders);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<OrderBloc>.value(value: widget.orderBloc),
-        BlocProvider<ItemBloc>.value(value: widget.itemBloc),
-
-      ],
+    return BlocProvider<OrderBloc>.value(
+      value: orderBloc,
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
-                .copyWith(secondary: Colors.grey)),
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text('Page de connexion'),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [LoginForm(widget.itemBloc,widget.orderBloc)]),
-            ))));
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+                  .copyWith(secondary: Colors.grey)),
+          home: Scaffold(
+              appBar: AppBar(
+                title: const Text('Page de connexion'),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [LoginForm()]),
+              ))),
+    );
   }
 }
 
 class LoginForm extends StatefulWidget {
-
-  final ItemBloc itemBloc; //utilité????
-  final OrderBloc orderBloc; //utilité????
-
-  const LoginForm(this.itemBloc,this.orderBloc,{super.key});
+  const LoginForm({super.key});
 
   @override
   LoginFormState createState() {
@@ -94,12 +81,12 @@ class LoginFormState extends State<LoginForm> {
     _emailController.dispose();
     _passwordController.dispose();
   }
+
   @override
   void initState() {
     super.initState();
     _emailController.text = "";
     _passwordController.text = "";
-
   }
 
   @override
@@ -148,46 +135,43 @@ class LoginFormState extends State<LoginForm> {
             child: ElevatedButton(
               onPressed: () async {
                 DataBase dataBase = DataBase();
-                AuthentificationService authentificationService = AuthentificationService();
-                if(_formKey.currentState?.validate() == true){
+                AuthentificationService authentificationService =
+                    AuthentificationService();
+                if (_formKey.currentState?.validate() == true) {
                   var email = _emailController.value.text;
                   var password = _passwordController.value.text;
-                  User user = await authentificationService.signinUser(email, password);
+                  User user =
+                      await authentificationService.signinUser(email, password);
                   Map map = await dataBase.getUserInformation(user.id);
                   user.isAdmin = map["isAdmin"];
                   user.name = map["name"];
-                  await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc,user),
+                  await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Reception(user),
                   ));
                 }
               },
               child: const Text('Connexion'),
             ),
           ),
-
-          /*Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: ElevatedButton(
-              onPressed: ()  {
-                  Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => Reception(widget.itemBloc,widget.orderBloc,User.edit("tff",true, " ","dfgh",'mdp')),
-                  ));
-                },
-              child: const Text('Connexion admin'),
-            ),
-          ),*/
-          
           Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
-              onPressed: ()  {
-                  Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TelevisionPage())
-                  );
-                },
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      Reception(User.edit("tff", true, " ", "dfgh", 'mdp')),
+                ));
+              },
+              child: const Text('Connexion admin'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TelevisionPage()));
+              },
               child: const Text('Connexion Television'),
             ),
           ),
