@@ -14,16 +14,13 @@ class ItemStatistic extends StatefulWidget {
 class _ItemStatisticState extends State<ItemStatistic> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          ItemChartWidget(widget.orderlist),
-          Card(
-            child: Center(
-                child: ItemGlobalChart(widget.orderlist)),
-          ),
-        ],
-      ),
+    return SingleChildScrollView(
+      child: Column(
+            children: [
+              ItemChartWidget(widget.orderlist),
+              ItemGlobalChart(widget.orderlist),
+            ],
+        ),
     );
   }
 }

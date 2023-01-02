@@ -42,6 +42,7 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
               widget.order.checkFoodAndDrink();
               await database.addCurrentOrder(widget.order);
               await database.addOrder(widget.order);
+              if (!mounted) return;
               Navigator.pop(context,Order("Nouveau Client"));
             },
             child: const Text(
