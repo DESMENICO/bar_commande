@@ -7,7 +7,7 @@ import '../../../services/firestore_service.dart';
 class UserEditor extends StatefulWidget {
   final User _user;
   final bool _isNew;
-  const UserEditor(this._user,this._isNew, {super.key});
+  const UserEditor(this._user, this._isNew, {super.key});
 
   @override
   UserEditorState createState() {
@@ -46,20 +46,19 @@ class UserEditorState extends State<UserEditor> {
                     widget._user.name = value!;
                   }),
               TextFormField(
-                initialValue: widget._user.email,
-                decoration: const InputDecoration(
-                    labelText: "Entrer l'adresse email de l'utilisateur",
-                    icon: Icon(Icons.alternate_email)),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Veuillez mettre une adresse email valide";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
+                  initialValue: widget._user.email,
+                  decoration: const InputDecoration(
+                      labelText: "Entrer l'adresse email de l'utilisateur",
+                      icon: Icon(Icons.alternate_email)),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Veuillez mettre une adresse email valide";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
                     widget._user.email = value!;
-                  }
-              ),
+                  }),
               TextFormField(
                 obscureText: true,
                 decoration: const InputDecoration(
@@ -74,20 +73,21 @@ class UserEditorState extends State<UserEditor> {
                 },
               ),
               TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                    labelText: "Confirmer le mot de passe",
-                    icon: Icon(Icons.password)),
-                validator: (value) {
-                  if (value == null || value.isEmpty || value != newPassword) {
-                    return "Les mots de passe ne correspondent pas";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: "Confirmer le mot de passe",
+                      icon: Icon(Icons.password)),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value != newPassword) {
+                      return "Les mots de passe ne correspondent pas";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
                     _password = value!;
-                  }
-              ),
+                  }),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Row(
@@ -99,7 +99,7 @@ class UserEditorState extends State<UserEditor> {
                           value: widget._user.isAdmin,
                           onChanged: (value) {
                             setState(() {
-                              widget._user.isAdmin=value;
+                              widget._user.isAdmin = value;
                             });
                           }),
                     ),
@@ -108,17 +108,18 @@ class UserEditorState extends State<UserEditor> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    
-                  AuthentificationService auth = AuthentificationService();
-                  DataBase database = DataBase();
-                  if(!widget._isNew){
-                    await auth.removeUser(widget._user);
-                    await database.deleteUser(widget._user);
-                  }
-                    User temp = await auth.createUser(widget._user.email, _password);
+
+                    AuthentificationService auth = AuthentificationService();
+                    DataBase database = DataBase();
+                    if (!widget._isNew) {
+                      await auth.removeUser(widget._user);
+                      await database.deleteUser(widget._user);
+                    }
+                    User temp =
+                        await auth.createUser(widget._user.email, _password);
                     temp.email = widget._user.email;
                     temp.name = widget._user.name;
                     temp.isAdmin = widget._user.isAdmin;
@@ -126,7 +127,8 @@ class UserEditorState extends State<UserEditor> {
                     database.addUser(temp);
                     if (!mounted) return;
                     Navigator.pop(context);
-                }},
+                  }
+                },
                 child: const Text("Sauvegarder"),
               ),
             ],

@@ -11,18 +11,14 @@ import '../order_summary/order_summary.dart';
 class OrderBottomBarWidget extends StatefulWidget {
   final models.Order _order;
   final User _user;
-  const OrderBottomBarWidget(this._order,this._user, {super.key});
+  const OrderBottomBarWidget(this._order, this._user, {super.key});
   @override
   State<OrderBottomBarWidget> createState() => _OrderBottomBar();
 }
 
 class _OrderBottomBar extends State<OrderBottomBarWidget> {
-   late models.Order _order;
-  @override
-  void initState() {
-    super.initState();
-  //  order = widget.order;
-  }
+  late models.Order _order;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,7 +33,7 @@ class _OrderBottomBar extends State<OrderBottomBarWidget> {
                   builder: (context) => OrderSummary(widget._order),
                 ),
               );
-              /*widget.order*/ _order = models.Order("Nouveau Client");
+              _order = models.Order("Nouveau Client");
               _order.sellerId = widget._user.name;
               if (!mounted) return;
               context.read<OrderBloc>().add(AddOrderEvent(_order));

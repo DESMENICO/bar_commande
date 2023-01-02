@@ -21,11 +21,11 @@ class SummaryItem extends StatelessWidget {
             shrinkWrap: true,
             itemCount: _order.itemList.length,
             itemBuilder: (context, int index) {
-
               Item currentItem = _order.itemList[index];
               if (!_order.isInsideAList(currentItem, _itemUsed)) {
                 _itemUsed.add(currentItem);
-                return ItemWidget(currentItem,_order.getItemNumber(currentItem));
+                return ItemWidget(
+                    currentItem, _order.getItemNumber(currentItem));
               } else {
                 return Container();
               }

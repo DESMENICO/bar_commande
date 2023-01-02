@@ -16,15 +16,11 @@ class _ItemStatisticState extends State<ItemStatistic> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-            children: [
-              ItemChartWidget(widget._orderList),
-              ItemGlobalChart(widget._orderList),
-            ],
-        ),
+        children: [
+          ItemChartWidget(widget._orderList),
+          ItemGlobalChart(widget._orderList),
+        ],
+      ),
     );
   }
 }
-
-
-
-

@@ -11,16 +11,16 @@ class SellerChart extends StatefulWidget {
   State<SellerChart> createState() => _SellerChartState();
 }
 
-List<SellerData> listChartData(Map<String, int> ordersPerSeller, List<String> sellersList) {
-    List<SellerData> chartData =[];// <ChartData>[
-      for(int i =0; i<ordersPerSeller.length; i++){
-        chartData.add(SellerData(sellersList[i], ordersPerSeller[sellersList[i]]!));
-      }
+List<SellerData> listChartData(
+    Map<String, int> ordersPerSeller, List<String> sellersList) {
+  List<SellerData> chartData = []; // <ChartData>[
+  for (int i = 0; i < ordersPerSeller.length; i++) {
+    chartData.add(SellerData(sellersList[i], ordersPerSeller[sellersList[i]]!));
+  }
   return chartData;
 }
 
 class _SellerChartState extends State<SellerChart> {
-
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
@@ -28,7 +28,8 @@ class _SellerChartState extends State<SellerChart> {
         series: <ChartSeries<SellerData, String>>[
           // Renders column chart
           ColumnSeries<SellerData, String>(
-              dataSource: listChartData(widget._orderPerSeller, widget._sellerList),
+              dataSource:
+                  listChartData(widget._orderPerSeller, widget._sellerList),
               xValueMapper: (SellerData data, _) => data.x,
               yValueMapper: (SellerData data, _) => data.y)
         ]);

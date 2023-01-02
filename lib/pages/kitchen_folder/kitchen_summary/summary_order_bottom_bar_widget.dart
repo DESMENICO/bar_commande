@@ -8,21 +8,22 @@ class SummaryOrderBottomBarWidget extends StatefulWidget {
   const SummaryOrderBottomBarWidget(this._order, {super.key});
 
   @override
-  State<SummaryOrderBottomBarWidget> createState() => _SummaryOrderBottomBarWidgetState();
+  State<SummaryOrderBottomBarWidget> createState() =>
+      _SummaryOrderBottomBarWidgetState();
 }
 
-class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidget> {
-   DataBase dataBase = DataBase();
+class _SummaryOrderBottomBarWidgetState
+    extends State<SummaryOrderBottomBarWidget> {
+  DataBase dataBase = DataBase();
 
-  void deleteOrderFromScreenWithDelay() async{
-      Future.delayed(const Duration(seconds: 5),((() async{
+  void deleteOrderFromScreenWithDelay() async {
+    Future.delayed(const Duration(seconds: 5), ((() async {
       widget._order.isOnScreen = false;
       await dataBase.updateOrder(widget._order);
-      if(widget._order.finish){
-      await dataBase.deleteCurrentOrder(widget._order);
-    }
+      if (widget._order.finish) {
+        await dataBase.deleteCurrentOrder(widget._order);
+      }
     })));
-    
   }
 
   void _setDrinkFinish() async {
@@ -30,11 +31,11 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
       widget._order.containDrink = false;
     });
     widget._order.removeDrinkItem();
-        
+
     if (!widget._order.containDrink && !widget._order.containFood) {
       widget._order.finish = true;
-      if(!widget._order.isOnScreen){
-      await dataBase.deleteCurrentOrder(widget._order);
+      if (!widget._order.isOnScreen) {
+        await dataBase.deleteCurrentOrder(widget._order);
       }
     }
     if (!widget._order.containFood) {
@@ -45,13 +46,11 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
     await dataBase.updateOrder(widget._order);
   }
 
-  
-
   void _setFoodFinish() async {
     setState(() {
       widget._order.containFood = false;
     });
-    widget._order.removeFoodItem();    
+    widget._order.removeFoodItem();
     widget._order.isOnScreen = true;
     if (!widget._order.containDrink && !widget._order.containFood) {
       widget._order.finish = true;

@@ -15,18 +15,6 @@ class DataBase {
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection("User");
 
-  Future<void> addFinishedOrder(Order order) async {
-    Map<String, dynamic> orderToSend = {
-      "id": order.id,
-      "containFood": order.containFood,
-      "containDrink": order.containDrink,
-      "sellerId": order.sellerId,
-      "totalPrice": order.totalPrice,
-      "customer": order.customer,
-      "date": Timestamp.now()
-    };
-  }
-
   Future<void> addCurrentOrder(Order order) async {
     Map<String, dynamic> orderToSend = {
       "id": order.id,
@@ -43,14 +31,13 @@ class DataBase {
     Map<String, dynamic> orderId = {"id": document.id};
     _orderCurrentCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
-      
       await addItemInOrder(item, document.id, _orderCurrentCollection);
     }
   }
 
   Future<void> addOrder(Order order) async {
     List<String> itemlist = [];
-    for(Item item in order.itemList){
+    for (Item item in order.itemList) {
       itemlist.add(item.name);
     }
     Map<String, dynamic> orderToSend = {
@@ -60,7 +47,7 @@ class DataBase {
       "sellerId": order.sellerId,
       "totalPrice": order.totalPrice,
       "customer": order.customer,
-      "items":itemlist,
+      "items": itemlist,
       "date": Timestamp.now(),
     };
     var document = await _orderCollection.add(orderToSend);
@@ -87,9 +74,10 @@ class DataBase {
       addItemInOrder(item, order.id, _orderCurrentCollection);
     }
   }
-  Future<void> deleteCurrentOrderCollection() async{
+
+  Future<void> deleteCurrentOrderCollection() async {
     var snapshots = await _orderCurrentCollection.get();
-    for(var doc in snapshots.docs){
+    for (var doc in snapshots.docs) {
       await doc.reference.delete();
     }
   }
@@ -98,7 +86,8 @@ class DataBase {
     _orderCurrentCollection.doc(order.id).delete();
   }
 
-  Future<void> addItemInOrder(Item item, String id, CollectionReference collectionReference) async {
+  Future<void> addItemInOrder(
+      Item item, String id, CollectionReference collectionReference) async {
     Map<String, dynamic> itemToAdd = {
       "name": item.name,
       "price": item.price,
@@ -107,10 +96,6 @@ class DataBase {
     };
     collectionReference.doc(id).collection('Item').add(itemToAdd);
   }
-  
-
-
-
 
   Future<void> updateOrder(Order order) async {
     Map<String, dynamic> orderUpdate = {
@@ -205,7 +190,7 @@ class DataBase {
     await _userCollection.doc(user.id).set(userToSend);
   }
 
-  deleteUser(User user) async{
-   await _userCollection.doc(user.id).delete();
+  deleteUser(User user) async {
+    await _userCollection.doc(user.id).delete();
   }
 }

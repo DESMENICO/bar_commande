@@ -14,42 +14,39 @@ class ClientNameForms extends StatefulWidget {
 }
 
 class _ClientNameFormsState extends State<ClientNameForms> {
-
   final _controller = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderBloc,OrderState>(
+    return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) {
-        if(widget._order.customer == "Nouveau Client"){
+        if (widget._order.customer == "Nouveau Client") {
           _controller.clear();
         }
-    return Form(
-        child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-          controller: _controller,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Entrer le nom du client',
-          icon: Icon(Icons.person),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Entrer un nom de client svp';
-          }
-          return null;
-        },
-        onChanged: (value) {
-          widget._order.customer = value;
-          context.read<OrderBloc>().add(UpdateOrderEvent(widget._order));
-        },
-      ),
-      ),
-      );
+        return Form(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Entrer le nom du client',
+                icon: Icon(Icons.person),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Entrer un nom de client svp';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                widget._order.customer = value;
+                context.read<OrderBloc>().add(UpdateOrderEvent(widget._order));
+              },
+            ),
+          ),
+        );
       },
-    
     );
   }
 }

@@ -6,7 +6,7 @@ import 'item_widget.dart';
 
 class ItemListWidget extends StatefulWidget {
   final models.Order _order;
-  const ItemListWidget( this._order, {super.key});
+  const ItemListWidget(this._order, {super.key});
   @override
   State<ItemListWidget> createState() => _ItemListWidgetState();
 }
@@ -19,7 +19,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child:  CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           } else {
             var snap = snapshot.data!.docs;
@@ -32,8 +32,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   bool isFood = snap[index]['isFood'];
                   bool isAvailable = snap[index]['available'];
                   Item item = Item(name, price.toDouble(), isFood, isAvailable);
-                  return ItemWidget(
-                      item,widget._order,key: ValueKey(item));
+                  return ItemWidget(item, widget._order, key: ValueKey(item));
                 });
           }
         });

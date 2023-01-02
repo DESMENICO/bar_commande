@@ -4,9 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'order_widget.dart';
 
-
 class OrderListWidget extends StatefulWidget {
-  const OrderListWidget( {super.key});
+  const OrderListWidget({super.key});
   @override
   State<OrderListWidget> createState() => _OrderListWidgetState();
 }
@@ -36,8 +35,8 @@ class _OrderListWidgetState extends State<OrderListWidget> {
               Timestamp dateTime = snap[i]['date'];
               DateTime date =
                   DateTime.fromMillisecondsSinceEpoch(dateTime.seconds * 1000);
-              orderList.add(Order.kitchen(
-                  customer, drinkFinish, foodFinish, id, totalPrice.toDouble(), date));
+              orderList.add(Order.kitchen(customer, drinkFinish, foodFinish, id,
+                  totalPrice.toDouble(), date));
             }
             orderList
                 .sort((order1, order2) => order1.date.compareTo(order2.date));

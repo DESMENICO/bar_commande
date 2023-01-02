@@ -1,6 +1,3 @@
-
-
-
 //import 'package:bar_commande/pages/television_folder/television_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -54,14 +51,17 @@ class OrderReadyWidget extends StatelessWidget {
                           children: const [
                             Text('Commande en cours de Préparation ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
                           ],
                         ),
                       ),
                     ),
                     Expanded(
                       child: OrderPreparingWidget(orderList),
-                    ),Padding(
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
                         color: const Color.fromARGB(255, 0, 151, 144),
@@ -70,12 +70,13 @@ class OrderReadyWidget extends StatelessWidget {
                           children: const [
                             Text('Commande terminée ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
                           ],
                         ),
                       ),
                     ),
-                  
                     Expanded(child: OrderFinishedWidget(orderList))
                   ],
                 ),

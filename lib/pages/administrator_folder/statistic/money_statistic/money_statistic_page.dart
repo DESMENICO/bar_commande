@@ -4,7 +4,6 @@ import 'package:bar_commande/pages/administrator_folder/statistic/money_statisti
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class MoneyStatistic extends StatefulWidget {
   final List<Order> _orderList;
   const MoneyStatistic(this._orderList, {super.key});
@@ -24,7 +23,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime(2100));
-        if(newDate!=null){
+    if (newDate != null) {
       _selectedDate = newDate;
     }
 
@@ -33,8 +32,6 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         _date = _formatter.format(_selectedDate!);
       }
     });
-
-    
   }
 
   @override
@@ -85,7 +82,6 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
               Text(
                 "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(_selectedDate!))}€",
                 style: const TextStyle(fontSize: 18),
-                
               )
             ],
           ),
@@ -95,11 +91,9 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             shrinkWrap: true,
             itemCount: widget._orderList.length,
             itemBuilder: (context, index) {
-              if (widget._orderList[index].date.month ==
-                      _selectedDate!.month &&
+              if (widget._orderList[index].date.month == _selectedDate!.month &&
                   widget._orderList[index].date.day == _selectedDate!.day &&
-                  widget._orderList[index].date.year ==
-                      _selectedDate!.year) {
+                  widget._orderList[index].date.year == _selectedDate!.year) {
                 return MoneyItemListWidget(widget._orderList[index]);
               } else {
                 return Container();
@@ -112,9 +106,3 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
     );
   }
 }
-
-
-
-
-
-

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:bar_commande/models/order.dart' as models;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class ItemWidget extends StatefulWidget {
   final Item _item;
   final models.Order _order;
@@ -14,20 +13,19 @@ class ItemWidget extends StatefulWidget {
   const ItemWidget(this._item, this._order, {super.key});
 
   @override
-  State<ItemWidget> createState() => _ItemWidgetState();//item);
+  State<ItemWidget> createState() => _ItemWidgetState(); //item);
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-
   _ItemWidgetState();
 
   void _incrementItemNumber() {
     widget._order.addItem(widget._item);
     context.read<OrderBloc>().add(UpdateOrderEvent(widget._order));
-    }
+  }
 
   void _decrementItemNumber() {
-      widget._order.removeItem(widget._item);
+    widget._order.removeItem(widget._item);
     setState(() {
       context.read<OrderBloc>().add(UpdateOrderEvent(widget._order));
     });
@@ -82,12 +80,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                   child: BlocBuilder<OrderBloc, OrderState>(
                     builder: (context, state) => Text(
                       state.orders.last.getItemNumber(widget._item).toString(),
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
                 ),
                 ElevatedButton(
                   onPressed: _incrementItemNumber,

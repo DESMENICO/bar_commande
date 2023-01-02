@@ -13,6 +13,3 @@ class KitchenPage extends StatelessWidget {
     );
   }
 }
-
-
-

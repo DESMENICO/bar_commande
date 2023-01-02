@@ -1,4 +1,3 @@
-
 import 'package:bar_commande/models/item.dart';
 import 'package:bar_commande/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 import 'item_widget.dart';
-
 
 class SummaryItemWidget extends StatelessWidget {
   final Order _order;
@@ -45,9 +43,10 @@ class SummaryItemWidget extends StatelessWidget {
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: itemSummary.item1.length,
-                  itemBuilder: (context, int index) {   
-                  return ItemWidget(itemSummary.item2[index], itemSummary.item1[index]);
-               }),
+                  itemBuilder: (context, int index) {
+                    return ItemWidget(
+                        itemSummary.item2[index], itemSummary.item1[index]);
+                  }),
             ),
           );
         }

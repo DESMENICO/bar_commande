@@ -4,15 +4,13 @@ import 'package:bar_commande/pages/administrator_folder/statistic/statistique_pa
 import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
-
 class AdministratorPage extends StatelessWidget {
   const AdministratorPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("Administration")),
+      appBar: AppBar(title: const Text("Administration")),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +122,7 @@ class AdministratorPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       DataBase dataBase = DataBase();
-                      await dataBase.deleteCurrentOrderCollection(); 
+                      await dataBase.deleteCurrentOrderCollection();
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

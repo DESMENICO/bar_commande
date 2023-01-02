@@ -36,13 +36,13 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
     loading = false;
   }
 
-  void clearForm(){
+  void clearForm() {
     setState(() {
       _emailController.text = "";
       _passwordController.text = "";
       loading = false;
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,44 +85,48 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
               },
             ),
           ),
-          loading ? const Center(child: CircularProgressIndicator()) : Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                setState(() {
-                  loading = true;
-                });
-                DataBase dataBase = DataBase();
-                AuthentificationService authentificationService =
-                    AuthentificationService();
-                if (_formKey.currentState?.validate() == true) {
-                  var email = _emailController.value.text;
-                  var password = _passwordController.value.text;
-                  try{
-                  User user =
-                      await authentificationService.signinUser(email, password);
-                  Map map = await dataBase.getUserInformation(user.id);
-                  user.isAdmin = map["isAdmin"];
-                  user.name = map["name"];
-                  clearForm();
-                  await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Reception(user),
-                  ));}
-                  catch(e){
-                    setState(() {
-                    loading = false;
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Adresse mail ou mot de passe incorrect'),
-                      ),
-                    );
-                  }
-                }
-              },
-              child: const Text('Connexion'),
-            ),
-          ),
+          loading
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
+                      DataBase dataBase = DataBase();
+                      AuthentificationService authentificationService =
+                          AuthentificationService();
+                      if (_formKey.currentState?.validate() == true) {
+                        var email = _emailController.value.text;
+                        var password = _passwordController.value.text;
+                        try {
+                          User user = await authentificationService.signinUser(
+                              email, password);
+                          Map map = await dataBase.getUserInformation(user.id);
+                          user.isAdmin = map["isAdmin"];
+                          user.name = map["name"];
+                          clearForm();
+                          if (!mounted) return;
+                          await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Reception(user),
+                          ));
+                        } catch (e) {
+                          setState(() {
+                            loading = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Adresse mail ou mot de passe incorrect'),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    child: const Text('Connexion'),
+                  ),
+                ),
           /*Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(

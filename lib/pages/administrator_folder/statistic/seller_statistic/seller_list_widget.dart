@@ -14,7 +14,8 @@ class SellerListWidget extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-                child: Row(children: [const Icon(Icons.person), Text(_seller)])),
+                child:
+                    Row(children: [const Icon(Icons.person), Text(_seller)])),
             Expanded(
                 child: Row(children: [
               const Icon(Icons.numbers),

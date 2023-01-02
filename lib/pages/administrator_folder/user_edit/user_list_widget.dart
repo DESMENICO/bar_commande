@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../models/user.dart';
 
 class UsersListEditorWidget extends StatelessWidget {
-
   const UsersListEditorWidget({super.key});
 
   @override
@@ -15,7 +14,7 @@ class UsersListEditorWidget extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child:CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           } else {
             var snap = snapshot.data!.docs;
@@ -28,7 +27,8 @@ class UsersListEditorWidget extends StatelessWidget {
                   String email = snap[index]['email'];
                   String password = snap[index]['password'];
                   String id = snap[index].id;
-                  return UserEditorWidget(User.edit(name, isAdmin, email,id,password));
+                  return UserEditorWidget(
+                      User.edit(name, isAdmin, email, id, password));
                 });
           }
         });

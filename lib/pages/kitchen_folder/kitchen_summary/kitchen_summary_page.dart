@@ -19,9 +19,3 @@ class KitchenSummaryPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

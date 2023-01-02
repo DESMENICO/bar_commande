@@ -3,13 +3,11 @@ import 'package:bar_commande/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-
-class ItemGlobalChart extends StatefulWidget{
+class ItemGlobalChart extends StatefulWidget {
   final List<Order> _orderList;
   const ItemGlobalChart(this._orderList, {super.key});
   @override
   State<ItemGlobalChart> createState() => _ItemGlobalChart();
-  
 }
 
 class _ItemGlobalChart extends State<ItemGlobalChart> {
@@ -25,25 +23,23 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
   Widget build(BuildContext context) {
     return Card(
       child: SfCircularChart(
-                      title: ChartTitle(
-                          text: "Ventes globales des articles",
-                          textStyle: const TextStyle(fontSize: 25)),
-                      tooltipBehavior: _tooltipBehavior,
-                      legend: Legend(
-                        isVisible: true,
-                        borderColor: Colors.black,
-                      ),
-                      series: <CircularSeries>[
-                    PieSeries<ItemData, String>(
-                        dataSource: getItemDataList(),
-                        xValueMapper: (ItemData data, _) => data.name,
-                        yValueMapper: (ItemData data, _) => data.number,
-                        dataLabelSettings:
-                            const DataLabelSettings(isVisible: true))
-                  ]),
+          title: ChartTitle(
+              text: "Ventes globales des articles",
+              textStyle: const TextStyle(fontSize: 25)),
+          tooltipBehavior: _tooltipBehavior,
+          legend: Legend(
+            isVisible: true,
+            borderColor: Colors.black,
+          ),
+          series: <CircularSeries>[
+            PieSeries<ItemData, String>(
+                dataSource: getItemDataList(),
+                xValueMapper: (ItemData data, _) => data.name,
+                yValueMapper: (ItemData data, _) => data.number,
+                dataLabelSettings: const DataLabelSettings(isVisible: true))
+          ]),
     );
   }
-
 
   List<ItemData> getItemDataList() {
     List<ItemData> itemDataList = [];
@@ -65,8 +61,6 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
     return list.toSet().toList();
   }
 
-  
-
   double getNumber(String itemName) {
     double number = 0;
     for (Order order in widget._orderList) {
@@ -78,6 +72,4 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
     }
     return number;
   }
-
 }
-

@@ -12,13 +12,13 @@ class Reception extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Accueil"), automaticallyImplyLeading: false,
+          title: const Text("Accueil"),
+          automaticallyImplyLeading: false,
           actions: [
             IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => Navigator.of(context).pop()
-          )]),
-          
+                icon: const Icon(Icons.logout),
+                onPressed: () => Navigator.of(context).pop())
+          ]),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,8 +35,7 @@ class Reception extends StatelessWidget {
                     onPressed: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              OrderPage(_user),
+                          builder: (context) => OrderPage(_user),
                         ),
                       );
                     },
@@ -68,8 +67,7 @@ class Reception extends StatelessWidget {
                     onPressed: () async {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const KitchenPage(),
+                          builder: (context) => const KitchenPage(),
                         ),
                       );
                     },

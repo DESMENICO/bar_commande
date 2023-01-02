@@ -2,7 +2,6 @@ import 'package:bar_commande/models/order.dart';
 import 'package:bar_commande/pages/kitchen_folder/kitchen_summary/kitchen_summary_page.dart';
 import 'package:flutter/material.dart';
 
-
 class OrderWidget extends StatefulWidget {
   final Order _order;
   const OrderWidget(this._order, {super.key});
@@ -23,7 +22,7 @@ class _OrderWidgetState extends State<OrderWidget> {
         child: Card(
           child: InkWell(
             onTap: () async {
-               await Navigator.of(context).push(
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => KitchenSummaryPage(widget._order),
                 ),

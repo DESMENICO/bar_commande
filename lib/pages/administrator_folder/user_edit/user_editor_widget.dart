@@ -1,4 +1,3 @@
-
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/administrator_folder/user_edit/user_editor_page.dart';
 import 'package:flutter/material.dart';
@@ -16,19 +15,17 @@ class UserEditorWidget extends StatefulWidget {
 }
 
 class _UserEditorWidgetState extends State<UserEditorWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
       child: InkWell(
         onTap: () {
-           Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              UserEditor(widget._user,false),
-                        ),
-                      );
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => UserEditor(widget._user, false),
+            ),
+          );
         },
         child: Card(
           child:
@@ -47,7 +44,7 @@ class _UserEditorWidgetState extends State<UserEditorWidget> {
             ),
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () async{
+              onPressed: () async {
                 DataBase database = DataBase();
                 AuthentificationService auth = AuthentificationService();
                 await auth.removeUser(widget._user);

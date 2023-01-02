@@ -36,13 +36,14 @@ class ItemListMenuWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
                         color: const Color.fromARGB(255, 0, 151, 144),
-                        
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text('Boisson : ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
                           ],
                         ),
                       ),
@@ -72,7 +73,9 @@ class ItemListMenuWidget extends StatelessWidget {
                           children: const [
                             Text('Nourriture/Snack : ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
                           ],
                         ),
                       ),
