@@ -5,13 +5,11 @@ import 'package:intl/intl.dart';
 
 import '../../../../models/item_chart_data.dart';
 
-
 class ItemChartWidget extends StatefulWidget {
   final List<Order> _orderList;
   const ItemChartWidget(this._orderList, {super.key});
   @override
-  State<ItemChartWidget> createState() =>
-      _ItemChartWidgetState();
+  State<ItemChartWidget> createState() => _ItemChartWidgetState();
 }
 
 class _ItemChartWidgetState extends State<ItemChartWidget> {
@@ -78,12 +76,13 @@ class _ItemChartWidgetState extends State<ItemChartWidget> {
                   borderColor: Colors.black,
                 ),
                 series: <CircularSeries>[
-              PieSeries<ItemData, String>(
-                  dataSource: getItemDataList(date),
-                  xValueMapper: (ItemData data, _) => data.name,
-                  yValueMapper: (ItemData data, _) => data.number,
-                  dataLabelSettings: const DataLabelSettings(isVisible: true))
-            ]),
+                  PieSeries<ItemData, String>(
+                      dataSource: getItemDataList(date),
+                      xValueMapper: (ItemData data, _) => data.name,
+                      yValueMapper: (ItemData data, _) => data.number,
+                      dataLabelSettings:
+                          const DataLabelSettings(isVisible: true))
+                ]),
           )
         ],
       ),

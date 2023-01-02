@@ -17,14 +17,14 @@ class ItemEditor extends StatefulWidget {
 
 class ItemEditorState extends State<ItemEditor> {
   final _formKey = GlobalKey<FormState>();
-  bool isFood = false;
-  bool isAvailable = false;
+  bool _isFood = false;
+  bool _isAvailable = false;
 
   @override
   void initState() {
     super.initState();
-    isFood = widget._item.isFood;
-    isAvailable= widget._item.isAvailable;
+    _isFood = widget._item.isFood;
+    _isAvailable = widget._item.isAvailable;
   }
 
   @override
@@ -54,22 +54,23 @@ class ItemEditorState extends State<ItemEditor> {
                     widget._item.name = value!;
                   }),
               TextFormField(
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]+')),],
-                keyboardType: TextInputType.number,
-                initialValue: widget._item.price.toString(),
-                decoration: const InputDecoration(
-                    labelText: "Entrer le prix de l'article",
-                    icon: Icon(Icons.euro)),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Entrer un prix svp";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9.]+')),
+                  ],
+                  keyboardType: TextInputType.number,
+                  initialValue: widget._item.price.toString(),
+                  decoration: const InputDecoration(
+                      labelText: "Entrer le prix de l'article",
+                      icon: Icon(Icons.euro)),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Entrer un prix svp";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
                     widget._item.price = double.parse(value!);
-                  }
-              ),
+                  }),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Row(
@@ -78,10 +79,10 @@ class ItemEditorState extends State<ItemEditor> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: Switch(
-                          value: isFood,
+                          value: _isFood,
                           onChanged: (value) {
                             setState(() {
-                              isFood = value;
+                              _isFood = value;
                             });
                           }),
                     ),
@@ -97,10 +98,10 @@ class ItemEditorState extends State<ItemEditor> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: Switch(
-                          value: isAvailable,
+                          value: _isAvailable,
                           onChanged: (value) {
                             setState(() {
-                              isAvailable = value;
+                              _isAvailable = value;
                             });
                           }),
                     ),
@@ -109,11 +110,11 @@ class ItemEditorState extends State<ItemEditor> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    widget._item.isFood = isFood;
-                    widget._item.isAvailable = isAvailable;
+                    widget._item.isFood = _isFood;
+                    widget._item.isAvailable = _isAvailable;
                     DataBase database = DataBase();
                     await database.updateItem(widget._item);
                     if (!mounted) return;

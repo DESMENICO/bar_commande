@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-class Item{
+class Item {
   final _uuid = const Uuid();
   late String id;
   String name;
@@ -8,9 +8,9 @@ class Item{
   bool isFood;
   bool isAvailable = true;
 
-  Item(this.name,this.price,this.isFood,this.isAvailable){
+  Item(this.name, this.price, this.isFood, this.isAvailable) {
     id = _uuid.v4();
   }
 
-  Item.update(this.id,this.name,this.price,this.isFood,this.isAvailable);
+  Item.update(this.id, this.name, this.price, this.isFood, this.isAvailable);
 }

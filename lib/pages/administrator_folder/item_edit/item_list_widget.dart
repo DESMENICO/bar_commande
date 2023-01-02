@@ -3,7 +3,6 @@ import 'package:bar_commande/pages/administrator_folder/item_edit/item_editor_wi
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 class ItemListEditorWidget extends StatelessWidget {
   const ItemListEditorWidget({super.key});
 
@@ -14,7 +13,7 @@ class ItemListEditorWidget extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child:CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           } else {
             var snap = snapshot.data!.docs;
@@ -22,12 +21,13 @@ class ItemListEditorWidget extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: snap.length,
                 itemBuilder: (context, int index) {
-                  String id = snap[index].id; 
+                  String id = snap[index].id;
                   String name = snap[index]['name'];
-                      var price = snap[index]['price'];
-                      bool isFood = snap[index]['isFood'];
-                      bool isAvailable = snap[index]['available'];
-                  return ItemEditorWidget(Item.update(id, name, price.toDouble(), isFood, isAvailable));
+                  var price = snap[index]['price'];
+                  bool isFood = snap[index]['isFood'];
+                  bool isAvailable = snap[index]['available'];
+                  return ItemEditorWidget(Item.update(
+                      id, name, price.toDouble(), isFood, isAvailable));
                 });
           }
         });

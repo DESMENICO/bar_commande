@@ -24,9 +24,10 @@ class _ItemListEditorState extends State<ItemListEditor> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ItemEditor(Item("Nouvelle article", 0, true, true)),
+              builder: (context) =>
+                  ItemEditor(Item("Nouvelle article", 0, true, true)),
             ),
-          );          
+          );
         },
         tooltip: 'Ajouter un article',
         child: const Icon(Icons.add),
@@ -34,7 +35,3 @@ class _ItemListEditorState extends State<ItemListEditor> {
     );
   }
 }
-
-
-
-

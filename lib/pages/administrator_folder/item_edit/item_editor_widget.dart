@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../models/item.dart';
 import '../../../services/firestore_service.dart';
 import 'item_editor_page.dart';
-
 
 class ItemEditorWidget extends StatefulWidget {
   final Item _item;
@@ -58,9 +56,9 @@ class _ItemEditorWidgetState extends State<ItemEditorWidget> {
             ),
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () async{
+              onPressed: () async {
                 DataBase database = DataBase();
-                    await database.deleteItem(widget._item);
+                await database.deleteItem(widget._item);
               },
             )
           ]),
