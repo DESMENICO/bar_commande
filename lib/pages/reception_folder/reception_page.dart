@@ -12,7 +12,7 @@ class Reception extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Acceuil"), automaticallyImplyLeading: false,
+          title: const Text("Accueil"), automaticallyImplyLeading: false,
           actions: [
             IconButton(
             icon: const Icon(Icons.logout),

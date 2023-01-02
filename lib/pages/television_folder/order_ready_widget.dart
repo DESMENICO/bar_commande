@@ -54,7 +54,7 @@ class OrderReadyWidget extends StatelessWidget {
                           children: const [
                             Text('Commande en cours de Préparation ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
                           ],
                         ),
                       ),
@@ -70,7 +70,7 @@ class OrderReadyWidget extends StatelessWidget {
                           children: const [
                             Text('Commande terminée ',
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
+                                    fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white)),
                           ],
                         ),
                       ),

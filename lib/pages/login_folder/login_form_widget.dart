@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bar_commande/models/user.dart';
 import 'package:bar_commande/pages/reception_folder/reception_page.dart';
 import 'package:bar_commande/services/authentifcation_service.dart';
@@ -19,6 +21,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late bool loading;
 
   @override
   void dispose() {
@@ -32,7 +35,16 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
     super.initState();
     _emailController.text = "";
     _passwordController.text = "";
+    loading = false;
   }
+
+  void clearForm(){
+    setState(() {
+      _emailController.text = "";
+      _passwordController.text = "";
+      loading = false;
+    });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +62,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
                 icon: Icon(Icons.account_circle_sharp),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (value == null || value.isEmpty || !value.contains("@")) {
                   return 'Entrez votre adresse email';
                 }
                 return null;
@@ -75,30 +87,45 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
               },
             ),
           ),
-          Padding(
+          loading ? const Center(child: CircularProgressIndicator()) : Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
               onPressed: () async {
+                setState(() {
+                  loading = true;
+                });
                 DataBase dataBase = DataBase();
                 AuthentificationService authentificationService =
                     AuthentificationService();
                 if (_formKey.currentState?.validate() == true) {
                   var email = _emailController.value.text;
                   var password = _passwordController.value.text;
+                  try{
                   User user =
                       await authentificationService.signinUser(email, password);
                   Map map = await dataBase.getUserInformation(user.id);
                   user.isAdmin = map["isAdmin"];
                   user.name = map["name"];
+                  clearForm();
                   await Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => Reception(user),
-                  ));
+                  ));}
+                  catch(e){
+                    setState(() {
+                    loading = false;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Adresse mail ou mot de passe incorrect'),
+                      ),
+                    );
+                  }
                 }
               },
               child: const Text('Connexion'),
             ),
           ),
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
               onPressed: () {
@@ -109,7 +136,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
               },
               child: const Text('Connexion admin'),
             ),
-          ),
+          ),*/
           Padding(
             padding: const EdgeInsets.all(50.0),
             child: ElevatedButton(
