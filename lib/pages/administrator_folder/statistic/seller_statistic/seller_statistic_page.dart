@@ -36,8 +36,7 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+    return Column(
       children: [
         Expanded(
           child: ListView.builder(
@@ -52,7 +51,7 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
         ),
         SellerChart(sellersList, ordersPerSeller)
       ],
-    ));
+    );
   }
 }
 

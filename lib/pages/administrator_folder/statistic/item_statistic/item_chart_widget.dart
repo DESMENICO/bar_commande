@@ -67,23 +67,24 @@ class _ItemChartWidgetState extends State<ItemChartWidget> {
               ),
             ),
           ),
-          Center(
-              child: SfCircularChart(
-                  title: ChartTitle(
-                      text: "Articles vendus le $date",
-                      textStyle: const TextStyle(fontSize: 25)),
-                  tooltipBehavior: _tooltipBehavior,
-                  legend: Legend(
-                    isVisible: true,
-                    borderColor: Colors.black,
-                  ),
-                  series: <CircularSeries>[
-                PieSeries<ItemData, String>(
-                    dataSource: getItemDataList(date),
-                    xValueMapper: (ItemData data, _) => data.name,
-                    yValueMapper: (ItemData data, _) => data.number,
-                    dataLabelSettings: const DataLabelSettings(isVisible: true))
-              ]))
+          SizedBox(
+            child: SfCircularChart(
+                title: ChartTitle(
+                    text: "Articles vendus le $date",
+                    textStyle: const TextStyle(fontSize: 25)),
+                tooltipBehavior: _tooltipBehavior,
+                legend: Legend(
+                  isVisible: true,
+                  borderColor: Colors.black,
+                ),
+                series: <CircularSeries>[
+              PieSeries<ItemData, String>(
+                  dataSource: getItemDataList(date),
+                  xValueMapper: (ItemData data, _) => data.name,
+                  yValueMapper: (ItemData data, _) => data.number,
+                  dataLabelSettings: const DataLabelSettings(isVisible: true))
+            ]),
+          )
         ],
       ),
     );

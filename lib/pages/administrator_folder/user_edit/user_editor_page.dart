@@ -124,6 +124,7 @@ class UserEditorState extends State<UserEditor> {
                     temp.isAdmin = widget.user.isAdmin;
                     temp.password = _password;
                     database.addUser(temp);
+                    if (!mounted) return;
                     Navigator.pop(context);
                 }},
                 child: const Text("Sauvegarder"),

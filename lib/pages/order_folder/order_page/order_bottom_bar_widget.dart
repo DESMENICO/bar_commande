@@ -9,14 +9,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../order_summary/order_summary.dart';
 
 class OrderBottomBarWidget extends StatefulWidget {
-  models.Order order;
+  final models.Order order;
   final User user;
-  OrderBottomBarWidget(this.order,this.user, {super.key});
+  const OrderBottomBarWidget(this.order,this.user, {super.key});
   @override
   State<OrderBottomBarWidget> createState() => _OrderBottomBar();
 }
 
 class _OrderBottomBar extends State<OrderBottomBarWidget> {
+   late models.Order order;
+  @override
+  void initState() {
+    super.initState();
+  //  order = widget.order;
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,9 +37,10 @@ class _OrderBottomBar extends State<OrderBottomBarWidget> {
                   builder: (context) => OrderSummary(widget.order),
                 ),
               );
-              widget.order = models.Order("Nouveau Client");
-              widget.order.sellerId = widget.user.name;
-              context.read<OrderBloc>().add(AddOrderEvent(widget.order));
+              /*widget.order*/ order = models.Order("Nouveau Client");
+              order.sellerId = widget.user.name;
+              if (!mounted) return;
+              context.read<OrderBloc>().add(AddOrderEvent(order));
             },
             child: const Text(
               "Total",

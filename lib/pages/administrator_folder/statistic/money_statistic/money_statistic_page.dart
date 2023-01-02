@@ -59,8 +59,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+    return Column(
       children: [
         SizedBox(
           width: 200,
@@ -110,7 +109,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         ),
         MoneyChart(selectedDate!, widget.orderList)
       ],
-    ));
+    );
   }
 }
 

@@ -23,23 +23,25 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
 
   @override
   Widget build(BuildContext context) {
-    return SfCircularChart(
-                    title: ChartTitle(
-                        text: "Ventes globales des articles",
-                        textStyle: const TextStyle(fontSize: 25)),
-                    tooltipBehavior: _tooltipBehavior,
-                    legend: Legend(
-                      isVisible: true,
-                      borderColor: Colors.black,
-                    ),
-                    series: <CircularSeries>[
-                  PieSeries<ItemData, String>(
-                      dataSource: getItemDataList(),
-                      xValueMapper: (ItemData data, _) => data.name,
-                      yValueMapper: (ItemData data, _) => data.number,
-                      dataLabelSettings:
-                          const DataLabelSettings(isVisible: true))
-                ]);
+    return Card(
+      child: SfCircularChart(
+                      title: ChartTitle(
+                          text: "Ventes globales des articles",
+                          textStyle: const TextStyle(fontSize: 25)),
+                      tooltipBehavior: _tooltipBehavior,
+                      legend: Legend(
+                        isVisible: true,
+                        borderColor: Colors.black,
+                      ),
+                      series: <CircularSeries>[
+                    PieSeries<ItemData, String>(
+                        dataSource: getItemDataList(),
+                        xValueMapper: (ItemData data, _) => data.name,
+                        yValueMapper: (ItemData data, _) => data.number,
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: true))
+                  ]),
+    );
   }
 
 

@@ -116,6 +116,7 @@ class ItemEditorState extends State<ItemEditor> {
                     widget.item.isAvailable = isAvailable;
                     DataBase database = DataBase();
                     await database.updateItem(widget.item);
+                    if (!mounted) return;
                     Navigator.pop(context);
                   }
                 },

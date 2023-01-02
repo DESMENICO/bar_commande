@@ -39,6 +39,7 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
     }
      await dataBase.removeFinishedOrder(widget.order);
     if (!widget.order.containFood) {
+      if (!mounted) return;
       Navigator.pop(context);
     }
     await dataBase.updateItemList(widget.order);
@@ -59,6 +60,7 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
     await dataBase.updateItemList(widget.order);
     await dataBase.updateOrder(widget.order);
     if (!widget.order.containDrink) {
+      if (!mounted) return;
       Navigator.pop(context);
     }
     deleteOrderFromScreenWithDelay();
