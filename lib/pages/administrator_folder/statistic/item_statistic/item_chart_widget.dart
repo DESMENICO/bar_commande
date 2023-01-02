@@ -7,8 +7,8 @@ import '../../../../models/item_chart_data.dart';
 
 
 class ItemChartWidget extends StatefulWidget {
-  final List<Order> orderList;
-  const ItemChartWidget(this.orderList, {super.key});
+  final List<Order> _orderList;
+  const ItemChartWidget(this._orderList, {super.key});
   @override
   State<ItemChartWidget> createState() =>
       _ItemChartWidgetState();
@@ -95,7 +95,7 @@ class _ItemChartWidgetState extends State<ItemChartWidget> {
     List<ItemData> itemDataList = [];
     List<Order> orderOfTheDayList = [];
 
-    for (Order order in widget.orderList) {
+    for (Order order in widget._orderList) {
       if (order.date.month == selectedDate!.month &&
           order.date.day == selectedDate!.day &&
           order.date.year == selectedDate!.year) {

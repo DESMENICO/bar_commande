@@ -3,9 +3,9 @@ import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 class SummaryOrderBottomBarWidget extends StatefulWidget {
-  final Order order;
+  final Order _order;
 
-  const SummaryOrderBottomBarWidget(this.order, {super.key});
+  const SummaryOrderBottomBarWidget(this._order, {super.key});
 
   @override
   State<SummaryOrderBottomBarWidget> createState() => _SummaryOrderBottomBarWidgetState();
@@ -16,10 +16,10 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
 
   void deleteOrderFromScreenWithDelay() async{
       Future.delayed(const Duration(seconds: 5),((() async{
-      widget.order.isOnScreen = false;
-      await dataBase.updateOrder(widget.order);
-      if(widget.order.finish){
-      await dataBase.deleteCurrentOrder(widget.order);
+      widget._order.isOnScreen = false;
+      await dataBase.updateOrder(widget._order);
+      if(widget._order.finish){
+      await dataBase.deleteCurrentOrder(widget._order);
     }
     })));
     
@@ -27,39 +27,38 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
 
   void _setDrinkFinish() async {
     setState(() {
-      widget.order.containDrink = false;
+      widget._order.containDrink = false;
     });
-    widget.order.removeDrinkItem();
+    widget._order.removeDrinkItem();
         
-    if (!widget.order.containDrink && !widget.order.containFood) {
-      widget.order.finish = true;
-      if(!widget.order.isOnScreen){
-      await dataBase.deleteCurrentOrder(widget.order);
+    if (!widget._order.containDrink && !widget._order.containFood) {
+      widget._order.finish = true;
+      if(!widget._order.isOnScreen){
+      await dataBase.deleteCurrentOrder(widget._order);
       }
     }
-     await dataBase.removeFinishedOrder(widget.order);
-    if (!widget.order.containFood) {
+    if (!widget._order.containFood) {
       if (!mounted) return;
       Navigator.pop(context);
     }
-    await dataBase.updateItemList(widget.order);
-    await dataBase.updateOrder(widget.order);
+    await dataBase.updateItemList(widget._order);
+    await dataBase.updateOrder(widget._order);
   }
 
   
 
   void _setFoodFinish() async {
     setState(() {
-      widget.order.containFood = false;
+      widget._order.containFood = false;
     });
-    widget.order.removeFoodItem();    
-    widget.order.isOnScreen = true;
-    if (!widget.order.containDrink && !widget.order.containFood) {
-      widget.order.finish = true;
+    widget._order.removeFoodItem();    
+    widget._order.isOnScreen = true;
+    if (!widget._order.containDrink && !widget._order.containFood) {
+      widget._order.finish = true;
     }
-    await dataBase.updateItemList(widget.order);
-    await dataBase.updateOrder(widget.order);
-    if (!widget.order.containDrink) {
+    await dataBase.updateItemList(widget._order);
+    await dataBase.updateOrder(widget._order);
+    if (!widget._order.containDrink) {
       if (!mounted) return;
       Navigator.pop(context);
     }
@@ -72,7 +71,7 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
       padding: const EdgeInsets.all(8.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Visibility(
-          visible: widget.order.containFood,
+          visible: widget._order.containFood,
           child: ElevatedButton(
             onPressed: _setFoodFinish,
             child: const Text(
@@ -82,7 +81,7 @@ class _SummaryOrderBottomBarWidgetState extends State<SummaryOrderBottomBarWidge
           ),
         ),
         Visibility(
-          visible: widget.order.containDrink,
+          visible: widget._order.containDrink,
           child: ElevatedButton(
             onPressed: _setDrinkFinish,
             child: const Text(

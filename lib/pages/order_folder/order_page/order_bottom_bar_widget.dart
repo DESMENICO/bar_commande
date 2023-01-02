@@ -9,15 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../order_summary/order_summary.dart';
 
 class OrderBottomBarWidget extends StatefulWidget {
-  final models.Order order;
-  final User user;
-  const OrderBottomBarWidget(this.order,this.user, {super.key});
+  final models.Order _order;
+  final User _user;
+  const OrderBottomBarWidget(this._order,this._user, {super.key});
   @override
   State<OrderBottomBarWidget> createState() => _OrderBottomBar();
 }
 
 class _OrderBottomBar extends State<OrderBottomBarWidget> {
-   late models.Order order;
+   late models.Order _order;
   @override
   void initState() {
     super.initState();
@@ -34,13 +34,13 @@ class _OrderBottomBar extends State<OrderBottomBarWidget> {
             onPressed: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => OrderSummary(widget.order),
+                  builder: (context) => OrderSummary(widget._order),
                 ),
               );
-              /*widget.order*/ order = models.Order("Nouveau Client");
-              order.sellerId = widget.user.name;
+              /*widget.order*/ _order = models.Order("Nouveau Client");
+              _order.sellerId = widget._user.name;
               if (!mounted) return;
-              context.read<OrderBloc>().add(AddOrderEvent(order));
+              context.read<OrderBloc>().add(AddOrderEvent(_order));
             },
             child: const Text(
               "Total",

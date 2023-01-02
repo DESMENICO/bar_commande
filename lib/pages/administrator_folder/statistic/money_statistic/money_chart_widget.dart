@@ -6,9 +6,9 @@ import '../../../../models/money_chart_data.dart';
 
 
 class MoneyChart extends StatefulWidget {
-  final DateTime date;
-  final List<Order> orderList;
-  const MoneyChart(this.date,this.orderList,{super.key});
+  final DateTime _date;
+  final List<Order> _orderList;
+  const MoneyChart(this._date,this._orderList,{super.key});
 
   @override
   State<MoneyChart> createState() => _MoneyChartState();
@@ -26,7 +26,7 @@ class _MoneyChartState extends State<MoneyChart> {
   }
   double getTotalOfTheDay(DateTime date) {
     double total = 0;
-    for (Order order in widget.orderList) {
+    for (Order order in widget._orderList) {
       if (order.date.month == date.month &&
           order.date.day == date.day &&
           order.date.year == date.year) {
@@ -38,20 +38,20 @@ class _MoneyChartState extends State<MoneyChart> {
 
   @override
   Widget build(BuildContext context) {
-    generateList(widget.date);
+    generateList(widget._date);
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(),
       title: ChartTitle(text: "Revenue des sept derniers jours"),
       series: <LineSeries<MoneyData,String>>[
         LineSeries<MoneyData,String>(
           dataSource: <MoneyData>[
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 6))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 6)))),  
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 5))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 5)))), 
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 4))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 4)))),
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 3))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 3)))),
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 2))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 2)))),
-            MoneyData(formatter.format(widget.date.subtract(const Duration(days: 1))),getTotalOfTheDay(widget.date.subtract(const Duration(days: 1)))),
-            MoneyData(formatter.format(widget.date),getTotalOfTheDay(widget.date)),
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 6))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 6)))),  
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 5))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 5)))), 
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 4))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 4)))),
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 3))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 3)))),
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 2))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 2)))),
+            MoneyData(formatter.format(widget._date.subtract(const Duration(days: 1))),getTotalOfTheDay(widget._date.subtract(const Duration(days: 1)))),
+            MoneyData(formatter.format(widget._date),getTotalOfTheDay(widget._date)),
           ],
           xValueMapper: (MoneyData data, _) => data.date,
           yValueMapper: (MoneyData data, _) => data.total,

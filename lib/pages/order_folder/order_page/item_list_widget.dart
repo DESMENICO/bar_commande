@@ -5,8 +5,8 @@ import 'package:bar_commande/models/order.dart' as models;
 import 'item_widget.dart';
 
 class ItemListWidget extends StatefulWidget {
-  final models.Order order;
-  const ItemListWidget( this.order, {super.key});
+  final models.Order _order;
+  const ItemListWidget( this._order, {super.key});
   @override
   State<ItemListWidget> createState() => _ItemListWidgetState();
 }
@@ -33,7 +33,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   bool isAvailable = snap[index]['available'];
                   Item item = Item(name, price.toDouble(), isFood, isAvailable);
                   return ItemWidget(
-                      item,widget.order,key: ValueKey(item));
+                      item,widget._order,key: ValueKey(item));
                 });
           }
         });

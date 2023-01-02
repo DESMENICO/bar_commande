@@ -7,8 +7,8 @@ import 'item_editor_page.dart';
 
 
 class ItemEditorWidget extends StatefulWidget {
-  final Item item;
-  const ItemEditorWidget(this.item, {super.key});
+  final Item _item;
+  const ItemEditorWidget(this._item, {super.key});
 
   @override
   State<ItemEditorWidget> createState() => _ItemEditorWidgetState();
@@ -23,7 +23,7 @@ class _ItemEditorWidgetState extends State<ItemEditorWidget> {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ItemEditor(widget.item),
+              builder: (context) => ItemEditor(widget._item),
             ),
           );
         },
@@ -34,7 +34,7 @@ class _ItemEditorWidgetState extends State<ItemEditorWidget> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  widget.item.name,
+                  widget._item.name,
                   style: const TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w900,
@@ -47,7 +47,7 @@ class _ItemEditorWidgetState extends State<ItemEditorWidget> {
                 Padding(
                   padding: const EdgeInsets.only(left: 5.0),
                   child: Text(
-                    "${widget.item.price}€",
+                    "${widget._item.price}€",
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
@@ -60,7 +60,7 @@ class _ItemEditorWidgetState extends State<ItemEditorWidget> {
               icon: const Icon(Icons.delete),
               onPressed: () async{
                 DataBase database = DataBase();
-                    await database.deleteItem(widget.item);
+                    await database.deleteItem(widget._item);
               },
             )
           ]),

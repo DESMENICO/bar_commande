@@ -4,8 +4,8 @@ import 'package:bar_commande/models/order.dart';
 import 'package:flutter/material.dart';
 
 class OrderFinishedItemWidget extends StatefulWidget {
-  final Order order;
-  const OrderFinishedItemWidget(this.order, {super.key});
+  final Order _order;
+  const OrderFinishedItemWidget(this._order, {super.key});
 
   @override
   State<OrderFinishedItemWidget> createState() =>
@@ -18,7 +18,7 @@ class _OrderFinishedItemWidgetState extends State<OrderFinishedItemWidget> {
     return Row(
       children: [
         Text(
-          "La commande de ${widget.order.customer} est prête ! ",
+          "La commande de ${widget._order.customer} est prête ! ",
           style: const TextStyle(fontSize: 25),
         )
       ],

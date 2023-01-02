@@ -5,8 +5,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 class ItemGlobalChart extends StatefulWidget{
-  final List<Order> orderlist;
-  const ItemGlobalChart(this.orderlist, {super.key});
+  final List<Order> _orderList;
+  const ItemGlobalChart(this._orderList, {super.key});
   @override
   State<ItemGlobalChart> createState() => _ItemGlobalChart();
   
@@ -56,7 +56,7 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
 
   List<String> getItemList() {
     List<String> list = [];
-    for (Order order in widget.orderlist) {
+    for (Order order in widget._orderList) {
       for (String itemUsed in order.itemUsed) {
         list.add(itemUsed);
       }
@@ -69,7 +69,7 @@ class _ItemGlobalChart extends State<ItemGlobalChart> {
 
   double getNumber(String itemName) {
     double number = 0;
-    for (Order order in widget.orderlist) {
+    for (Order order in widget._orderList) {
       for (String item in order.itemUsed) {
         if (item == itemName) {
           number++;

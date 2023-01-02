@@ -3,16 +3,16 @@ import 'package:bar_commande/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 class SummaryOrderBottombar extends StatefulWidget {
-  final Order order;
+  final Order _order;
 
-  const SummaryOrderBottombar(this.order, {super.key});
+  const SummaryOrderBottombar(this._order, {super.key});
 
   @override
   State<SummaryOrderBottombar> createState() => _SummaryOrderBottombarState();
 }
 
 class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
-  bool isPaid = false;
+  bool _isPaid = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,27 +21,27 @@ class _SummaryOrderBottombarState extends State<SummaryOrderBottombar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
         Visibility(
-          visible: !isPaid,
+          visible: !_isPaid,
           child: ElevatedButton(
             onPressed: () {
               setState(() { 
-                  isPaid =true;
+                  _isPaid =true;
               });
                      },
             child: Text(
-              "Payer : ${widget.order.totalPrice}",
+              "Payer : ${widget._order.totalPrice}",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
             ),
           ),
         ),
         Visibility(
-          visible: isPaid,
+          visible: _isPaid,
           child: ElevatedButton(
             onPressed: () async {
               DataBase database = DataBase();
-              widget.order.checkFoodAndDrink();
-              await database.addCurrentOrder(widget.order);
-              await database.addOrder(widget.order);
+              widget._order.checkFoodAndDrink();
+              await database.addCurrentOrder(widget._order);
+              await database.addOrder(widget._order);
               if (!mounted) return;
               Navigator.pop(context,Order("Nouveau Client"));
             },

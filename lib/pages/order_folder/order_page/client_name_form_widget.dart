@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bar_commande/models/order.dart' as models;
 
 class ClientNameForms extends StatefulWidget {
-  final models.Order order;
-  const ClientNameForms(this.order, {super.key});
+  final models.Order _order;
+  const ClientNameForms(this._order, {super.key});
 
   @override
   State<ClientNameForms> createState() => _ClientNameFormsState();
@@ -22,7 +22,7 @@ class _ClientNameFormsState extends State<ClientNameForms> {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc,OrderState>(
       builder: (context, state) {
-        if(widget.order.customer == "Nouveau Client"){
+        if(widget._order.customer == "Nouveau Client"){
           _controller.clear();
         }
     return Form(
@@ -42,8 +42,8 @@ class _ClientNameFormsState extends State<ClientNameForms> {
           return null;
         },
         onChanged: (value) {
-          widget.order.customer = value;
-          context.read<OrderBloc>().add(UpdateOrderEvent(widget.order));
+          widget._order.customer = value;
+          context.read<OrderBloc>().add(UpdateOrderEvent(widget._order));
         },
       ),
       ),

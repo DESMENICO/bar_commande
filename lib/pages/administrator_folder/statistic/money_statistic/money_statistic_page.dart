@@ -6,17 +6,17 @@ import 'package:intl/intl.dart';
 
 
 class MoneyStatistic extends StatefulWidget {
-  final List<Order> orderList;
-  const MoneyStatistic(this.orderList, {super.key});
+  final List<Order> _orderList;
+  const MoneyStatistic(this._orderList, {super.key});
 
   @override
   State<MoneyStatistic> createState() => _MoneyStatisticState();
 }
 
 class _MoneyStatisticState extends State<MoneyStatistic> {
-  late String date;
-  DateTime? selectedDate = DateTime.now();
-  final DateFormat formatter = DateFormat('dd/MM/yyyy');
+  late String _date;
+  DateTime? _selectedDate = DateTime.now();
+  final DateFormat _formatter = DateFormat('dd/MM/yyyy');
 
   _selectDate(BuildContext context) async {
     DateTime? newDate = await showDatePicker(
@@ -25,12 +25,12 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         firstDate: DateTime(1950),
         lastDate: DateTime(2100));
         if(newDate!=null){
-      selectedDate = newDate;
+      _selectedDate = newDate;
     }
 
     setState(() {
-      if (selectedDate != null) {
-        date = formatter.format(selectedDate!);
+      if (_selectedDate != null) {
+        _date = _formatter.format(_selectedDate!);
       }
     });
 
@@ -40,17 +40,17 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
   @override
   void initState() {
     super.initState();
-    if (selectedDate != null) {
-      date = formatter.format(selectedDate!);
+    if (_selectedDate != null) {
+      _date = _formatter.format(_selectedDate!);
     }
   }
 
   double getTotalOfTheDay(DateTime date) {
     double total = 0;
-    for (Order order in widget.orderList) {
-      if (order.date.month == selectedDate!.month &&
-          order.date.day == selectedDate!.day &&
-          order.date.year == selectedDate!.year) {
+    for (Order order in widget._orderList) {
+      if (order.date.month == _selectedDate!.month &&
+          order.date.day == _selectedDate!.day &&
+          order.date.year == _selectedDate!.year) {
         total += order.totalPrice;
       }
     }
@@ -72,7 +72,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
               children: [
                 const Icon(Icons.calendar_month),
                 Text(
-                  date,
+                  _date,
                 ),
               ],
             ),
@@ -83,7 +83,7 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(selectedDate!))}€",
+                "Le montant de total de la journée ${NumberFormat("0.##").format(getTotalOfTheDay(_selectedDate!))}€",
                 style: const TextStyle(fontSize: 18),
                 
               )
@@ -93,21 +93,21 @@ class _MoneyStatisticState extends State<MoneyStatistic> {
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: widget.orderList.length,
+            itemCount: widget._orderList.length,
             itemBuilder: (context, index) {
-              if (widget.orderList[index].date.month ==
-                      selectedDate!.month &&
-                  widget.orderList[index].date.day == selectedDate!.day &&
-                  widget.orderList[index].date.year ==
-                      selectedDate!.year) {
-                return MoneyItemListWidget(widget.orderList[index]);
+              if (widget._orderList[index].date.month ==
+                      _selectedDate!.month &&
+                  widget._orderList[index].date.day == _selectedDate!.day &&
+                  widget._orderList[index].date.year ==
+                      _selectedDate!.year) {
+                return MoneyItemListWidget(widget._orderList[index]);
               } else {
                 return Container();
               }
             },
           ),
         ),
-        MoneyChart(selectedDate!, widget.orderList)
+        MoneyChart(_selectedDate!, widget._orderList)
       ],
     );
   }

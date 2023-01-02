@@ -9,15 +9,15 @@ import 'item_widget.dart';
 
 
 class SummaryItemWidget extends StatelessWidget {
-  final Order order;
-  const SummaryItemWidget(this.order, {super.key});
+  final Order _order;
+  const SummaryItemWidget(this._order, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection("CurrentOrder")
-          .doc(order.id)
+          .doc(_order.id)
           .collection("Item")
           .snapshots(),
       builder: (context, snapshot) {
@@ -27,15 +27,15 @@ class SummaryItemWidget extends StatelessWidget {
           );
         } else {
           var itemList = snapshot.data!.docs;
-          order.itemList = [];
+          _order.itemList = [];
           for (int i = 0; i < itemList.length; i++) {
             var name = itemList[i]['name'];
             var price = itemList[i]['price'];
             var isFood = itemList[i]['isFood'];
             var available = itemList[i]['available'];
-            order.addItem(Item(name, price.toDouble(), isFood, available));
+            _order.addItem(Item(name, price.toDouble(), isFood, available));
           }
-          Tuple2 itemSummary = order.getItemListSummary();
+          Tuple2 itemSummary = _order.getItemListSummary();
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

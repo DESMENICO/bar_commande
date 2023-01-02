@@ -5,9 +5,9 @@ import 'seller_chart_widget.dart';
 import 'seller_list_widget.dart';
 
 class SellerStatisticPage extends StatefulWidget {
-  final List<Order> orderList;
+  final List<Order> _orderList;
 
-  const SellerStatisticPage(this.orderList, {super.key});
+  const SellerStatisticPage(this._orderList, {super.key});
 
   @override
   State<SellerStatisticPage> createState() => _SellerStatisticPageState();
@@ -23,7 +23,7 @@ class _SellerStatisticPageState extends State<SellerStatisticPage> {
   }
 
   void setOrderPerSeller() {
-    for (Order order in widget.orderList) {
+    for (Order order in widget._orderList) {
       if (ordersPerSeller.containsKey(order.sellerId)) {
          ordersPerSeller[order.sellerId] =
             ordersPerSeller[order.sellerId]! + 1;

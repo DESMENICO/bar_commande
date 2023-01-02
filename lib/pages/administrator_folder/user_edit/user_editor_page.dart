@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../../../services/firestore_service.dart';
 
 class UserEditor extends StatefulWidget {
-  final User user;
-  final bool isNew;
-  const UserEditor(this.user,this.isNew, {super.key});
+  final User _user;
+  final bool _isNew;
+  const UserEditor(this._user,this._isNew, {super.key});
 
   @override
   UserEditorState createState() {
@@ -23,7 +23,7 @@ class UserEditorState extends State<UserEditor> {
     String? newPassword;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edition de  ${widget.user.name}'),
+        title: Text('Edition de  ${widget._user.name}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -32,7 +32,7 @@ class UserEditorState extends State<UserEditor> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                  initialValue: widget.user.name,
+                  initialValue: widget._user.name,
                   decoration: const InputDecoration(
                       labelText: "Entrer le nom de l'utilisateur",
                       icon: Icon(Icons.account_circle_sharp)),
@@ -43,10 +43,10 @@ class UserEditorState extends State<UserEditor> {
                     return null;
                   },
                   onSaved: (value) {
-                    widget.user.name = value!;
+                    widget._user.name = value!;
                   }),
               TextFormField(
-                initialValue: widget.user.email,
+                initialValue: widget._user.email,
                 decoration: const InputDecoration(
                     labelText: "Entrer l'adresse email de l'utilisateur",
                     icon: Icon(Icons.alternate_email)),
@@ -57,7 +57,7 @@ class UserEditorState extends State<UserEditor> {
                   return null;
                 },
                 onSaved: (value) {
-                    widget.user.email = value!;
+                    widget._user.email = value!;
                   }
               ),
               TextFormField(
@@ -96,10 +96,10 @@ class UserEditorState extends State<UserEditor> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: Switch(
-                          value: widget.user.isAdmin,
+                          value: widget._user.isAdmin,
                           onChanged: (value) {
                             setState(() {
-                              widget.user.isAdmin=value;
+                              widget._user.isAdmin=value;
                             });
                           }),
                     ),
@@ -114,14 +114,14 @@ class UserEditorState extends State<UserEditor> {
                     
                   AuthentificationService auth = AuthentificationService();
                   DataBase database = DataBase();
-                  if(!widget.isNew){
-                    await auth.removeUser(widget.user);
-                    await database.deleteUser(widget.user);
+                  if(!widget._isNew){
+                    await auth.removeUser(widget._user);
+                    await database.deleteUser(widget._user);
                   }
-                    User temp = await auth.createUser(widget.user.email, _password);
-                    temp.email = widget.user.email;
-                    temp.name = widget.user.name;
-                    temp.isAdmin = widget.user.isAdmin;
+                    User temp = await auth.createUser(widget._user.email, _password);
+                    temp.email = widget._user.email;
+                    temp.name = widget._user.name;
+                    temp.isAdmin = widget._user.isAdmin;
                     temp.password = _password;
                     database.addUser(temp);
                     if (!mounted) return;

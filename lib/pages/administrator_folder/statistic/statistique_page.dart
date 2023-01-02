@@ -9,7 +9,8 @@ import '../../../models/order.dart';
 
 class StatisticPage extends StatelessWidget {
   StatisticPage({super.key});
-  final List<Order> orderList = [];
+  
+  final List<Order> _orderList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class StatisticPage extends StatelessWidget {
                   List<dynamic> itemUsed = snap[i]['items']; 
                   Timestamp dateTime = snap[i]['date'];
                   DateTime date = DateTime.fromMillisecondsSinceEpoch(dateTime.seconds*1000);
-                  orderList.add(Order.statistic(customer,totalPrice,seller,date,itemUsed.cast<String>()));
+                  _orderList.add(Order.statistic(customer,totalPrice,seller,date,itemUsed.cast<String>()));
             }
-            orderList.sort((order1,order2) => order1.date.compareTo(order2.date));
+            _orderList.sort((order1,order2) => order1.date.compareTo(order2.date));
 
 
             return DefaultTabController(
@@ -45,9 +46,9 @@ class StatisticPage extends StatelessWidget {
                   ]),
                 ),
                 body: TabBarView(children: [
-                  MoneyStatistic(orderList),
-                  SellerStatisticPage(orderList),
-                  ItemStatistic(orderList),
+                  MoneyStatistic(_orderList),
+                  SellerStatisticPage(_orderList),
+                  ItemStatistic(_orderList),
                 ],)
                 ));
       }

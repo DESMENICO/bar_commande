@@ -4,8 +4,8 @@ import 'package:bar_commande/pages/administrator_folder/statistic/item_statistic
 import 'package:flutter/material.dart';
 
 class ItemStatistic extends StatefulWidget {
-  final List<Order> orderlist;
-  const ItemStatistic(this.orderlist, {super.key});
+  final List<Order> _orderList;
+  const ItemStatistic(this._orderList, {super.key});
 
   @override
   State<ItemStatistic> createState() => _ItemStatisticState();
@@ -17,8 +17,8 @@ class _ItemStatisticState extends State<ItemStatistic> {
     return SingleChildScrollView(
       child: Column(
             children: [
-              ItemChartWidget(widget.orderlist),
-              ItemGlobalChart(widget.orderlist),
+              ItemChartWidget(widget._orderList),
+              ItemGlobalChart(widget._orderList),
             ],
         ),
     );

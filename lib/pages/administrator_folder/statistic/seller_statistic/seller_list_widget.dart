@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SellerListWidget extends StatelessWidget {
-  final String ordersPerSeller;
-  final String seller;
+  final String _orderPerSeller;
+  final String _seller;
 
-  const SellerListWidget(this.ordersPerSeller, this.seller, {super.key});
+  const SellerListWidget(this._orderPerSeller, this._seller, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class SellerListWidget extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-                child: Row(children: [const Icon(Icons.person), Text(seller)])),
+                child: Row(children: [const Icon(Icons.person), Text(_seller)])),
             Expanded(
                 child: Row(children: [
               const Icon(Icons.numbers),
-              Text(ordersPerSeller)
+              Text(_orderPerSeller)
             ])),
           ],
         ),

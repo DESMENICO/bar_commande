@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'item_widget.dart';
 
 class SummaryItem extends StatelessWidget {
-  final Order order;
-  final List<Item> itemUsed = [];
-  SummaryItem(this.order, {super.key});
+  final Order _order;
+  final List<Item> _itemUsed = [];
+  SummaryItem(this._order, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +19,13 @@ class SummaryItem extends StatelessWidget {
         ),
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: order.itemList.length,
+            itemCount: _order.itemList.length,
             itemBuilder: (context, int index) {
 
-              Item currentItem = order.itemList[index];
-              if (!order.isInsideAList(currentItem, itemUsed)) {
-                itemUsed.add(currentItem);
-                return ItemWidget(currentItem,order.getItemNumber(currentItem));
+              Item currentItem = _order.itemList[index];
+              if (!_order.isInsideAList(currentItem, _itemUsed)) {
+                _itemUsed.add(currentItem);
+                return ItemWidget(currentItem,_order.getItemNumber(currentItem));
               } else {
                 return Container();
               }

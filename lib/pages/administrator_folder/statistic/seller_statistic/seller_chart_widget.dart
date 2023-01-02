@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SellerChart extends StatefulWidget {
-  final Map<String, int> ordersPerSeller;
-  final List<String> sellersList;
-  const SellerChart(this.sellersList, this.ordersPerSeller, {super.key});
+  final Map<String, int> _orderPerSeller;
+  final List<String> _sellerList;
+  const SellerChart(this._sellerList, this._orderPerSeller, {super.key});
 
   @override
   State<SellerChart> createState() => _SellerChartState();
@@ -28,7 +28,7 @@ class _SellerChartState extends State<SellerChart> {
         series: <ChartSeries<SellerData, String>>[
           // Renders column chart
           ColumnSeries<SellerData, String>(
-              dataSource: listChartData(widget.ordersPerSeller, widget.sellersList),
+              dataSource: listChartData(widget._orderPerSeller, widget._sellerList),
               xValueMapper: (SellerData data, _) => data.x,
               yValueMapper: (SellerData data, _) => data.y)
         ]);

@@ -14,19 +14,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   
-  late OrderBloc orderBloc;
+  late OrderBloc _orderBloc;
 
   @override
   void initState() {
     super.initState();
     List<Order> orders = List.generate(2, (index) => Order("Client$index"));
-    orderBloc = OrderBloc(orders);
+    _orderBloc = OrderBloc(orders);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrderBloc>.value(
-      value: orderBloc,
+      value: _orderBloc,
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',

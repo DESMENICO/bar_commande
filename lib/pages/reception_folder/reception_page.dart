@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../models/user.dart';
 
 class Reception extends StatelessWidget {
-  final User user;
-  const Reception(this.user, {super.key});
+  final User _user;
+  const Reception(this._user, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class Reception extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              OrderPage(user),
+                              OrderPage(_user),
                         ),
                       );
                     },
@@ -90,7 +90,7 @@ class Reception extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: user.isAdmin,
+            visible: _user.isAdmin,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(

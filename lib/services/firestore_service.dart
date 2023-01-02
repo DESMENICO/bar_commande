@@ -6,18 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DataBase {
   DataBase();
 
-  final CollectionReference itemCollection =
+  final CollectionReference _itemCollection =
       FirebaseFirestore.instance.collection("Item");
-  final CollectionReference orderCurrentCollection =
+  final CollectionReference _orderCurrentCollection =
       FirebaseFirestore.instance.collection("CurrentOrder");
-  final CollectionReference orderCollection =
+  final CollectionReference _orderCollection =
       FirebaseFirestore.instance.collection("Order");
-  final CollectionReference userCollection =
+  final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection("User");
-  final CollectionReference orderFinishedCollection =
-      FirebaseFirestore.instance.collection("FinishedOrder");
-  final CollectionReference itemUsedCollection =
-      FirebaseFirestore.instance.collection("ItemUsed");
 
   Future<void> addFinishedOrder(Order order) async {
     Map<String, dynamic> orderToSend = {
@@ -29,13 +25,6 @@ class DataBase {
       "customer": order.customer,
       "date": Timestamp.now()
     };
-    var document = await orderFinishedCollection.add(orderToSend);
-    Map<String, dynamic> orderId = {"id": document.id};
-    orderFinishedCollection.doc(document.id).update(orderId);
-  }
-
-  Future<void> removeFinishedOrder(Order order) async {
-    orderFinishedCollection.doc(order.id).delete();
   }
 
   Future<void> addCurrentOrder(Order order) async {
@@ -50,12 +39,12 @@ class DataBase {
       "customer": order.customer,
       "date": Timestamp.now()
     };
-    var document = await orderCurrentCollection.add(orderToSend);
+    var document = await _orderCurrentCollection.add(orderToSend);
     Map<String, dynamic> orderId = {"id": document.id};
-    orderCurrentCollection.doc(document.id).update(orderId);
+    _orderCurrentCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
       
-      await addItemInOrder(item, document.id, orderCurrentCollection);
+      await addItemInOrder(item, document.id, _orderCurrentCollection);
     }
   }
 
@@ -74,17 +63,17 @@ class DataBase {
       "items":itemlist,
       "date": Timestamp.now(),
     };
-    var document = await orderCollection.add(orderToSend);
+    var document = await _orderCollection.add(orderToSend);
     Map<String, dynamic> orderId = {"id": document.id};
-    orderCollection.doc(document.id).update(orderId);
+    _orderCollection.doc(document.id).update(orderId);
     for (Item item in order.itemList) {
       //await updateItemUsed(item);
-      await addItemInOrder(item, document.id, orderCollection);
+      await addItemInOrder(item, document.id, _orderCollection);
     }
   }
 
   Future<void> updateItemList(Order order) async {
-    await orderCurrentCollection
+    await _orderCurrentCollection
         .doc(order.id)
         .collection('Item')
         .get()
@@ -95,18 +84,18 @@ class DataBase {
     });
 
     for (Item item in order.itemList) {
-      addItemInOrder(item, order.id, orderCurrentCollection);
+      addItemInOrder(item, order.id, _orderCurrentCollection);
     }
   }
   Future<void> deleteCurrentOrderCollection() async{
-    var snapshots = await orderCurrentCollection.get();
+    var snapshots = await _orderCurrentCollection.get();
     for(var doc in snapshots.docs){
       await doc.reference.delete();
     }
   }
 
   Future<void> deleteCurrentOrder(Order order) async {
-    orderCurrentCollection.doc(order.id).delete();
+    _orderCurrentCollection.doc(order.id).delete();
   }
 
   Future<void> addItemInOrder(Item item, String id, CollectionReference collectionReference) async {
@@ -119,15 +108,6 @@ class DataBase {
     collectionReference.doc(id).collection('Item').add(itemToAdd);
   }
   
-  Future<int> getNumberOfItemUsed(Item item,String docId) async{
-    DocumentSnapshot<Object?> doc = await itemUsedCollection.doc(docId).get();
-    Map<String,dynamic> map = doc[item.id];
-    if(map.containsKey(item.id)){
-      return 0;
-    }else{
-      return 1;
-    }
-  }
 
 
 
@@ -139,13 +119,13 @@ class DataBase {
       "finish": order.finish,
       "isOnScreen": order.isOnScreen
     };
-    orderCurrentCollection.doc(order.id).update(orderUpdate);
+    _orderCurrentCollection.doc(order.id).update(orderUpdate);
   }
 
   Future<List<Item>> getItemList(String? docId) async {
     List<Item> itemList = [];
     QuerySnapshot feed =
-        await orderCurrentCollection.doc(docId).collection("Item").get();
+        await _orderCurrentCollection.doc(docId).collection("Item").get();
     for (var itemdoc in feed.docs) {
       var name = itemdoc['name'];
       var price = itemdoc['price'];
@@ -159,7 +139,7 @@ class DataBase {
 
   Future<Map<String, dynamic>> getUserInformation(String userId) async {
     DocumentSnapshot<Object?> information =
-        await userCollection.doc(userId).get();
+        await _userCollection.doc(userId).get();
 
     Map<String, dynamic> map = {
       "name": information["name"],
@@ -169,7 +149,7 @@ class DataBase {
   }
 
   updateItem(Item item) async {
-    var doc = await itemCollection.doc(item.id).get();
+    var doc = await _itemCollection.doc(item.id).get();
     if (!doc.exists) {
       addItem(item);
     } else {
@@ -179,7 +159,7 @@ class DataBase {
         "isFood": item.isFood,
         "available": item.isAvailable
       };
-      itemCollection.doc(item.id).update(itemUpdate);
+      _itemCollection.doc(item.id).update(itemUpdate);
     }
   }
 
@@ -191,17 +171,17 @@ class DataBase {
       "isFood": item.isFood,
       "available": item.isAvailable
     };
-    var document = await itemCollection.add(itemToSend);
+    var document = await _itemCollection.add(itemToSend);
     Map<String, dynamic> itemId = {"id": document.id};
-    itemCollection.doc(document.id).update(itemId);
+    _itemCollection.doc(document.id).update(itemId);
   }
 
   deleteItem(Item item) {
-    itemCollection.doc(item.id).delete();
+    _itemCollection.doc(item.id).delete();
   }
 
   updateUserCollection(User user) async {
-    var doc = await userCollection.doc(user.id).get();
+    var doc = await _userCollection.doc(user.id).get();
     if (!doc.exists) {
       addUser(user);
     } else {
@@ -210,7 +190,7 @@ class DataBase {
         "email": user.email,
         "isAdmin": user.isAdmin,
       };
-      userCollection.doc(user.id).update(userUpdate);
+      _userCollection.doc(user.id).update(userUpdate);
     }
   }
 
@@ -222,10 +202,10 @@ class DataBase {
       "isAdmin": user.isAdmin,
       "password": user.password
     };
-    await userCollection.doc(user.id).set(userToSend);
+    await _userCollection.doc(user.id).set(userToSend);
   }
 
   deleteUser(User user) async{
-   await userCollection.doc(user.id).delete();
+   await _userCollection.doc(user.id).delete();
   }
 }

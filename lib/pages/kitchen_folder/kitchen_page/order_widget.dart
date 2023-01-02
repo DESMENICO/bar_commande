@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 
 class OrderWidget extends StatefulWidget {
-  final Order order;
-  const OrderWidget(this.order, {super.key});
+  final Order _order;
+  const OrderWidget(this._order, {super.key});
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
@@ -17,7 +17,7 @@ class _OrderWidgetState extends State<OrderWidget> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: widget.order.containDrink || widget.order.containFood,
+      visible: widget._order.containDrink || widget._order.containFood,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Card(
@@ -25,7 +25,7 @@ class _OrderWidgetState extends State<OrderWidget> {
             onTap: () async {
                await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => KitchenSummaryPage(widget.order),
+                  builder: (context) => KitchenSummaryPage(widget._order),
                 ),
               );
             },
@@ -38,7 +38,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: Text(
-                        widget.order.customer,
+                        widget._order.customer,
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
@@ -53,13 +53,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Visibility(
-                          visible: widget.order.containDrink,
+                          visible: widget._order.containDrink,
                           child: const Icon(Icons.local_bar)),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Visibility(
-                          visible: widget.order.containFood,
+                          visible: widget._order.containFood,
                           child: const Icon(Icons.local_dining)),
                     ),
                   ],

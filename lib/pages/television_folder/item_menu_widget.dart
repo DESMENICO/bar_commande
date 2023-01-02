@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../models/item.dart';
 
 class ItemMenuWidget extends StatelessWidget {
-  final Item item;
-  const ItemMenuWidget(this.item, {super.key});
+  final Item _item;
+  const ItemMenuWidget(this._item, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +12,10 @@ class ItemMenuWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
       child: Row(
         children: [
-          Text(item.name, style: const TextStyle(fontSize: 25)),
+          Text(_item.name, style: const TextStyle(fontSize: 25)),
           const Spacer(),
           Text(
-            "${item.price} €",
+            "${_item.price} €",
             style: const TextStyle(fontSize: 25),
           )
         ],

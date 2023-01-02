@@ -3,8 +3,8 @@ import 'package:bar_commande/pages/television_folder/order_finished_item_widget.
 import 'package:flutter/material.dart';
 
 class OrderFinishedWidget extends StatefulWidget {
-  final List<Order> orderList;
-  const OrderFinishedWidget(this.orderList, {super.key});
+  final List<Order> _orderList;
+  const OrderFinishedWidget(this._orderList, {super.key});
 
   @override
   State<OrderFinishedWidget> createState() => _OrderFinishedWidgetState();
@@ -16,10 +16,10 @@ class _OrderFinishedWidgetState extends State<OrderFinishedWidget> {
     return Builder(builder: (context) {
       return ListView.builder(
           shrinkWrap: true,
-          itemCount: widget.orderList.length,
+          itemCount: widget._orderList.length,
           itemBuilder: (context, index) {
-            if (widget.orderList[index].isOnScreen) {
-              return OrderFinishedItemWidget(widget.orderList[index]);
+            if (widget._orderList[index].isOnScreen) {
+              return OrderFinishedItemWidget(widget._orderList[index]);
             } else {
               return Container();
             }
